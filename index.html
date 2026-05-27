@@ -8,25 +8,105 @@
 <meta name="keywords" content="MCP servers, Model Context Protocol, Claude Code plugins, AI agent tools, MCP directory">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔌</text></svg>">
 <style>
-:root { --bg: #0a0a0f; --card: #14141f; --border: #2a2a3f; --accent: #6366f1; --accent2: #8b5cf6; --text: #e8e8f0; --muted: #8888a0; --green: #22c55e; --orange: #f59e0b; }
+:root {
+  --bg: #0a0a0f;
+  --card: #14141f;
+  --border: #2a2a3f;
+  --accent: #6366f1;
+  --accent2: #8b5cf6;
+  --text: #e8e8f0;
+  --muted: #8888a0;
+  --green: #22c55e;
+  --orange: #f59e0b;
+}
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
 .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-header { padding: 40px 0 20px; text-align: center; border-bottom: 1px solid var(--border); }
-header h1 { font-size: 2.8em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-header p { color: var(--muted); font-size: 1.15em; margin-top: 8px; max-width: 600px; margin-left: auto; margin-right: auto; }
-.stats { display: flex; justify-content: center; gap: 40px; margin-top: 24px; }
+header {
+  padding: 40px 0 20px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+header h1 {
+  font-size: 2.8em;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+header p {
+  color: var(--muted);
+  font-size: 1.15em;
+  margin-top: 8px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 24px;
+}
 .stat { text-align: center; }
 .stat-num { font-size: 1.8em; font-weight: 700; color: var(--accent); }
 .stat-label { font-size: 0.85em; color: var(--muted); }
-.categories { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 24px 0 8px; }
-.cat-btn { padding: 6px 16px; border: 1px solid var(--border); border-radius: 20px; background: transparent; color: var(--muted); cursor: pointer; font-size: 0.9em; transition: all 0.2s; }
-.cat-btn:hover, .cat-btn.active { border-color: var(--accent); color: var(--text); background: rgba(99,102,241,0.1); }
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  padding: 24px 0 8px;
+}
+.cat-btn {
+  padding: 6px 16px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: all 0.2s;
+}
+.cat-btn:hover, .cat-btn.active {
+  border-color: var(--accent);
+  color: var(--text);
+  background: rgba(99,102,241,0.1);
+}
 .cat-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; padding: 24px 0 48px; }
-.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: all 0.2s; position: relative; }
-.card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(99,102,241,0.1); }
-.card-tag { position: absolute; top: 12px; right: 12px; padding: 2px 10px; border-radius: 10px; font-size: 0.75em; font-weight: 600; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+  padding: 24px 0 48px;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.2s;
+  position: relative;
+}
+.card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(99,102,241,0.1);
+}
+.card-tag {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 0.75em;
+  font-weight: 600;
+}
 .tag-official { background: rgba(34,197,94,0.15); color: var(--green); }
 .tag-community { background: rgba(245,158,11,0.15); color: var(--orange); }
 .tag-hot { background: rgba(99,102,241,0.2); color: var(--accent); }
@@ -35,61 +115,185 @@ header p { color: var(--muted); font-size: 1.15em; margin-top: 8px; max-width: 6
 .card p { font-size: 0.9em; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
 .card-meta { display: flex; gap: 16px; font-size: 0.8em; color: var(--muted); }
 .card-meta span { display: flex; align-items: center; gap: 4px; }
-.card-link { display: inline-block; margin-top: 12px; color: var(--accent); text-decoration: none; font-size: 0.9em; font-weight: 500; }
+.card-link {
+  display: inline-block;
+  margin-top: 12px;
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.9em;
+  font-weight: 500;
+}
 .card-link:hover { text-decoration: underline; }
-.search-bar { width: 100%; padding: 12px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 1em; margin-top: 16px; outline: none; }
+.search-bar {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 1em;
+  margin-top: 16px;
+  outline: none;
+}
 .search-bar:focus { border-color: var(--accent); }
-.submit-section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin: 24px 0 48px; text-align: center; }
+.submit-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  margin: 24px 0 48px;
+  text-align: center;
+}
 .submit-section h2 { font-size: 1.4em; margin-bottom: 8px; }
 .submit-section p { color: var(--muted); margin-bottom: 16px; }
-.submit-btn { display: inline-block; padding: 12px 32px; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: white; border: none; border-radius: 8px; font-size: 1em; font-weight: 600; cursor: pointer; text-decoration: none; transition: opacity 0.2s; }
+.submit-btn {
+  display: inline-block;
+  padding: 12px 32px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
 .submit-btn:hover { opacity: 0.9; }
-footer { text-align: center; padding: 32px 0; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.85em; }
-@media (max-width: 640px) { header h1 { font-size: 1.8em; } .grid { grid-template-columns: 1fr; } .stats { gap: 20px; } }
+footer {
+  text-align: center;
+  padding: 32px 0;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85em;
+}
+@media (max-width: 640px) {
+  header h1 { font-size: 1.8em; }
+  .grid { grid-template-columns: 1fr; }
+  .stats { gap: 20px; }
+}
 .newsletter-form { display: flex; gap: 8px; max-width: 400px; margin: 12px auto 0; }
-.newsletter-form input { flex: 1; padding: 10px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); outline: none; }
+.newsletter-form input {
+  flex: 1; padding: 10px 14px; background: var(--bg);
+  border: 1px solid var(--border); border-radius: 6px; color: var(--text); outline: none;
+}
 .newsletter-form input:focus { border-color: var(--accent); }
-.newsletter-form button { padding: 10px 20px; background: var(--accent); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
+.newsletter-form button {
+  padding: 10px 20px; background: var(--accent); color: white;
+  border: none; border-radius: 6px; cursor: pointer; font-weight: 600;
+}
 .newsletter-form button:hover { opacity: 0.9; }
 </style>
 </head>
 <body>
-<header><div class="container"><h1>🔌 MCP App Directory</h1><p>The curated directory of the best MCP (Model Context Protocol) servers and Claude Code plugins. Discover, compare, and deploy.</p><div class="stats"><div class="stat"><div class="stat-num">50+</div><div class="stat-label">MCP Servers</div></div><div class="stat"><div class="stat-num">12K+</div><div class="stat-label">Ecosystem</div></div><div class="stat"><div class="stat-num">97M+</div><div class="stat-label">Downloads/mo</div></div></div></div></header>
+<header>
+  <div class="container">
+    <h1>🔌 MCP App Directory</h1>
+    <p>The curated directory of the best MCP (Model Context Protocol) servers and Claude Code plugins. Discover, compare, and deploy.</p>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">50+</div><div class="stat-label">MCP Servers</div></div>
+      <div class="stat"><div class="stat-num">12K+</div><div class="stat-label">Ecosystem</div></div>
+      <div class="stat"><div class="stat-num">97M+</div><div class="stat-label">Downloads/mo</div></div>
+    </div>
+  </div>
+</header>
 <main class="container">
-<input type="text" class="search-bar" id="search" placeholder="Search MCP servers by name, category, or keyword..." oninput="filterCards()">
-<div class="categories" id="categories"><button class="cat-btn active" onclick="filterCategory('all',this)">All</button><button class="cat-btn" onclick="filterCategory('official',this)">🌟 Official</button><button class="cat-btn" onclick="filterCategory('development',this)">🛠 Development</button><button class="cat-btn" onclick="filterCategory('ai-ml',this)">🤖 AI/ML</button><button class="cat-btn" onclick="filterCategory('data',this)">📊 Data</button><button class="cat-btn" onclick="filterCategory('productivity',this)">⚡ Productivity</button><button class="cat-btn" onclick="filterCategory('communication',this)">💬 Communication</button><button class="cat-btn" onclick="filterCategory('cloud',this)">☁️ Cloud & DevOps</button><button class="cat-btn" onclick="filterCategory('browser',this)">🌐 Browser</button></div>
-<div class="grid" id="grid"></div>
-<div class="submit-section"><h2>📦 Submit Your MCP Server</h2><p>Built something great? Submit your MCP server for inclusion in the directory.</p><a href="mailto:jituhermes@agentmail.to?subject=MCP%20Server%20Submission&body=Server%20Name%3A%0AGitHub%20URL%3A%0ADescription%3A%0ACategory%3A%0AWhy%20it%27s%20useful%3A" class="submit-btn">Submit MCP Server</a><div style="margin-top:24px"><p style="font-size:0.9em;color:var(--muted)">📬 Get the best MCP servers delivered weekly</p><form class="newsletter-form" action="mailto:jituhermes@agentmail.to" method="GET" enctype="text/plain"><input type="email" placeholder="your@email.com" required><button type="submit">Subscribe</button></form></div></div>
+  <input type="text" class="search-bar" id="search" placeholder="Search MCP servers by name, category, or keyword..." oninput="filterCards()">
+  <div class="categories" id="categories">
+    <button class="cat-btn active" onclick="filterCategory('all',this)">All</button>
+    <button class="cat-btn" onclick="filterCategory('official',this)">🌟 Official</button>
+    <button class="cat-btn" onclick="filterCategory('development',this)">🛠 Development</button>
+    <button class="cat-btn" onclick="filterCategory('ai-ml',this)">🤖 AI/ML</button>
+    <button class="cat-btn" onclick="filterCategory('data',this)">📊 Data</button>
+    <button class="cat-btn" onclick="filterCategory('productivity',this)">⚡ Productivity</button>
+    <button class="cat-btn" onclick="filterCategory('communication',this)">💬 Communication</button>
+    <button class="cat-btn" onclick="filterCategory('cloud',this)">☁️ Cloud & DevOps</button>
+    <button class="cat-btn" onclick="filterCategory('browser',this)">🌐 Browser</button>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="submit-section">
+    <h2>📦 Submit Your MCP Server</h2>
+    <p>Built something great? Submit your MCP server for inclusion in the directory.</p>
+    <a href="mailto:jituhermes@agentmail.to?subject=MCP%20Server%20Submission&body=Server%20Name%3A%0AGitHub%20URL%3A%0ADescription%3A%0ACategory%3A%0AWhy%20it%27s%20useful%3A" class="submit-btn">Submit MCP Server</a>
+    <div style="margin-top:24px">
+      <p style="font-size:0.9em;color:var(--muted)">📬 Get the best MCP servers delivered weekly</p>
+      <form class="newsletter-form" action="mailto:jituhermes@agentmail.to" method="GET" enctype="text/plain">
+        <input type="email" placeholder="your@email.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </div>
 </main>
-<footer><div class="container"><p>MCP App Directory — Curating the best Model Context Protocol servers for the AI agent ecosystem.</p><p style="margin-top:4px">Part of the <a href="#" style="color:var(--accent);text-decoration:none;">MCP App Directory</a> network</p></div></footer>
+<footer>
+  <div class="container">
+    <p>MCP App Directory — Curating the best Model Context Protocol servers for the AI agent ecosystem.</p>
+    <p style="margin-top:4px">Part of the <a href="#" style="color:var(--accent);text-decoration:none;">MCP App Directory</a> network</p>
+  </div>
+</footer>
 <script>
 const servers = [
-{name:"GitHub MCP",author:"GitHub (Official)",cat:"official",desc:"Full GitHub API access — repos, issues, PRs, code search, commits, reviews. 26 tools. The most installed MCP server.",stars:"100K+",install:"npx",url:"https://github.com/github/github-mcp-server",tags:["official","development"]},
-{name:"Playwright MCP",author:"Anthropic (Official)",cat:"official",desc:"Browser automation for AI agents. Navigate, click, type, screenshot, console.",stars:"58K+",install:"npx",url:"https://github.com/anthropics/mcp-playwright",tags:["official","browser"]},
-{name:"Filesystem MCP",author:"Anthropic (Official)",cat:"official",desc:"Secure file system access for AI agents. Read, write, edit, search files.",stars:"42K+",install:"npx",url:"https://github.com/modelcontextprotocol/servers",tags:["official","development"]},
-{name:"Brave Search MCP",author:"Anthropic (Official)",cat:"official",desc:"Web and local search powered by Brave. General queries, local business results.",stars:"36K+",install:"npx",url:"https://github.com/modelcontextprotocol/servers",tags:["official","ai-ml"]},
-{name:"PostgreSQL MCP",author:"Anthropic (Official)",cat:"official",desc:"Read-write PostgreSQL database access with schema introspection.",stars:"28K+",install:"npx",url:"https://github.com/modelcontextprotocol/servers",tags:["official","data"]},
-{name:"Sequential Thinking MCP",author:"Anthropic (Official)",cat:"official",desc:"Structured multi-step reasoning with revision support.",stars:"31K+",install:"npx",url:"https://github.com/modelcontextprotocol/servers",tags:["official","ai-ml"]},
-{name:"Slack MCP",author:"Anthropic (Official)",cat:"official",desc:"Slack workspace integration — messages, channels, users, search.",stars:"22K+",install:"npx",url:"https://github.com/modelcontextprotocol/servers",tags:["official","communication"]},
-{name:"Memory MCP",author:"Anthropic (Official)",cat:"official",desc:"Persistent knowledge graph memory for AI agents. Cross-session entities and relations.",stars:"45K+",install:"npx",url:"https://github.com/modelcontextprotocol/servers",tags:["official","ai-ml"]},
-{name:"Context7 MCP",author:"Context7",cat:"development",desc:"Query any library's docs and code examples. Auto-resolves library IDs.",stars:"18K+",install:"npx",url:"https://github.com/context7/context7-mcp",tags:["development","ai-ml"]},
-{name:"Codegraph MCP",author:"colbymchenry",cat:"development",desc:"Pre-indexed code knowledge graph. Fewer tokens, fewer tool calls. 100% local.",stars:"21.7K",install:"pip",url:"https://github.com/colbymchenry/codegraph",tags:["development","ai-ml"],hot:true},
-{name:"Understand Anything",author:"Lum1104",cat:"ai-ml",desc:"Turn code into interactive knowledge graphs. Explore, search, ask questions.",stars:"25.2K",install:"pip",url:"https://github.com/Lum1104/Understand-Anything",tags:["ai-ml","development"],hot:true},
-{name:"Claude Plugins Official",author:"Anthropic",cat:"official",desc:"Official directory of high-quality Claude Code plugins.",stars:"27.2K",install:"git",url:"https://github.com/anthropics/claude-plugins-official",tags:["official","development"],hot:true},
-{name:"n8n MCP",author:"n8n",cat:"productivity",desc:"Connect to 400+ apps via n8n. Automation hub for AI agents.",stars:"15K+",install:"docker",url:"https://github.com/n8n-io/mcp-server",tags:["productivity","cloud"]},
-{name:"Stripe MCP",author:"Stripe (Official)",cat:"official",desc:"Stripe API — payments, customers, products, subscriptions. Commerce for agents.",stars:"19K+",install:"npx",url:"https://github.com/stripe/mcp-server",tags:["official","cloud"]},
-{name:"Cloudflare MCP",author:"Cloudflare (Official)",cat:"official",desc:"Cloudflare API — Workers, KV, R2, D1, AI Gateway.",stars:"16K+",install:"npx",url:"https://github.com/cloudflare/mcp-server",tags:["official","cloud"]},
-{name:"Pi Agent Toolkit",author:"earendil-works",cat:"development",desc:"AI agent toolkit: coding agent CLI, unified LLM API, TUI, Slack bot.",stars:"53.8K",install:"pip",url:"https://github.com/earendil-works/pi",tags:["development","ai-ml"]},
-{name:"Karpathy Skills",author:"multica-ai",cat:"ai-ml",desc:"CLAUDE.md based on Karpathy's LLM coding observations. 151K stars.",stars:"151.8K",install:"copy",url:"https://github.com/multica-ai/andrej-karpathy-skills",tags:["ai-ml","development"],hot:true},
-{name:"Atlassian MCP",author:"Atlassian (Official)",cat:"official",desc:"46+ tools across Jira, Confluence, Compass, JSM.",stars:"12K+",install:"npx",url:"https://github.com/atlassian/mcp-server",tags:["official","productivity"]},
-{name:"Edgee Fallback",author:"Edgee",cat:"ai-ml",desc:"Claude Code that never stops — fallback model routing.",stars:"5K+",install:"npm",url:"https://github.com/edgee/mcp",tags:["ai-ml","development"]},
-{name:"YouTube MCP",author:"Agentpedia",cat:"ai-ml",desc:"Search YouTube, get transcripts, analyze videos.",stars:"8K+",install:"npx",url:"https://agentpedia.codes/mcp/youtube-2",tags:["ai-ml","browser"]},
-{name:"Google Antigravity CLI",author:"Google",cat:"official",desc:"Run coding agents from terminal. Agent orchestration CLI + SDK + API.",stars:"22K+",install:"brew",url:"https://github.com/google/antigravity",tags:["official","development"]},
-{name:"DeepSeek Reasonix",author:"DeepSeek",cat:"ai-ml",desc:"DeepSeek native coding agent with high caching and low cost.",stars:"12K+",install:"pip",url:"https://github.com/deepseek-ai/reasonix",tags:["ai-ml","development"],hot:true},
+  { name: "GitHub MCP", author: "GitHub (Official)", cat: "official", desc: "Full GitHub API access — repos, issues, PRs, code search, commits, reviews. 26 tools. The most installed MCP server.", stars: "100K+", install: "npx", url: "https://github.com/github/github-mcp-server", tags: ["official","development"] },
+  { name: "Playwright MCP", author: "Anthropic (Official)", cat: "official", desc: "Browser automation for AI agents. Navigate, click, type, screenshot, console. Full web interaction.", stars: "58K+", install: "npx", url: "https://github.com/anthropics/mcp-playwright", tags: ["official","browser"] },
+  { name: "Filesystem MCP", author: "Anthropic (Official)", cat: "official", desc: "Secure file system access for AI agents. Read, write, edit, search files with path validation.", stars: "42K+", install: "npx", url: "https://github.com/modelcontextprotocol/servers", tags: ["official","development"] },
+  { name: "Brave Search MCP", author: "Anthropic (Official)", cat: "official", desc: "Web and local search powered by Brave. General queries, local business results, news.", stars: "36K+", install: "npx", url: "https://github.com/modelcontextprotocol/servers", tags: ["official","ai-ml"] },
+  { name: "PostgreSQL MCP", author: "Anthropic (Official)", cat: "official", desc: "Read-write PostgreSQL database access with schema introspection. Query and analyze data.", stars: "28K+", install: "npx", url: "https://github.com/modelcontextprotocol/servers", tags: ["official","data"] },
+  { name: "Sequential Thinking MCP", author: "Anthropic (Official)", cat: "official", desc: "Structured multi-step reasoning for complex problems. Think step-by-step with revision support.", stars: "31K+", install: "npx", url: "https://github.com/modelcontextprotocol/servers", tags: ["official","ai-ml"] },
+  { name: "Slack MCP", author: "Anthropic (Official)", cat: "official", desc: "Slack workspace integration — messages, channels, users, search. Team communication for agents.", stars: "22K+", install: "npx", url: "https://github.com/modelcontextprotocol/servers", tags: ["official","communication"] },
+  { name: "Memory MCP", author: "Anthropic (Official)", cat: "official", desc: "Persistent knowledge graph memory for AI agents. Entities, relations, observations across sessions.", stars: "45K+", install: "npx", url: "https://github.com/modelcontextprotocol/servers", tags: ["official","ai-ml"] },
+  { name: "Context7 MCP", author: "Context7", cat: "development", desc: "Query any library's docs and code examples. Auto-resolves library IDs for accurate results.", stars: "18K+", install: "npx", url: "https://github.com/context7/context7-mcp", tags: ["development","ai-ml"] },
+  { name: "Codegraph MCP", author: "colbymchenry", cat: "development", desc: "Pre-indexed code knowledge graph. Fewer tokens, fewer tool calls — 100% local. Works with Claude, Codex, Cursor, Hermes.", stars: "21.7K", install: "pip", url: "https://github.com/colbymchenry/codegraph", tags: ["development","ai-ml"], hot: true },
+  { name: "Understand Anything", author: "Lum1104", cat: "ai-ml", desc: "Turn code into interactive knowledge graphs. Explore, search, and ask questions about any codebase.", stars: "25.2K", install: "pip", url: "https://github.com/Lum1104/Understand-Anything", tags: ["ai-ml","development"], hot: true },
+  { name: "Claude Plugins Official", author: "Anthropic", cat: "official", desc: "Official directory of high-quality Claude Code plugins. Managed by Anthropic.", stars: "27.2K", install: "git", url: "https://github.com/anthropics/claude-plugins-official", tags: ["official","development"], hot: true },
+  { name: "n8n MCP", author: "n8n", cat: "productivity", desc: "Connect to 400+ apps and services via n8n workflows. Automation hub for AI agents.", stars: "15K+", install: "docker", url: "https://github.com/n8n-io/mcp-server", tags: ["productivity","cloud"] },
+  { name: "Stripe MCP", author: "Stripe (Official)", cat: "official", desc: "Stripe API integration — payments, customers, products, subscriptions. Commerce for agents.", stars: "19K+", install: "npx", url: "https://github.com/stripe/mcp-server", tags: ["official","cloud"] },
+  { name: "Cloudflare MCP", author: "Cloudflare (Official)", cat: "official", desc: "Cloudflare API — Workers, KV, R2, D1, AI Gateway. Deploy and manage cloud infrastructure.", stars: "16K+", install: "npx", url: "https://github.com/cloudflare/mcp-server", tags: ["official","cloud"] },
+  { name: "Pi Agent Toolkit", author: "earendil-works", cat: "development", desc: "AI agent toolkit: coding agent CLI, unified LLM API, TUI, Slack bot, vLLM pods.", stars: "53.8K", install: "pip", url: "https://github.com/earendil-works/pi", tags: ["development","ai-ml"] },
+  { name: "Karpathy Skills", author: "multica-ai", cat: "ai-ml", desc: "CLAUDE.md based on Karpathy's LLM coding observations. 151K stars — the most popular agent config.", stars: "151.8K", install: "copy", url: "https://github.com/multica-ai/andrej-karpathy-skills", tags: ["ai-ml","development"], hot: true },
+  { name: "Atlassian MCP", author: "Atlassian (Official)", cat: "official", desc: "46+ tools across Jira, Confluence, Compass, JSM. Enterprise project management for agents.", stars: "12K+", install: "npx", url: "https://github.com/atlassian/mcp-server", tags: ["official","productivity"] },
+  { name: "Edgee Fallback", author: "Edgee", cat: "ai-ml", desc: "Claude Code that never stops — fallback model routing. Zero downtime for coding agents.", stars: "5K+", install: "npm", url: "https://github.com/edgee/mcp", tags: ["ai-ml","development"] },
+  { name: "YouTube MCP", author: "Agentpedia", cat: "ai-ml", desc: "Search YouTube, get transcripts, analyze videos. Works with Cursor, Antigravity, Claude.", stars: "8K+", install: "npx", url: "https://agentpedia.codes/mcp/youtube-2", tags: ["ai-ml","browser"] },
+  { name: "Google Antigravity CLI", author: "Google", cat: "official", desc: "Run coding agents from terminal. Google's agent orchestration CLI. Desktop + SDK + API.", stars: "22K+", install: "brew", url: "https://github.com/google/antigravity", tags: ["official","development"] },
+  { name: "DeepSeek Reasonix", author: "DeepSeek", cat: "ai-ml", desc: "DeepSeek native coding agent optimized for reasoning with high caching and low cost.", stars: "12K+", install: "pip", url: "https://github.com/deepseek-ai/reasonix", tags: ["ai-ml","development"], hot: true },
 ];
-function renderCards(list){const grid=document.getElementById('grid');grid.innerHTML='';list.forEach(s=>{const tag=s.hot?'<span class="card-tag tag-hot">🔥 Hot</span>':s.cat==='official'?'<span class="card-tag tag-official">Official</span>':'<span class="card-tag tag-community">Community</span>';grid.innerHTML+='<div class="card" data-category="'+s.tags.join(' ')+'">'+tag+'<h3>'+s.name+'</h3><div class="author">'+s.author+'</div><p>'+s.desc+'</p><div class="card-meta"><span>⭐ '+s.stars+'</span><span>📦 '+s.install+'</span></div><a href="'+s.url+'" class="card-link" target="_blank">View →</a></div>';});}
-function filterCards(){const search=document.getElementById('search').value.toLowerCase();const active=document.querySelector('.cat-btn.active');const cat=active?active.textContent.toLowerCase().replace(/[^a-z0-9]/g,''):'all';let filtered=servers;if(cat!=='all'){filtered=filtered.filter(s=>s.cat===cat||s.tags.includes(cat));}if(search){filtered=filtered.filter(s=>s.name.toLowerCase().includes(search)||s.desc.toLowerCase().includes(search)||s.author.toLowerCase().includes(search));}renderCards(filtered);}
-function filterCategory(cat,btn){document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');filterCards();}
+
+function renderCards(list) {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  list.forEach(s => {
+    const tag = s.hot ? '<span class="card-tag tag-hot">🔥 Hot</span>' : 
+               s.cat === 'official' ? '<span class="card-tag tag-official">Official</span>' :
+               '<span class="card-tag tag-community">Community</span>';
+    grid.innerHTML += '<div class="card" data-category="' + s.tags.join(' ') + '">' + tag +
+      '<h3>' + s.name + '</h3>' +
+      '<div class="author">' + s.author + '</div>' +
+      '<p>' + s.desc + '</p>' +
+      '<div class="card-meta"><span>⭐ ' + s.stars + '</span><span>📦 ' + s.install + '</span></div>' +
+      '<a href="' + s.url + '" class="card-link" target="_blank">View →</a></div>';
+  });
+}
+
+function filterCards() {
+  const search = document.getElementById('search').value.toLowerCase();
+  const active = document.querySelector('.cat-btn.active');
+  const cat = active ? active.textContent.toLowerCase().replace(/[^a-z0-9]/g,'') : 'all';
+  let filtered = servers;
+  if (cat !== 'all') {
+    filtered = filtered.filter(s => s.cat === cat || s.tags.includes(cat));
+  }
+  if (search) {
+    filtered = filtered.filter(s => 
+      s.name.toLowerCase().includes(search) ||
+      s.desc.toLowerCase().includes(search) ||
+      s.author.toLowerCase().includes(search));
+  }
+  renderCards(filtered);
+}
+
+function filterCategory(cat, btn) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterCards();
+}
 renderCards(servers);
 </script>
 </body>
