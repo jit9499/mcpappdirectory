@@ -6,6 +6,16 @@
 <title>MCP App Directory — Find the Best MCP Servers & Claude Code Plugins</title>
 <meta name="description" content="Curated directory of the best MCP (Model Context Protocol) servers and Claude Code plugins. Discover, compare, and deploy AI agent tools.">
 <meta name="keywords" content="MCP servers, Model Context Protocol, Claude Code plugins, AI agent tools, MCP directory">
+
+<!-- Open Graph / Social Sharing -->
+<meta property="og:title" content="MCP App Directory — Best MCP Servers & Claude Code Plugins">
+<meta property="og:description" content="Curated directory of the best MCP servers. Discover, compare, and deploy AI agent tools across 9 categories.">
+<meta property="og:url" content="https://mcpappdirectory.com">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MCP App Directory">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MCP App Directory — Best MCP Servers & Claude Code Plugins">
+<meta name="twitter:description" content="Curated directory of the best MCP servers. Discover, compare, and deploy AI agent tools.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔌</text></svg>">
 <style>
 :root {
@@ -214,7 +224,27 @@ footer {
   <div class="submit-section">
     <h2>📦 Submit Your MCP Server</h2>
     <p>Built something great? Submit your MCP server for inclusion in the directory.</p>
-    <a href="mailto:jituhermes@agentmail.to?subject=MCP%20Server%20Submission&body=Server%20Name%3A%0AGitHub%20URL%3A%0ADescription%3A%0ACategory%3A%0AWhy%20it%27s%20useful%3A" class="submit-btn">Submit MCP Server</a>
+    <div id="submit-form">
+      <form onsubmit="return submitServer(event)" style="max-width:500px;margin:0 auto;text-align:left">
+        <input type="text" id="sub-name" placeholder="Server Name" required style="width:100%;padding:10px 14px;margin-bottom:8px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">
+        <input type="url" id="sub-url" placeholder="GitHub URL" required style="width:100%;padding:10px 14px;margin-bottom:8px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">
+        <textarea id="sub-desc" placeholder="Short description (1-2 sentences)" required style="width:100%;padding:10px 14px;margin-bottom:8px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);resize:vertical;min-height:60px"></textarea>
+        <select id="sub-cat" required style="width:100%;padding:10px 14px;margin-bottom:12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">
+          <option value="">Select category</option>
+          <option value="development">🛠 Development</option>
+          <option value="ai-ml">🤖 AI/ML</option>
+          <option value="data">📊 Data</option>
+          <option value="productivity">⚡ Productivity</option>
+          <option value="communication">💬 Communication</option>
+          <option value="cloud">☁️ Cloud & DevOps</option>
+          <option value="browser">🌐 Browser</option>
+          <option value="security">🔒 Security</option>
+          <option value="creative">🎨 Creative</option>
+        </select>
+        <button type="submit" id="sub-srv-btn" class="submit-btn" style="width:100%">Submit Server</button>
+      </form>
+      <p id="sub-srv-msg" style="font-size:0.85em;margin-top:8px;display:none"></p>
+    </div>
     <div style="margin-top:24px">
       <p style="font-size:0.9em;color:var(--muted)">📬 Get the best MCP servers delivered weekly</p>
       <form class="newsletter-form" id="newsletter-form" onsubmit="return subscribe(event)">
@@ -323,6 +353,47 @@ function subscribe(event) {
     msg.style.display = 'block';
     msg.style.color = '#ef4444';
     btn.textContent = 'Subscribe';
+    btn.disabled = false;
+  });
+  return false;
+}
+
+function submitServer(event) {
+  event.preventDefault();
+  const name = document.getElementById('sub-name').value;
+  const url = document.getElementById('sub-url').value;
+  const desc = document.getElementById('sub-desc').value;
+  const cat = document.getElementById('sub-cat').value;
+  const btn = document.getElementById('sub-srv-btn');
+  const msg = document.getElementById('sub-srv-msg');
+  
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+  
+  fetch('/api/submit-server', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({name, url, description: desc, category: cat})
+  })
+  .then(r => r.json())
+  .then(d => {
+    msg.textContent = d.success ? '✅ Submitted! We\'ll review and add it shortly.' : '❌ ' + (d.error || 'Failed');
+    msg.style.display = 'block';
+    msg.style.color = d.success ? '#22c55e' : '#ef4444';
+    btn.textContent = 'Submit Server';
+    btn.disabled = false;
+    if (d.success) {
+      document.getElementById('sub-name').value = '';
+      document.getElementById('sub-url').value = '';
+      document.getElementById('sub-desc').value = '';
+      document.getElementById('sub-cat').value = '';
+    }
+  })
+  .catch(e => {
+    msg.textContent = '❌ Failed to submit. Try again.';
+    msg.style.display = 'block';
+    msg.style.color = '#ef4444';
+    btn.textContent = 'Submit Server';
     btn.disabled = false;
   });
   return false;
