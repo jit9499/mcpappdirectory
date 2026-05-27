@@ -217,10 +217,11 @@ footer {
     <a href="mailto:jituhermes@agentmail.to?subject=MCP%20Server%20Submission&body=Server%20Name%3A%0AGitHub%20URL%3A%0ADescription%3A%0ACategory%3A%0AWhy%20it%27s%20useful%3A" class="submit-btn">Submit MCP Server</a>
     <div style="margin-top:24px">
       <p style="font-size:0.9em;color:var(--muted)">📬 Get the best MCP servers delivered weekly</p>
-      <form class="newsletter-form" action="mailto:jituhermes@agentmail.to" method="GET" enctype="text/plain">
-        <input type="email" placeholder="your@email.com" required>
-        <button type="submit">Subscribe</button>
+      <form class="newsletter-form" id="newsletter-form" onsubmit="return subscribe(event)">
+        <input type="email" id="sub-email" placeholder="your@email.com" required>
+        <button type="submit" id="sub-btn">Subscribe</button>
       </form>
+      <p id="sub-msg" style="font-size:0.85em;color:#22c55e;margin-top:8px;display:none"></p>
     </div>
   </div>
 </main>
@@ -295,6 +296,37 @@ function filterCategory(cat, btn) {
   filterCards();
 }
 renderCards(servers);
+
+function subscribe(event) {
+  event.preventDefault();
+  const email = document.getElementById('sub-email').value;
+  const btn = document.getElementById('sub-btn');
+  const msg = document.getElementById('sub-msg');
+  btn.disabled = true;
+  btn.textContent = 'Subscribing...';
+  fetch('/api/subscribe', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({email: email, source: 'website'})
+  })
+  .then(r => r.json())
+  .then(d => {
+    msg.textContent = d.success ? '✅ Subscribed! Check your inbox.' : '❌ ' + (d.error || 'Failed');
+    msg.style.display = 'block';
+    msg.style.color = d.success ? '#22c55e' : '#ef4444';
+    btn.textContent = 'Subscribe';
+    btn.disabled = false;
+    if (d.success) document.getElementById('sub-email').value = '';
+  })
+  .catch(e => {
+    msg.textContent = '❌ Failed to subscribe. Try again.';
+    msg.style.display = 'block';
+    msg.style.color = '#ef4444';
+    btn.textContent = 'Subscribe';
+    btn.disabled = false;
+  });
+  return false;
+}
 </script>
 </body>
 </html>
