@@ -63,15 +63,6 @@
     "language": "Unknown"
   },
   {
-    "name": "agent-perms",
-    "id": "npm-agent-perms",
-    "url": "git+https://github.com/Mearman/agent-permissions.git",
-    "description": "Cross-agent permission policy specification for AI coding agents",
-    "category": "AI & Machine Learning",
-    "source": "npm",
-    "language": "Unknown"
-  },
-  {
     "name": "agent-recall-mcp",
     "id": "npm-agent-recall-mcp",
     "url": "git+https://github.com/Goldentrii/AgentRecall.git",
@@ -94,24 +85,6 @@
     "id": "npm-agentminds-mcp",
     "url": "git+https://github.com/agentmindsdev/mcp-server.git",
     "description": "Model Context Protocol server for AgentMinds \u2014 gives Claude Code, Cursor, Zed, and other MCP-aware AI clients native access to the AgentMinds cross-site collective intelligence pool. Push agent reports, pull personalised recommendations, browse the networ",
-    "category": "AI & Machine Learning",
-    "source": "npm",
-    "language": "Unknown"
-  },
-  {
-    "name": "agents-permissions",
-    "id": "npm-agents-permissions",
-    "url": "git+https://github.com/Mearman/agent-permissions.git",
-    "description": "Cross-agent permission policy specification for AI coding agents",
-    "category": "AI & Machine Learning",
-    "source": "npm",
-    "language": "Unknown"
-  },
-  {
-    "name": "agents-spec",
-    "id": "npm-agents-spec",
-    "url": "git+https://github.com/Mearman/agent-permissions.git",
-    "description": "Cross-agent permission policy specification for AI coding agents",
     "category": "AI & Machine Learning",
     "source": "npm",
     "language": "Unknown"
@@ -459,15 +432,6 @@
     "language": "Unknown"
   },
   {
-    "name": "codeloop-mcp-server",
-    "id": "npm-codeloop-mcp-server",
-    "url": "git+https://github.com/OrienjoJi/codeloop-internal.git",
-    "description": "CodeLoop MCP server - verification, self-repair, and recommendation layer for AI coding agents",
-    "category": "AI & Machine Learning",
-    "source": "npm",
-    "language": "Unknown"
-  },
-  {
     "name": "codewikitap",
     "id": "npm-codewikitap",
     "url": "git+https://github.com/burakarslan0110/codewikitap-mcp.git",
@@ -491,15 +455,6 @@
     "url": "git+https://github.com/agenticempire/axint.git",
     "description": "Apple-native execution layer for AI coding agents: compile, validate, repair, and prove Swift surfaces.",
     "category": "AI & Machine Learning",
-    "source": "npm",
-    "language": "Unknown"
-  },
-  {
-    "name": "context-matters",
-    "id": "npm-context-matters",
-    "url": "git+https://github.com/srobinson/context-matters.git",
-    "description": "Structured context store for AI agents - MCP server with SQLite backend",
-    "category": "Database",
     "source": "npm",
     "language": "Unknown"
   },
@@ -729,15 +684,6 @@
     "language": "Unknown"
   },
   {
-    "name": "email-mcp",
-    "id": "npm-@codefuturist-email-mcp",
-    "url": "git+https://github.com/codefuturist/email-mcp.git",
-    "description": "Email MCP server with IMAP + SMTP support",
-    "category": "Communication",
-    "source": "npm",
-    "language": "Unknown"
-  },
-  {
     "name": "enquire-mcp",
     "id": "npm-@oomkapwn-enquire-mcp",
     "url": "git+https://github.com/oomkapwn/enquire-mcp.git",
@@ -851,15 +797,6 @@
     "url": "git+https://github.com/goklab/guardvibe.git",
     "description": "Security MCP for vibe coding. 424 rules, 36 tools, CLI + doctor. Host security, auth coverage mapping, LLM-powered deep scan (IDOR/business logic), taint analysis. 61 CVE rules refreshed daily from GHSA/OSV/CISA KEV \u2014 Next.js May 2026 13-advisory cluster,",
     "category": "Security",
-    "source": "npm",
-    "language": "Unknown"
-  },
-  {
-    "name": "headless",
-    "id": "npm-@bilig-headless",
-    "url": "git+https://github.com/proompteng/bilig.git",
-    "description": "Formula WorkPaper runtime for Node.js services and agent tools with JSON persistence and formula readback.",
-    "category": "Browser Automation",
     "source": "npm",
     "language": "Unknown"
   },
@@ -1188,15 +1125,6 @@
     "language": "Unknown"
   },
   {
-    "name": "mcp-internet-archive",
-    "id": "npm-mcp-internet-archive",
-    "url": "git+https://github.com/Mearman/mcp-wayback-machine.git",
-    "description": "MCP server and CLI tool for interacting with the Wayback Machine without API keys",
-    "category": "Developer Tools",
-    "source": "npm",
-    "language": "Unknown"
-  },
-  {
     "name": "mcp-jenkins",
     "id": "npm-@kud-mcp-jenkins",
     "url": "git+https://github.com/kud/mcp-jenkins.git",
@@ -1413,15 +1341,6 @@
     "language": "Unknown"
   },
   {
-    "name": "mcp-server-utils",
-    "id": "npm-@gleanwork-mcp-server-utils",
-    "url": "git+ssh://git@github.com/gleanwork/mcp-server.git",
-    "description": "Shared utilities for MCP server packages",
-    "category": "Developer Tools",
-    "source": "npm",
-    "language": "Unknown"
-  },
-  {
     "name": "mcp-ssh-manager",
     "id": "npm-mcp-ssh-manager",
     "url": "git+https://github.com/bvisible/mcp-ssh-manager.git",
@@ -1463,15 +1382,6 @@
     "url": "git+https://github.com/cyanheads/mcp-ts-core.git",
     "description": "Agent-native TypeScript framework for building MCP servers. Declarative definitions with auth, multi-backend storage, OpenTelemetry, and first-class support for Bun/Node/Cloudflare Workers.",
     "category": "Cloud Platforms",
-    "source": "npm",
-    "language": "Unknown"
-  },
-  {
-    "name": "mcp-wayback-machine",
-    "id": "npm-mcp-wayback-machine",
-    "url": "git+https://github.com/Mearman/mcp-wayback-machine.git",
-    "description": "MCP server and CLI tool for interacting with the Wayback Machine without API keys",
-    "category": "Developer Tools",
     "source": "npm",
     "language": "Unknown"
   },
@@ -2079,15 +1989,6 @@
     "language": "Unknown"
   },
   {
-    "name": "transports",
-    "id": "npm-@mcp-b-transports",
-    "url": "git+https://github.com/WebMCP-org/npm-packages.git",
-    "description": "Browser transport implementations for Model Context Protocol (MCP) - postMessage, Chrome extension messaging, and iframe communication for AI agents and LLMs",
-    "category": "Browser Automation",
-    "source": "npm",
-    "language": "Unknown"
-  },
-  {
     "name": "tweetclaw",
     "id": "npm-@xquik-tweetclaw",
     "url": "git+https://github.com/Xquik-dev/tweetclaw.git",
@@ -2151,29 +2052,11 @@
     "language": "Unknown"
   },
   {
-    "name": "wayback-machine-mcp",
-    "id": "npm-wayback-machine-mcp",
-    "url": "git+https://github.com/Mearman/mcp-wayback-machine.git",
-    "description": "MCP server and CLI tool for interacting with the Wayback Machine without API keys",
-    "category": "Developer Tools",
-    "source": "npm",
-    "language": "Unknown"
-  },
-  {
     "name": "weather-mcp",
     "id": "npm-@dangahagan-weather-mcp",
     "url": "git+https://github.com/dgahagan/weather-mcp.git",
     "description": "MCP (Model Context Protocol) server providing weather data from NOAA and Open-Meteo APIs. Supports forecasts, current conditions, and historical weather data (1940-present) with no API keys required.",
     "category": "AI & Machine Learning",
-    "source": "npm",
-    "language": "Unknown"
-  },
-  {
-    "name": "webmcp-ts-sdk",
-    "id": "npm-@mcp-b-webmcp-ts-sdk",
-    "url": "git+https://github.com/WebMCP-org/npm-packages.git",
-    "description": "Browser-adapted MCP TypeScript SDK - Dynamic tool registration for W3C Web Model Context API and AI agent integration",
-    "category": "Browser Automation",
     "source": "npm",
     "language": "Unknown"
   },
@@ -2201,15 +2084,6 @@
     "url": "git+https://github.com/microsoft/work-iq.git",
     "description": "MCP server for Microsoft 365 Copilot",
     "category": "Developer Tools",
-    "source": "npm",
-    "language": "Unknown"
-  },
-  {
-    "name": "workpaper",
-    "id": "npm-@bilig-workpaper",
-    "url": "git+https://github.com/proompteng/bilig.git",
-    "description": "Scoped Bilig WorkPaper runtime and MCP server for Node.js services, agent tools, and server-side spreadsheet formulas.",
-    "category": "Research & Data",
     "source": "npm",
     "language": "Unknown"
   },
@@ -9465,5 +9339,105 @@
     "source": "github",
     "stars": 822,
     "language": "Unknown"
+  },
+  {
+    "name": "Gmail",
+    "id": "sm-gmail",
+    "url": "https://smithery.ai/servers/gmail",
+    "description": "Manage Gmail end-to-end: send, draft, reply, forward, and bulk-modify or delete messages and threads. Organize your inbox with labels, archiving, and trashing, and retrieve messages, attachments, and profile details on demand. Access and search contacts to autofill recipients and keep people data in sync.",
+    "category": "Developer Tools",
+    "source": "smithery",
+    "stars": 32715,
+    "verified": true
+  },
+  {
+    "name": "Exa Search",
+    "id": "sm-exa",
+    "url": "https://exa.ai",
+    "description": "Fast, intelligent web search and web crawling. Get fresh information about libraries, APIs, and SDKs.",
+    "category": "Developer Tools",
+    "source": "smithery",
+    "stars": 25564,
+    "verified": true
+  },
+  {
+    "name": "Mesh MCP",
+    "id": "sm-clay-inc-clay-mcp",
+    "url": "https://me.sh",
+    "description": "Access your network seamlessly with a simple and efficient server. Leverage a variety of tools to enhance your applications and workflows. Start integrating with your existing systems effortlessly.",
+    "category": "Developer Tools",
+    "source": "smithery",
+    "stars": 18611,
+    "verified": true
+  },
+  {
+    "name": "Context7",
+    "id": "sm-upstash-context7-mcp",
+    "url": "https://github.com/upstash/context7#readme",
+    "description": "Fetch up-to-date, version-specific documentation and code examples directly into your prompts. Enhance your coding experience by eliminating outdated information and hallucinated APIs. Simply add `use context7` to your questions for accurate and relevant answers.",
+    "category": "Developer Tools",
+    "source": "smithery",
+    "stars": 10307,
+    "verified": true
+  },
+  {
+    "name": "Brave Search",
+    "id": "sm-brave",
+    "url": "https://brave.com/search/api/",
+    "description": "Search the web with Brave's independent index \u2014 web, news, images, and videos. Bring your own subscription token from the [Brave Search API dashboard](https://api-dashboard.search.brave.com).",
+    "category": "Developer Tools",
+    "source": "smithery",
+    "stars": 12664,
+    "verified": true
+  },
+  {
+    "name": "Parallel Web Search",
+    "id": "sm-parallel-search",
+    "url": "https://parallel.ai",
+    "description": "Highest accuracy web search for AIs",
+    "category": "Developer Tools",
+    "source": "smithery",
+    "stars": 5381,
+    "verified": true
+  },
+  {
+    "name": "Jina AI",
+    "id": "sm-jina",
+    "url": "https://jina.ai",
+    "description": "AI-powered search and retrieval platform. Search the web, read page content, extract structured data, and ground AI responses.",
+    "category": "Developer Tools",
+    "source": "smithery",
+    "stars": 5247,
+    "verified": true
+  },
+  {
+    "name": "Tavily",
+    "id": "sm-Tavily",
+    "url": "https://app.tavily.com/home",
+    "description": "Search the web with fast, accurate results optimized for AI. Get clean, structured answers with source URLs and relevance scoring.",
+    "category": "Developer Tools",
+    "source": "smithery",
+    "stars": 3964,
+    "verified": true
+  },
+  {
+    "name": "Google Sheets",
+    "id": "sm-googlesheets",
+    "url": "https://smithery.ai/servers/googlesheets",
+    "description": "Read, write, and format spreadsheet data. Manage sheets, run formulas, and collaborate on structured data in real time.",
+    "category": "Developer Tools",
+    "source": "smithery",
+    "stars": 44524,
+    "verified": true
+  },
+  {
+    "name": "GitHub",
+    "id": "sm-github",
+    "url": "https://github.com/",
+    "description": "Connect your AI agents to GitHub \u2014 manage repos, issues, PRs, workflows, and more",
+    "category": "Developer Tools",
+    "source": "smithery",
+    "stars": 4094,
+    "verified": true
   }
 ]
