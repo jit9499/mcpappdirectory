@@ -32,6 +32,7 @@
   }
 }
 </script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <style>
 :root {
   --bg: #0a0a0f;
@@ -494,28 +495,77 @@ function renderSkills(skills) {
       </div>
       <div class="card-footer">
         <code style="font-size:12px;color:var(--muted);background:var(--card2);padding:4px 8px;border-radius:4px;word-break:break-all;">${cmd}</code>
-        <button class="install-btn" onclick="purchaseSkill('${s.id}','${name}')">Get Skill</button>
+        <button class="install-btn" onclick="buySkill('${s.id}','${name}',${price})">Buy Skill · ₹${price}</button>
       </div>
     </div>`;
   }).join('');
 }
 
-function purchaseSkill(skillId, skillName) {
-  const email = prompt(`Enter your email to get "${skillName}":`);
-  if (!email || !email.includes('@')) return;
+function buySkill(skillId, skillName, price) {
+  if (!window.Razorpay) {
+    alert('Payment system loading. Please try again.');
+    return;
+  }
   
-  fetch('/api/purchase-skill', {
+  // Step 1: Create order on server
+  fetch('/api/create-order', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({skill_id: skillId, email: email})
+    body: JSON.stringify({skill_id: skillId})
   })
   .then(r => r.json())
   .then(data => {
-    if (data.success) {
-      alert(`✓ Purchase recorded!\n\nInstall command:\n${data.install_cmd}\n\nCheck your email for details.`);
-    } else {
+    if (!data.success) {
       alert('Error: ' + (data.error || 'Unknown'));
+      return;
     }
+    
+    // Step 2: Open Razorpay checkout
+    const options = {
+      key: data.razorpay_key,
+      amount: data.amount,
+      currency: data.currency,
+      name: 'MCP App Directory',
+      description: skillName,
+      order_id: data.order_id,
+      prefill: {
+        name: '',
+        email: '',
+        contact: ''
+      },
+      handler: function(response) {
+        // Step 3: Verify payment on server
+        fetch('/api/verify-payment', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+            skill_id: skillId
+          })
+        })
+        .then(r => r.json())
+        .then(verifyData => {
+          if (verifyData.success) {
+            alert(`✅ Payment successful!\n\nSkill: ${skillName}\nInstall command: ${verifyData.install_cmd}\n\nCheck your email for details.`);
+            // Reload to show updated stats
+            loadStats();
+          } else {
+            alert('Payment verification failed. Contact support.');
+          }
+        })
+        .catch(() => alert('Verification error. Contact support with your payment ID.'));
+      },
+      modal: {
+        ondismiss: function() {
+          // User closed the payment modal
+        }
+      }
+    };
+    
+    const rzp = new Razorpay(options);
+    rzp.open();
   })
   .catch(() => alert('Network error. Please try again.'));
 }

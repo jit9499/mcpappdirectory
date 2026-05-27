@@ -10,6 +10,7 @@ import os
 import re
 import subprocess
 import urllib.request
+import time
 from datetime import datetime
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -246,6 +247,105 @@ class Handler(http.server.BaseHTTPRequestHandler):
                 "message": f"Purchase recorded! Install with: {skill.get('install_cmd', '')}",
                 "install_cmd": skill.get("install_cmd", ""),
                 "skill_name": skill["name"]
+            })
+            return
+        
+        if path == "/api/create-order":
+            skill_id = data.get("skill_id", "").strip()
+            if not skill_id:
+                self.send_json({"success": False, "error": "Skill ID required"}, 400)
+                return
+            skills = load_json(SKILLS_FILE, [])
+            skill = next((s for s in skills if s["id"] == skill_id), None)
+            if not skill:
+                self.send_json({"success": False, "error": "Skill not found"}, 404)
+                return
+            
+            price_inr = skill.get("price_inr", 0)
+            if price_inr <= 0:
+                price_inr = 99  # fallback
+            
+            try:
+                import base64
+                razorpay_key = os.environ.get("RAZORPAY_KEY_ID", "rzp_test_SuTqU166wx70Tb")
+                razorpay_secret = os.environ.get("RAZORPAY_KEY_SECRET", "")
+                auth = base64.b64encode(f"{razorpay_key}:{razorpay_secret}".encode()).decode()
+                
+                # Create Razorpay order
+                order_data = json.dumps({
+                    "amount": price_inr * 100,  # paise
+                    "currency": "INR",
+                    "receipt": f"skill_{skill_id}_{int(time.time())}",
+                    "notes": {"skill_id": skill_id, "skill_name": skill["name"]}
+                }).encode()
+                
+                req = urllib.request.Request(
+                    "https://api.razorpay.com/v1/orders",
+                    data=order_data,
+                    headers={
+                        "Authorization": f"Basic {auth}",
+                        "Content-Type": "application/json"
+                    }
+                )
+                with urllib.request.urlopen(req, timeout=15) as resp:
+                    order = json.loads(resp.read().decode())
+                
+                self.send_json({
+                    "success": True,
+                    "order_id": order["id"],
+                    "amount": order["amount"],
+                    "currency": order["currency"],
+                    "razorpay_key": razorpay_key,
+                    "skill_name": skill["name"]
+                })
+            except Exception as e:
+                self.send_json({"success": False, "error": f"Payment error: {str(e)[:100]}"}, 500)
+            return
+        
+        if path == "/api/verify-payment":
+            razorpay_order_id = data.get("razorpay_order_id", "")
+            razorpay_payment_id = data.get("razorpay_payment_id", "")
+            razorpay_signature = data.get("razorpay_signature", "")
+            skill_id = data.get("skill_id", "")
+            
+            if not all([razorpay_order_id, razorpay_payment_id, razorpay_signature, skill_id]):
+                self.send_json({"success": False, "error": "Missing payment details"}, 400)
+                return
+            
+            # Verify signature
+            import hmac, hashlib
+            razorpay_secret = os.environ.get("RAZORPAY_KEY_SECRET", "")
+            expected_sig = hmac.new(
+                razorpay_secret.encode(),
+                f"{razorpay_order_id}|{razorpay_payment_id}".encode(),
+                hashlib.sha256
+            ).hexdigest()
+            
+            if expected_sig != razorpay_signature:
+                self.send_json({"success": False, "error": "Invalid signature"}, 400)
+                return
+            
+            # Payment verified - get skill details
+            skills = load_json(SKILLS_FILE, [])
+            skill = next((s for s in skills if s["id"] == skill_id), None)
+            
+            # Record purchase
+            purchases_file = os.path.join(BASE_DIR, "purchases.json")
+            purchases = load_json(purchases_file, [])
+            purchases.append({
+                "skill_id": skill_id,
+                "skill_name": skill["name"] if skill else "Unknown",
+                "order_id": razorpay_order_id,
+                "payment_id": razorpay_payment_id,
+                "price_inr": skill["price_inr"] if skill else 0,
+                "purchased_at": datetime.utcnow().isoformat()
+            })
+            save_json(purchases_file, purchases)
+            
+            self.send_json({
+                "success": True,
+                "install_cmd": skill["install_cmd"] if skill else "",
+                "skill_name": skill["name"] if skill else "Unknown"
             })
             return
         
