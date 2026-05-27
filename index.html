@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCP App Directory — 1,000+ MCP Servers & AI Agent Skills</title>
+<meta name="description" content="The largest free MCP (Model Context Protocol) server directory. Browse 1,000+ servers across 17 categories. Search, filter, and deploy AI agent tools in one click.">
+<meta name="keywords" content="MCP servers, Model Context Protocol, AI agent tools, MCP directory, MCP marketplace, Claude Code plugins, AI tools directory, mcpappdirectory">
+<meta property="og:title" content="MCP App Directory — 1,000+ MCP Servers & AI Agent Skills">
+<meta property="og:description" content="The largest free directory of MCP servers. Browse 1,000+ servers across 17 categories. Search, filter, and deploy.">
+<meta property="og:url" content="https://mcpappdirectory.com">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MCP App Directory">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MCP App Directory — 1,000+ MCP Servers">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔌</text></svg>">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --card: #14141f;
+  --card2: #1a1a2e;
+  --border: #2a2a3f;
+  --accent: #6366f1;
+  --accent2: #8b5cf6;
+  --text: #e8e8f0;
+  --muted: #8888a0;
+  --green: #22c55e;
+  --orange: #f59e0b;
+  --red: #ef4444;
+  --blue: #3b82f6;
+  --skill: #10b981;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent2); }
+.container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+/* Header */
+.header { border-bottom: 1px solid var(--border); padding: 16px 0; background: rgba(10,10,15,0.95); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
+.header .container { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.logo { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 700; color: var(--text); }
+.logo span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.logo .badge { font-size: 11px; background: var(--accent); color: white; padding: 2px 8px; border-radius: 10px; -webkit-text-fill-color: white; }
+.nav { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.nav a { padding: 8px 16px; border-radius: 8px; font-size: 14px; color: var(--muted); transition: all .2s; }
+.nav a:hover, .nav a.active { color: var(--text); background: var(--card); }
+.nav .btn-primary { background: var(--accent); color: white; }
+.nav .btn-primary:hover { background: var(--accent2); color: white; }
+
+/* Hero */
+.hero { text-align: center; padding: 60px 0 40px; }
+.hero h1 { font-size: 42px; font-weight: 800; margin-bottom: 12px; line-height: 1.2; }
+.hero h1 span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p { color: var(--muted); font-size: 18px; max-width: 600px; margin: 0 auto 24px; }
+.hero-stats { display: flex; justify-content: center; gap: 32px; margin-top: 24px; flex-wrap: wrap; }
+.stat { text-align: center; }
+.stat-num { font-size: 32px; font-weight: 700; }
+.stat-label { color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .5px; }
+
+/* Tabs */
+.tabs { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 0; }
+.tab { padding: 12px 24px; cursor: pointer; border: none; background: none; color: var(--muted); font-size: 15px; font-weight: 500; border-bottom: 2px solid transparent; transition: all .2s; }
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--text); border-bottom-color: var(--accent); }
+.tab-count { font-size: 12px; background: var(--card); padding: 2px 8px; border-radius: 8px; margin-left: 6px; }
+
+/* Search */
+.search-bar { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+.search-input { flex: 1; min-width: 200px; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--text); font-size: 15px; outline: none; transition: border .2s; }
+.search-input:focus { border-color: var(--accent); }
+.search-input::placeholder { color: var(--muted); }
+.filter-select { padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--text); font-size: 14px; outline: none; cursor: pointer; }
+
+/* Grid */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: all .2s; }
+.card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(99,102,241,0.1); }
+.card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; gap: 8px; }
+.card-header h3 { font-size: 16px; font-weight: 600; word-break: break-word; }
+.card-header h3 a { color: var(--text); }
+.card-header h3 a:hover { color: var(--accent); }
+.card .category { font-size: 11px; padding: 2px 8px; border-radius: 6px; background: rgba(99,102,241,0.15); color: var(--accent); white-space: nowrap; }
+.card .description { color: var(--muted); font-size: 13px; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.card-footer { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+.card-footer .lang { padding: 2px 8px; border-radius: 4px; background: var(--card2); }
+.card-footer .stars { display: flex; align-items: center; gap: 4px; }
+.card-footer a.btn-sm { font-size: 12px; padding: 4px 12px; border-radius: 6px; background: var(--card2); border: 1px solid var(--border); color: var(--text); transition: all .2s; }
+.card-footer a.btn-sm:hover { background: var(--accent); border-color: var(--accent); color: white; }
+
+/* Skill card */
+.skill-card { border-color: rgba(16,185,129,0.3); }
+.skill-card:hover { border-color: var(--skill); }
+.skill-card .category-skill { background: rgba(16,185,129,0.15); color: var(--skill); }
+.skill-card .price { font-size: 18px; font-weight: 700; color: var(--skill); }
+.skill-card .install-btn { display: inline-block; padding: 8px 16px; border-radius: 8px; background: var(--skill); color: white; font-size: 13px; font-weight: 500; border: none; cursor: pointer; transition: all .2s; }
+.skill-card .install-btn:hover { background: #059669; }
+.purchased-badge { color: var(--skill); font-size: 12px; }
+
+/* Subscribe section */
+.subscribe-section { text-align: center; padding: 60px 0; border-top: 1px solid var(--border); margin-top: 40px; }
+.subscribe-section h2 { font-size: 28px; margin-bottom: 8px; }
+.subscribe-section p { color: var(--muted); margin-bottom: 20px; }
+.subscribe-form { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; max-width: 500px; margin: 0 auto; }
+.subscribe-form input { flex: 1; min-width: 200px; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--text); font-size: 15px; outline: none; }
+.subscribe-form input:focus { border-color: var(--accent); }
+.subscribe-form button { padding: 12px 24px; border-radius: 8px; background: var(--accent); color: white; border: none; font-size: 15px; font-weight: 500; cursor: pointer; transition: all .2s; }
+.subscribe-form button:hover { background: var(--accent2); }
+.subscribe-form .msg { width: 100%; font-size: 14px; margin-top: 4px; }
+
+/* Footer */
+.footer { border-top: 1px solid var(--border); padding: 32px 0; text-align: center; color: var(--muted); font-size: 13px; }
+.footer a { color: var(--accent); }
+
+/* Loading & Empty */
+.loading, .empty { text-align: center; padding: 60px 20px; color: var(--muted); }
+.spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 12px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Pagination */
+.pagination { display: flex; justify-content: center; gap: 8px; margin: 32px 0; }
+.pagination button { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); cursor: pointer; font-size: 14px; }
+.pagination button:hover { background: var(--card2); border-color: var(--accent); }
+.pagination button:disabled { opacity: .4; cursor: default; }
+.pagination .page-info { padding: 8px 12px; color: var(--muted); font-size: 14px; }
+
+/* Submit CTA */
+.submit-cta { background: var(--card); border: 1px dashed var(--border); border-radius: 12px; padding: 32px; text-align: center; margin: 24px 0; }
+.submit-cta h3 { margin-bottom: 8px; }
+.submit-cta p { color: var(--muted); margin-bottom: 16px; }
+.submit-cta .btn { display: inline-block; padding: 10px 20px; border-radius: 8px; background: var(--accent); color: white; font-weight: 500; }
+.submit-cta .btn:hover { background: var(--accent2); color: white; }
+
+@media (max-width: 640px) {
+  .hero h1 { font-size: 28px; }
+  .hero-stats { gap: 16px; }
+  .grid { grid-template-columns: 1fr; }
+  .header .container { flex-direction: column; }
+  .stat-num { font-size: 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="container">
+    <a href="/" class="logo">
+      🔌 <span>MCP App Directory</span> <span class="badge">1,000+</span>
+    </a>
+    <nav class="nav">
+      <a href="/" class="active">Servers</a>
+      <a href="#skills">Skills</a>
+      <a href="#submit">Submit</a>
+      <a href="#subscribe">Subscribe</a>
+      <a href="https://github.com/jit9499/mcpappdirectory" target="_blank">GitHub</a>
+    </nav>
+  </div>
+</div>
+
+<div class="container">
+  <div class="hero">
+    <h1>The <span>MCP Server</span> Directory</h1>
+    <p>Discover, browse, and deploy Model Context Protocol servers for AI agents. The largest free directory — updated daily.</p>
+    <div class="hero-stats" id="hero-stats">
+      <div class="stat"><div class="stat-num" id="stat-servers">—</div><div class="stat-label">Servers</div></div>
+      <div class="stat"><div class="stat-num" id="stat-categories">—</div><div class="stat-label">Categories</div></div>
+      <div class="stat"><div class="stat-num" id="stat-skills">—</div><div class="stat-label">Skills</div></div>
+      <div class="stat"><div class="stat-num" id="stat-subs">—</div><div class="stat-label">Subscribers</div></div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('servers')">
+      🔌 Servers <span class="tab-count" id="tab-servers">—</span>
+    </button>
+    <button class="tab" onclick="switchTab('skills')">
+      🧠 Skills <span class="tab-count" id="tab-skills">—</span>
+    </button>
+  </div>
+
+  <div id="tab-servers-content">
+    <div class="search-bar">
+      <input type="text" class="search-input" id="search" placeholder="Search MCP servers by name, description, or category..." oninput="debounceSearch()">
+      <select class="filter-select" id="category-filter" onchange="loadServers()">
+        <option value="">All Categories</option>
+      </select>
+    </div>
+    <div id="servers-loading" class="loading">
+      <div class="spinner"></div>
+      Loading MCP servers...
+    </div>
+    <div id="servers-grid" class="grid" style="display:none"></div>
+    <div id="servers-empty" class="empty" style="display:none">
+      <p>No servers found matching your search.</p>
+    </div>
+    <div id="pagination" class="pagination" style="display:none"></div>
+
+    <div class="submit-cta" id="submit">
+      <h3>Know an MCP server we're missing?</h3>
+      <p>Submit it to the directory and help the community discover it.</p>
+      <a href="#" class="btn" onclick="showSubmitForm();return false">Submit a Server</a>
+    </div>
+
+    <div id="submit-form" style="display:none;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin:24px 0;">
+      <h3 style="margin-bottom:16px">Submit an MCP Server</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+        <input type="text" id="sub-name" placeholder="Server name *" style="padding:10px;border:1px solid var(--border);border-radius:6px;background:var(--card2);color:var(--text);">
+        <input type="url" id="sub-url" placeholder="Repository URL *" style="padding:10px;border:1px solid var(--border);border-radius:6px;background:var(--card2);color:var(--text);">
+      </div>
+      <input type="text" id="sub-desc" placeholder="Short description" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;background:var(--card2);color:var(--text);margin-bottom:12px;">
+      <div style="display:flex;gap:12px;">
+        <button onclick="submitServer()" style="padding:10px 20px;border-radius:8px;background:var(--accent);color:white;border:none;cursor:pointer;">Submit</button>
+        <button onclick="document.getElementById('submit-form').style.display='none'" style="padding:10px 20px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;">Cancel</button>
+      </div>
+      <div id="sub-msg" style="margin-top:8px;font-size:14px;"></div>
+    </div>
+  </div>
+
+  <div id="tab-skills-content" style="display:none">
+    <div class="search-bar">
+      <input type="text" class="search-input" id="skills-search" placeholder="Search skills..." oninput="debounceSkillsSearch()">
+      <select class="filter-select" id="skills-category-filter" onchange="loadSkills()">
+        <option value="">All Categories</option>
+      </select>
+    </div>
+    <div id="skills-loading" class="loading">
+      <div class="spinner"></div>
+      Loading skills...
+    </div>
+    <div id="skills-grid" class="grid" style="display:none"></div>
+    <div id="skills-empty" class="empty" style="display:none">
+      <p>No skills found.</p>
+    </div>
+  </div>
+
+  <div class="subscribe-section" id="subscribe">
+    <h2>Stay Updated 📬</h2>
+    <p>Get new MCP servers and skills delivered to your inbox weekly.</p>
+    <div class="subscribe-form">
+      <input type="email" id="sub-email" placeholder="your@email.com">
+      <button onclick="subscribe()">Subscribe</button>
+      <div id="sub-msg-footer" class="msg"></div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="container">
+    <p><a href="https://mcpappdirectory.com">MCP App Directory</a> — The largest free directory of MCP servers &amp; AI agent skills. Updated daily.</p>
+    <p style="margin-top:8px">Built by <a href="https://github.com/jit9499" target="_blank">JR</a> · Powered by <a href="https://hermes-agent.nousresearch.com" target="_blank">Hermes Agent</a></p>
+  </div>
+</div>
+
+<script>
+// State
+let allServers = [];
+let allSkills = [];
+let filteredServers = [];
+let currentPage = 1;
+const PER_PAGE = 48;
+let searchTimer = null;
+
+// Init
+async function init() {
+  await Promise.all([loadServers(), loadSkills(), loadStats()]);
+}
+init();
+
+async function loadStats() {
+  try {
+    const r = await fetch('/api/stats');
+    const data = await r.json();
+    document.getElementById('stat-servers').textContent = data.servers.toLocaleString();
+    document.getElementById('stat-categories').textContent = data.categories;
+    document.getElementById('stat-skills').textContent = data.skills;
+    document.getElementById('stat-subs').textContent = data.subscribers;
+    document.getElementById('tab-servers').textContent = '🔌 Servers ' + data.servers.toLocaleString();
+    document.getElementById('tab-skills').textContent = '🧠 Skills ' + data.skills;
+  } catch(e) {}
+}
+
+async function loadServers() {
+  document.getElementById('servers-loading').style.display = 'block';
+  document.getElementById('servers-grid').style.display = 'none';
+  document.getElementById('servers-empty').style.display = 'none';
+  
+  try {
+    const r = await fetch('/api/servers/all');
+    const data = await r.json();
+    allServers = data.servers || [];
+    
+    // Populate category filter
+    const cats = [...new Set(allServers.map(s => s.category))].sort();
+    const sel = document.getElementById('category-filter');
+    const currentVal = sel.value;
+    sel.innerHTML = '<option value="">All Categories</option>';
+    cats.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c; opt.textContent = c;
+      sel.appendChild(opt);
+    });
+    sel.value = currentVal;
+    
+    applyServersFilter();
+  } catch(e) {
+    document.getElementById('servers-loading').textContent = 'Failed to load servers.';
+  }
+}
+
+function applyServersFilter() {
+  const q = document.getElementById('search').value.toLowerCase();
+  const cat = document.getElementById('category-filter').value;
+  
+  filteredServers = allServers.filter(s => {
+    const name = (s.name || '').toLowerCase();
+    const desc = (s.description || '').toLowerCase();
+    const category = (s.category || '').toLowerCase();
+    const matchesSearch = !q || name.includes(q) || desc.includes(q) || category.includes(q);
+    const matchesCat = !cat || s.category === cat;
+    return matchesSearch && matchesCat;
+  });
+  
+  currentPage = 1;
+  renderServers();
+}
+
+function debounceSearch() {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(applyServersFilter, 300);
+}
+
+function renderServers() {
+  const grid = document.getElementById('servers-grid');
+  const empty = document.getElementById('servers-empty');
+  const loading = document.getElementById('servers-loading');
+  const pagination = document.getElementById('pagination');
+  
+  loading.style.display = 'none';
+  
+  if (filteredServers.length === 0) {
+    grid.style.display = 'none';
+    empty.style.display = 'block';
+    pagination.style.display = 'none';
+    return;
+  }
+  
+  const totalPages = Math.ceil(filteredServers.length / PER_PAGE);
+  const start = (currentPage - 1) * PER_PAGE;
+  const pageServers = filteredServers.slice(start, start + PER_PAGE);
+  
+  grid.style.display = 'grid';
+  empty.style.display = 'none';
+  
+  grid.innerHTML = pageServers.map(s => {
+    const name = s.name || 'Unnamed';
+    const url = s.url || '#';
+    const desc = s.description || 'No description';
+    const cat = s.category || 'Other';
+    const lang = s.language || '';
+    const stars = s.stars || 0;
+    return `<div class="card">
+      <div class="card-header">
+        <h3><a href="${url}" target="_blank" rel="noopener">${name}</a></h3>
+        <span class="category">${cat}</span>
+      </div>
+      <div class="description">${desc}</div>
+      <div class="card-footer">
+        <div>
+          ${lang ? `<span class="lang">${lang}</span>` : ''}
+          ${stars > 0 ? `<span class="stars">⭐ ${stars.toLocaleString()}</span>` : ''}
+        </div>
+        <a href="${url}" target="_blank" rel="noopener" class="btn-sm">View →</a>
+      </div>
+    </div>`;
+  }).join('');
+  
+  // Pagination
+  if (totalPages > 1) {
+    pagination.style.display = 'flex';
+    let html = '';
+    html += `<button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>← Prev</button>`;
+    html += `<span class="page-info">Page ${currentPage} of ${totalPages} (${filteredServers.length} total)</span>`;
+    html += `<button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>Next →</button>`;
+    pagination.innerHTML = html;
+  } else {
+    pagination.style.display = 'none';
+  }
+}
+
+function changePage(page) {
+  currentPage = page;
+  renderServers();
+  document.getElementById('servers-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Skills
+async function loadSkills() {
+  document.getElementById('skills-loading').style.display = 'block';
+  document.getElementById('skills-grid').style.display = 'none';
+  document.getElementById('skills-empty').style.display = 'none';
+  
+  try {
+    const r = await fetch('/api/skills');
+    const data = await r.json();
+    allSkills = data.skills || [];
+    
+    const cats = [...new Set(allSkills.map(s => s.category))].sort();
+    const sel = document.getElementById('skills-category-filter');
+    sel.innerHTML = '<option value="">All Categories</option>';
+    cats.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c; opt.textContent = c;
+      sel.appendChild(opt);
+    });
+    
+    applySkillsFilter();
+  } catch(e) {
+    document.getElementById('skills-loading').textContent = 'Failed to load skills.';
+  }
+}
+
+function applySkillsFilter() {
+  const q = document.getElementById('skills-search').value.toLowerCase();
+  const cat = document.getElementById('skills-category-filter').value;
+  
+  const filtered = allSkills.filter(s => {
+    const name = (s.name || '').toLowerCase();
+    const desc = (s.description || '').toLowerCase();
+    const matchesSearch = !q || name.includes(q) || desc.includes(q);
+    const matchesCat = !cat || s.category === cat;
+    return matchesSearch && matchesCat;
+  });
+  
+  renderSkills(filtered);
+}
+
+function debounceSkillsSearch() {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(applySkillsFilter, 300);
+}
+
+function renderSkills(skills) {
+  const grid = document.getElementById('skills-grid');
+  const empty = document.getElementById('skills-empty');
+  const loading = document.getElementById('skills-loading');
+  
+  loading.style.display = 'none';
+  
+  if (skills.length === 0) {
+    grid.style.display = 'none';
+    empty.style.display = 'block';
+    return;
+  }
+  
+  grid.style.display = 'grid';
+  empty.style.display = 'none';
+  
+  grid.innerHTML = skills.map(s => {
+    const name = s.name || 'Unnamed';
+    const desc = s.description || '';
+    const cat = s.category || 'Other';
+    const price = s.price_inr || 0;
+    const cmd = s.install_cmd || '';
+    const rating = s.rating || 0;
+    const installs = s.installs || 0;
+    return `<div class="card skill-card">
+      <div class="card-header">
+        <h3>${name}</h3>
+        <span class="category category-skill">${cat}</span>
+      </div>
+      <div class="description">${desc}</div>
+      <div style="margin-bottom:12px;display:flex;gap:12px;font-size:13px;color:var(--muted);flex-wrap:wrap;">
+        <span>⭐ ${rating}</span>
+        <span>📦 ${installs} installs</span>
+        <span class="price">₹${price}</span>
+      </div>
+      <div class="card-footer">
+        <code style="font-size:12px;color:var(--muted);background:var(--card2);padding:4px 8px;border-radius:4px;word-break:break-all;">${cmd}</code>
+        <button class="install-btn" onclick="purchaseSkill('${s.id}','${name}')">Get Skill</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function purchaseSkill(skillId, skillName) {
+  const email = prompt(`Enter your email to get "${skillName}":`);
+  if (!email || !email.includes('@')) return;
+  
+  fetch('/api/purchase-skill', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({skill_id: skillId, email: email})
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.success) {
+      alert(`✓ Purchase recorded!\n\nInstall command:\n${data.install_cmd}\n\nCheck your email for details.`);
+    } else {
+      alert('Error: ' + (data.error || 'Unknown'));
+    }
+  })
+  .catch(() => alert('Network error. Please try again.'));
+}
+
+// Tab switching
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('[id$="-content"]').forEach(c => c.style.display = 'none');
+  
+  if (tab === 'servers') {
+    document.querySelector('.tab').classList.add('active');
+    document.getElementById('tab-servers-content').style.display = 'block';
+  } else {
+    document.querySelectorAll('.tab')[1].classList.add('active');
+    document.getElementById('tab-skills-content').style.display = 'block';
+    loadSkills();
+  }
+}
+
+// Submit
+function showSubmitForm() {
+  const form = document.getElementById('submit-form');
+  form.style.display = form.style.display === 'none' ? 'block' : 'none';
+}
+
+function submitServer() {
+  const name = document.getElementById('sub-name').value.trim();
+  const url = document.getElementById('sub-url').value.trim();
+  const desc = document.getElementById('sub-desc').value.trim();
+  const msg = document.getElementById('sub-msg');
+  
+  if (!name || !url) {
+    msg.textContent = 'Name and URL are required.'; msg.style.color = 'var(--red)';
+    return;
+  }
+  
+  msg.textContent = 'Submitting...'; msg.style.color = 'var(--muted)';
+  
+  fetch('/api/submit-server', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({name, url, description: desc})
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.success) {
+      msg.textContent = '✓ Submitted! Thank you.';
+      msg.style.color = 'var(--green)';
+      document.getElementById('sub-name').value = '';
+      document.getElementById('sub-url').value = '';
+      document.getElementById('sub-desc').value = '';
+    } else {
+      msg.textContent = 'Error: ' + (data.error || 'Unknown');
+      msg.style.color = 'var(--red)';
+    }
+  })
+  .catch(() => {
+    msg.textContent = 'Network error. Try again.';
+    msg.style.color = 'var(--red)';
+  });
+}
+
+// Subscribe
+function subscribe() {
+  const email = document.getElementById('sub-email').value.trim();
+  const msg = document.getElementById('sub-msg-footer');
+  
+  if (!email || !email.includes('@')) {
+    msg.textContent = 'Please enter a valid email.';
+    msg.style.color = 'var(--red)';
+    return;
+  }
+  
+  msg.textContent = 'Subscribing...';
+  msg.style.color = 'var(--muted)';
+  
+  fetch('/api/subscribe', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({email})
+  })
+  .then(r => r.json())
+  .then(data => {
+    msg.textContent = data.message || (data.success ? '✓ Subscribed!' : 'Error');
+    msg.style.color = data.success ? 'var(--green)' : 'var(--red)';
+    if (data.success) document.getElementById('sub-email').value = '';
+  })
+  .catch(() => {
+    msg.textContent = 'Network error. Try again.';
+    msg.style.color = 'var(--red)';
+  });
+}
+</script>
+</body>
+</html>

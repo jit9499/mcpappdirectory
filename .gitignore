@@ -1,0 +1,11 @@
+*.pyc
+__pycache__/
+.env
+subscribers.json
+submissions.json
+unsubscribed.json
+purchases.json
+aggregator.log
+server.log
+server.pid
+all_servers.json
