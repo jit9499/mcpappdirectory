@@ -3,31 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MCP App Directory — Find the Best MCP Servers & Claude Code Plugins</title>
-<meta name="description" content="Curated directory of the best MCP (Model Context Protocol) servers and Claude Code plugins. Discover, compare, and deploy AI agent tools.">
-<meta name="keywords" content="MCP servers, Model Context Protocol, Claude Code plugins, AI agent tools, MCP directory">
-
-<!-- Open Graph / Social Sharing -->
-<meta property="og:title" content="MCP App Directory — Best MCP Servers & Claude Code Plugins">
-<meta property="og:description" content="Curated directory of the best MCP servers. Discover, compare, and deploy AI agent tools across 9 categories.">
+<title>MCP App Directory — AI-Graded MCP Servers & Claude Code Plugins</title>
+<meta name="description" content="Curated directory of AI-graded MCP (Model Context Protocol) servers. Every server scored 0-100 on 8 quality parameters. Only A & B grade servers shown.">
+<meta property="og:title" content="MCP App Directory — AI-Graded Quality Scores">
+<meta property="og:description" content="Every MCP server scored 0-100 on quality. Filter by grade, category, search.">
 <meta property="og:url" content="https://mcpappdirectory.com">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="MCP App Directory">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="MCP App Directory — Best MCP Servers & Claude Code Plugins">
-<meta name="twitter:description" content="Curated directory of the best MCP servers. Discover, compare, and deploy AI agent tools.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔌</text></svg>">
 <style>
 :root {
   --bg: #0a0a0f;
   --card: #14141f;
+  --card2: #1a1a2e;
   --border: #2a2a3f;
   --accent: #6366f1;
   --accent2: #8b5cf6;
   --text: #e8e8f0;
   --muted: #8888a0;
   --green: #22c55e;
+  --green-bg: rgba(34,197,94,0.12);
   --orange: #f59e0b;
+  --orange-bg: rgba(245,158,11,0.12);
+  --red: #ef4444;
+  --red-bg: rgba(239,68,68,0.12);
+  --gold: #fbbf24;
+  --silver: #94a3b8;
+  --grade-a: #22c55e;
+  --grade-b: #3b82f6;
+  --grade-c: #f59e0b;
+  --grade-d: #f97316;
+  --grade-f: #ef4444;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -35,10 +40,13 @@ body {
   background: var(--bg);
   color: var(--text);
   line-height: 1.6;
+  min-height: 100vh;
 }
-.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+/* Header */
 header {
-  padding: 40px 0 20px;
+  padding: 40px 0 24px;
   text-align: center;
   border-bottom: 1px solid var(--border);
 }
@@ -49,139 +57,159 @@ header h1 {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-header p {
-  color: var(--muted);
-  font-size: 1.15em;
-  margin-top: 8px;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.stats {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  margin-top: 24px;
-}
+header p { color: var(--muted); font-size: 1.15em; margin-top: 8px; max-width: 650px; margin: 8px auto 0; }
+.stats { display: flex; justify-content: center; gap: 32px; margin-top: 24px; flex-wrap: wrap; }
 .stat { text-align: center; }
 .stat-num { font-size: 1.8em; font-weight: 700; color: var(--accent); }
 .stat-label { font-size: 0.85em; color: var(--muted); }
-.categories {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  padding: 24px 0 8px;
+
+/* Grade Section */
+.grade-section { margin: 32px 0; }
+.grade-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px; border-radius: 12px;
+  margin-bottom: 20px;
 }
-.cat-btn {
-  padding: 6px 16px;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  background: transparent;
-  color: var(--muted);
-  cursor: pointer;
-  font-size: 0.9em;
-  transition: all 0.2s;
+.grade-header-a { background: linear-gradient(135deg, rgba(34,197,94,0.1), rgba(34,197,94,0.02)); border: 1px solid rgba(34,197,94,0.2); }
+.grade-header-b { background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(59,130,246,0.02)); border: 1px solid rgba(59,130,246,0.2); }
+.grade-badge {
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6em; font-weight: 800;
+  flex-shrink: 0;
 }
-.cat-btn:hover, .cat-btn.active {
-  border-color: var(--accent);
-  color: var(--text);
-  background: rgba(99,102,241,0.1);
+.grade-badge-a { background: var(--green-bg); color: var(--grade-a); }
+.grade-badge-b { background: rgba(59,130,246,0.12); color: var(--grade-b); }
+.grade-title { font-size: 1.3em; font-weight: 700; }
+.grade-count { color: var(--muted); font-size: 0.9em; margin-left: auto; }
+
+/* Controls */
+.controls {
+  display: flex; gap: 12px; align-items: center;
+  padding: 20px 0; flex-wrap: wrap;
 }
-.cat-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 16px;
-  padding: 24px 0 48px;
-}
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
-  transition: all 0.2s;
-  position: relative;
-}
-.card:hover {
-  border-color: var(--accent);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(99,102,241,0.1);
-}
-.card-tag {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  padding: 2px 10px;
-  border-radius: 10px;
-  font-size: 0.75em;
-  font-weight: 600;
-}
-.tag-official { background: rgba(34,197,94,0.15); color: var(--green); }
-.tag-community { background: rgba(245,158,11,0.15); color: var(--orange); }
-.tag-hot { background: rgba(99,102,241,0.2); color: var(--accent); }
-.card h3 { font-size: 1.1em; margin-bottom: 4px; padding-right: 60px; }
-.card .author { font-size: 0.8em; color: var(--muted); margin-bottom: 8px; }
-.card p { font-size: 0.9em; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
-.card-meta { display: flex; gap: 16px; font-size: 0.8em; color: var(--muted); }
-.card-meta span { display: flex; align-items: center; gap: 4px; }
-.card-link {
-  display: inline-block;
-  margin-top: 12px;
-  color: var(--accent);
-  text-decoration: none;
-  font-size: 0.9em;
-  font-weight: 500;
-}
-.card-link:hover { text-decoration: underline; }
 .search-bar {
-  width: 100%;
+  flex: 1; min-width: 200px;
   padding: 12px 16px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--text);
-  font-size: 1em;
-  margin-top: 16px;
-  outline: none;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text); font-size: 1em; outline: none;
 }
 .search-bar:focus { border-color: var(--accent); }
+.filter-btn {
+  padding: 8px 18px; border: 1px solid var(--border); border-radius: 20px;
+  background: transparent; color: var(--muted); cursor: pointer;
+  font-size: 0.85em; transition: all 0.2s; white-space: nowrap;
+}
+.filter-btn:hover, .filter-btn.active { border-color: var(--accent); color: var(--text); background: rgba(99,102,241,0.1); }
+.filter-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+.sort-select {
+  padding: 8px 14px; background: var(--card); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text); font-size: 0.85em; outline: none; cursor: pointer;
+}
+
+/* Grid */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 14px; }
+
+/* Card */
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px;
+  transition: all 0.2s; position: relative; cursor: pointer;
+}
+.card:hover {
+  border-color: var(--accent); transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(99,102,241,0.1);
+}
+.card-grade {
+  position: absolute; top: 12px; right: 12px;
+  width: 36px; height: 36px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1em; font-weight: 800;
+}
+.grade-A { background: var(--green-bg); color: var(--grade-a); }
+.grade-B { background: rgba(59,130,246,0.12); color: var(--grade-b); }
+.grade-C { background: var(--orange-bg); color: var(--grade-c); }
+.grade-D { background: var(--red-bg); color: var(--grade-d); }
+.grade-F { background: var(--red-bg); color: var(--grade-f); }
+.card h3 { font-size: 1.05em; margin-bottom: 2px; padding-right: 44px; }
+.card .author { font-size: 0.78em; color: var(--muted); margin-bottom: 8px; }
+.card p { font-size: 0.85em; color: var(--muted); margin-bottom: 10px; line-height: 1.5; }
+.card-meta { display: flex; gap: 12px; font-size: 0.78em; color: var(--muted); flex-wrap: wrap; }
+.card-meta span { display: flex; align-items: center; gap: 3px; }
+.card-score { font-weight: 600; color: var(--accent); }
+.card .lang-tag {
+  display: inline-block; padding: 2px 8px;
+  border-radius: 4px; font-size: 0.72em;
+  background: rgba(99,102,241,0.1); color: var(--accent); margin-right: 4px;
+}
+.score-bar {
+  height: 3px; border-radius: 2px; margin-top: 10px;
+  background: var(--border); overflow: hidden;
+}
+.score-bar-fill { height: 100%; border-radius: 2px; transition: width 0.5s; }
+
+/* Modal */
+.modal-overlay {
+  display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+  z-index: 1000; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; width: 100%; max-width: 700px;
+  max-height: 85vh; overflow-y: auto; padding: 32px;
+  position: relative;
+}
+.modal-close {
+  position: absolute; top: 16px; right: 16px;
+  background: transparent; border: none; color: var(--muted);
+  font-size: 1.5em; cursor: pointer; width: 36px; height: 36px;
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+}
+.modal-close:hover { background: var(--border); color: var(--text); }
+.modal h2 { font-size: 1.6em; margin-bottom: 4px; padding-right: 40px; }
+.modal .author { color: var(--muted); margin-bottom: 16px; }
+.modal .desc { color: var(--muted); font-size: 0.95em; margin-bottom: 20px; line-height: 1.6; }
+.modal-section { margin-bottom: 20px; }
+.modal-section h3 { font-size: 1em; margin-bottom: 10px; color: var(--accent); font-weight: 600; }
+
+/* Score Breakdown */
+.score-breakdown { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.score-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px; background: var(--card2); border-radius: 8px;
+}
+.score-item-label { font-size: 0.8em; color: var(--muted); flex: 1; }
+.score-item-value { font-size: 0.9em; font-weight: 600; }
+.score-item-bar {
+  width: 60px; height: 4px; border-radius: 2px;
+  background: var(--border); overflow: hidden;
+}
+.score-item-bar-fill { height: 100%; border-radius: 2px; }
+
+/* Detail links */
+.modal-links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+.modal-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 20px; border-radius: 8px;
+  font-size: 0.9em; font-weight: 500; text-decoration: none;
+  transition: all 0.2s;
+}
+.btn-primary { background: var(--accent); color: white; }
+.btn-primary:hover { opacity: 0.9; }
+.btn-outline { border: 1px solid var(--border); color: var(--text); }
+.btn-outline:hover { border-color: var(--accent); }
+
+/* Newsletter */
 .submit-section {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 32px;
-  margin: 24px 0 48px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 32px; margin: 32px 0 48px;
   text-align: center;
 }
 .submit-section h2 { font-size: 1.4em; margin-bottom: 8px; }
 .submit-section p { color: var(--muted); margin-bottom: 16px; }
-.submit-btn {
-  display: inline-block;
-  padding: 12px 32px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1em;
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: none;
-  transition: opacity 0.2s;
-}
-.submit-btn:hover { opacity: 0.9; }
-footer {
-  text-align: center;
-  padding: 32px 0;
-  border-top: 1px solid var(--border);
-  color: var(--muted);
-  font-size: 0.85em;
-}
-@media (max-width: 640px) {
-  header h1 { font-size: 1.8em; }
-  .grid { grid-template-columns: 1fr; }
-  .stats { gap: 20px; }
-}
 .newsletter-form { display: flex; gap: 8px; max-width: 400px; margin: 12px auto 0; }
 .newsletter-form input {
   flex: 1; padding: 10px 14px; background: var(--bg);
@@ -193,140 +221,347 @@ footer {
   border: none; border-radius: 6px; cursor: pointer; font-weight: 600;
 }
 .newsletter-form button:hover { opacity: 0.9; }
+
+/* Loading */
+.loading { text-align: center; padding: 60px; color: var(--muted); }
+.loading-spinner {
+  display: inline-block; width: 40px; height: 40px; border: 3px solid var(--border);
+  border-top-color: var(--accent); border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* No results */
+.no-results { text-align: center; padding: 40px; color: var(--muted); font-size: 1.1em; }
+footer {
+  text-align: center; padding: 32px 0; border-top: 1px solid var(--border);
+  color: var(--muted); font-size: 0.85em;
+}
+@media (max-width: 640px) {
+  header h1 { font-size: 1.8em; }
+  .grid { grid-template-columns: 1fr; }
+  .stats { gap: 16px; }
+  .grade-header { flex-wrap: wrap; }
+  .score-breakdown { grid-template-columns: 1fr; }
+  .modal { padding: 20px; }
+  .controls { flex-direction: column; }
+  .search-bar { min-width: 100%; }
+}
 </style>
 </head>
 <body>
 <header>
   <div class="container">
     <h1>🔌 MCP App Directory</h1>
-    <p>The curated directory of the best MCP (Model Context Protocol) servers and Claude Code plugins. Discover, compare, and deploy.</p>
-    <div class="stats">
-      <div class="stat"><div class="stat-num">50+</div><div class="stat-label">MCP Servers</div></div>
-      <div class="stat"><div class="stat-num">12K+</div><div class="stat-label">Ecosystem</div></div>
-      <div class="stat"><div class="stat-num">97M+</div><div class="stat-label">Downloads/mo</div></div>
+    <p>AI-graded MCP server quality scores. Every server analyzed on <strong>8 quality parameters</strong> — recency, documentation, tests, auth, security, star velocity, install instructions, and more.</p>
+    <div class="stats" id="stats">
+      <div class="stat"><div class="stat-num" id="stat-total">—</div><div class="stat-label">MCP Servers</div></div>
+      <div class="stat"><div class="stat-num" id="stat-avg">—</div><div class="stat-label">Avg Score</div></div>
+      <div class="stat"><div class="stat-num" id="stat-subscribers">—</div><div class="stat-label">Subscribers</div></div>
     </div>
   </div>
 </header>
+
 <main class="container">
-  <input type="text" class="search-bar" id="search" placeholder="Search MCP servers by name, category, or keyword..." oninput="filterCards()">
-  <div class="categories" id="categories">
-    <button class="cat-btn active" onclick="filterCategory('all',this)">All</button>
-    <button class="cat-btn" onclick="filterCategory('official',this)">🌟 Official</button>
-    <button class="cat-btn" onclick="filterCategory('development',this)">🛠 Development</button>
-    <button class="cat-btn" onclick="filterCategory('ai-ml',this)">🤖 AI/ML</button>
-    <button class="cat-btn" onclick="filterCategory('data',this)">📊 Data</button>
-    <button class="cat-btn" onclick="filterCategory('productivity',this)">⚡ Productivity</button>
-    <button class="cat-btn" onclick="filterCategory('communication',this)">💬 Communication</button>
-    <button class="cat-btn" onclick="filterCategory('cloud',this)">☁️ Cloud & DevOps</button>
-    <button class="cat-btn" onclick="filterCategory('browser',this)">🌐 Browser</button>
+  <div class="controls">
+    <input type="text" class="search-bar" id="search" placeholder="Search MCP servers..." oninput="filterServers()">
+    <select class="sort-select" id="sort" onchange="filterServers()">
+      <option value="score">Sort by Score</option>
+      <option value="stars">Sort by Stars</option>
+      <option value="name">Sort by Name</option>
+      <option value="newest">Sort by Newest</option>
+    </select>
   </div>
-  <div class="grid" id="grid"></div>
+
+  <div id="categories" class="controls" style="padding-top:0">
+    <button class="filter-btn active" onclick="filterCategory('all',this)">All</button>
+    <button class="filter-btn" onclick="filterCategory('development',this)">🛠 Development</button>
+    <button class="filter-btn" onclick="filterCategory('ai-ml',this)">🤖 AI/ML</button>
+    <button class="filter-btn" onclick="filterCategory('data',this)">📊 Data</button>
+    <button class="filter-btn" onclick="filterCategory('productivity',this)">⚡ Productivity</button>
+    <button class="filter-btn" onclick="filterCategory('communication',this)">💬 Communication</button>
+    <button class="filter-btn" onclick="filterCategory('cloud',this)">☁️ Cloud & DevOps</button>
+    <button class="filter-btn" onclick="filterCategory('browser',this)">🌐 Browser</button>
+    <button class="filter-btn" onclick="filterCategory('security',this)">🔒 Security</button>
+  </div>
+
+  <div id="loading" class="loading">
+    <div class="loading-spinner"></div>
+    <p style="margin-top:12px">Loading 1917 MCP servers & scoring...</p>
+  </div>
+
+  <div id="grade-sections"></div>
+  <div id="no-results" class="no-results" style="display:none">No servers match your search. Try different keywords or filters.</div>
+
   <div class="submit-section">
-    <h2>📦 Submit Your MCP Server</h2>
-    <p>Built something great? Submit your MCP server for inclusion in the directory.</p>
-    <div id="submit-form">
-      <form onsubmit="return submitServer(event)" style="max-width:500px;margin:0 auto;text-align:left">
-        <input type="text" id="sub-name" placeholder="Server Name" required style="width:100%;padding:10px 14px;margin-bottom:8px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">
-        <input type="url" id="sub-url" placeholder="GitHub URL" required style="width:100%;padding:10px 14px;margin-bottom:8px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">
-        <textarea id="sub-desc" placeholder="Short description (1-2 sentences)" required style="width:100%;padding:10px 14px;margin-bottom:8px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);resize:vertical;min-height:60px"></textarea>
-        <select id="sub-cat" required style="width:100%;padding:10px 14px;margin-bottom:12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">
-          <option value="">Select category</option>
-          <option value="development">🛠 Development</option>
-          <option value="ai-ml">🤖 AI/ML</option>
-          <option value="data">📊 Data</option>
-          <option value="productivity">⚡ Productivity</option>
-          <option value="communication">💬 Communication</option>
-          <option value="cloud">☁️ Cloud & DevOps</option>
-          <option value="browser">🌐 Browser</option>
-          <option value="security">🔒 Security</option>
-          <option value="creative">🎨 Creative</option>
-        </select>
-        <button type="submit" id="sub-srv-btn" class="submit-btn" style="width:100%">Submit Server</button>
-      </form>
-      <p id="sub-srv-msg" style="font-size:0.85em;margin-top:8px;display:none"></p>
-    </div>
-    <div style="margin-top:24px">
-      <p style="font-size:0.9em;color:var(--muted)">📬 Get the best MCP servers delivered weekly</p>
-      <form class="newsletter-form" id="newsletter-form" onsubmit="return subscribe(event)">
-        <input type="email" id="sub-email" placeholder="your@email.com" required>
-        <button type="submit" id="sub-btn">Subscribe</button>
-      </form>
-      <p id="sub-msg" style="font-size:0.85em;color:#22c55e;margin-top:8px;display:none"></p>
-    </div>
+    <h2>📬 Get the Best MCP Servers Weekly</h2>
+    <p>Subscribe to our newsletter — curated picks, new listings, and AI quality scores delivered to your inbox.</p>
+    <form class="newsletter-form" id="newsletter-form" onsubmit="return subscribe(event)">
+      <input type="email" id="sub-email" placeholder="your@email.com" required>
+      <button type="submit" id="sub-btn">Subscribe</button>
+    </form>
+    <p id="sub-msg" style="font-size:0.85em;margin-top:8px;display:none"></p>
   </div>
 </main>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
 <footer>
   <div class="container">
-    <p>MCP App Directory — Curating the best Model Context Protocol servers for the AI agent ecosystem.</p>
-    <p style="margin-top:4px">Part of the <a href="#" style="color:var(--accent);text-decoration:none;">MCP App Directory</a> network</p>
+    <p>MCP App Directory — AI-graded quality scoring for every MCP server. Built for the AI agent ecosystem.</p>
   </div>
 </footer>
-<script>
-const servers = [
-  { name: "GitHub MCP", author: "GitHub (Official)", cat: "official", desc: "Full GitHub API access — repos, issues, PRs, code search, commits, reviews. 26 tools. The most installed MCP server.", stars: "100K+", install: "npx", url: "https://github.com/github/github-mcp-server", tags: ["official","development"] },
-  { name: "Playwright MCP", author: "Anthropic (Official)", cat: "official", desc: "Browser automation for AI agents. Navigate, click, type, screenshot, console. Full web interaction.", stars: "58K+", install: "npx", url: "https://github.com/anthropics/mcp-playwright", tags: ["official","browser"] },
-  { name: "Filesystem MCP", author: "Anthropic (Official)", cat: "official", desc: "Secure file system access for AI agents. Read, write, edit, search files with path validation.", stars: "42K+", install: "npx", url: "https://github.com/modelcontextprotocol/servers", tags: ["official","development"] },
-  { name: "Brave Search MCP", author: "Anthropic (Official)", cat: "official", desc: "Web and local search powered by Brave. General queries, local business results, news.", stars: "36K+", install: "npx", url: "https://github.com/modelcontextprotocol/servers", tags: ["official","ai-ml"] },
-  { name: "PostgreSQL MCP", author: "Anthropic (Official)", cat: "official", desc: "Read-write PostgreSQL database access with schema introspection. Query and analyze data.", stars: "28K+", install: "npx", url: "https://github.com/modelcontextprotocol/servers", tags: ["official","data"] },
-  { name: "Sequential Thinking MCP", author: "Anthropic (Official)", cat: "official", desc: "Structured multi-step reasoning for complex problems. Think step-by-step with revision support.", stars: "31K+", install: "npx", url: "https://github.com/modelcontextprotocol/servers", tags: ["official","ai-ml"] },
-  { name: "Slack MCP", author: "Anthropic (Official)", cat: "official", desc: "Slack workspace integration — messages, channels, users, search. Team communication for agents.", stars: "22K+", install: "npx", url: "https://github.com/modelcontextprotocol/servers", tags: ["official","communication"] },
-  { name: "Memory MCP", author: "Anthropic (Official)", cat: "official", desc: "Persistent knowledge graph memory for AI agents. Entities, relations, observations across sessions.", stars: "45K+", install: "npx", url: "https://github.com/modelcontextprotocol/servers", tags: ["official","ai-ml"] },
-  { name: "Context7 MCP", author: "Context7", cat: "development", desc: "Query any library's docs and code examples. Auto-resolves library IDs for accurate results.", stars: "18K+", install: "npx", url: "https://github.com/context7/context7-mcp", tags: ["development","ai-ml"] },
-  { name: "Codegraph MCP", author: "colbymchenry", cat: "development", desc: "Pre-indexed code knowledge graph. Fewer tokens, fewer tool calls — 100% local. Works with Claude, Codex, Cursor, Hermes.", stars: "21.7K", install: "pip", url: "https://github.com/colbymchenry/codegraph", tags: ["development","ai-ml"], hot: true },
-  { name: "Understand Anything", author: "Lum1104", cat: "ai-ml", desc: "Turn code into interactive knowledge graphs. Explore, search, and ask questions about any codebase.", stars: "25.2K", install: "pip", url: "https://github.com/Lum1104/Understand-Anything", tags: ["ai-ml","development"], hot: true },
-  { name: "Claude Plugins Official", author: "Anthropic", cat: "official", desc: "Official directory of high-quality Claude Code plugins. Managed by Anthropic.", stars: "27.2K", install: "git", url: "https://github.com/anthropics/claude-plugins-official", tags: ["official","development"], hot: true },
-  { name: "n8n MCP", author: "n8n", cat: "productivity", desc: "Connect to 400+ apps and services via n8n workflows. Automation hub for AI agents.", stars: "15K+", install: "docker", url: "https://github.com/n8n-io/mcp-server", tags: ["productivity","cloud"] },
-  { name: "Stripe MCP", author: "Stripe (Official)", cat: "official", desc: "Stripe API integration — payments, customers, products, subscriptions. Commerce for agents.", stars: "19K+", install: "npx", url: "https://github.com/stripe/mcp-server", tags: ["official","cloud"] },
-  { name: "Cloudflare MCP", author: "Cloudflare (Official)", cat: "official", desc: "Cloudflare API — Workers, KV, R2, D1, AI Gateway. Deploy and manage cloud infrastructure.", stars: "16K+", install: "npx", url: "https://github.com/cloudflare/mcp-server", tags: ["official","cloud"] },
-  { name: "Pi Agent Toolkit", author: "earendil-works", cat: "development", desc: "AI agent toolkit: coding agent CLI, unified LLM API, TUI, Slack bot, vLLM pods.", stars: "53.8K", install: "pip", url: "https://github.com/earendil-works/pi", tags: ["development","ai-ml"] },
-  { name: "Karpathy Skills", author: "multica-ai", cat: "ai-ml", desc: "CLAUDE.md based on Karpathy's LLM coding observations. 151K stars — the most popular agent config.", stars: "151.8K", install: "copy", url: "https://github.com/multica-ai/andrej-karpathy-skills", tags: ["ai-ml","development"], hot: true },
-  { name: "Atlassian MCP", author: "Atlassian (Official)", cat: "official", desc: "46+ tools across Jira, Confluence, Compass, JSM. Enterprise project management for agents.", stars: "12K+", install: "npx", url: "https://github.com/atlassian/mcp-server", tags: ["official","productivity"] },
-  { name: "Edgee Fallback", author: "Edgee", cat: "ai-ml", desc: "Claude Code that never stops — fallback model routing. Zero downtime for coding agents.", stars: "5K+", install: "npm", url: "https://github.com/edgee/mcp", tags: ["ai-ml","development"] },
-  { name: "YouTube MCP", author: "Agentpedia", cat: "ai-ml", desc: "Search YouTube, get transcripts, analyze videos. Works with Cursor, Antigravity, Claude.", stars: "8K+", install: "npx", url: "https://agentpedia.codes/mcp/youtube-2", tags: ["ai-ml","browser"] },
-  { name: "Google Antigravity CLI", author: "Google", cat: "official", desc: "Run coding agents from terminal. Google's agent orchestration CLI. Desktop + SDK + API.", stars: "22K+", install: "brew", url: "https://github.com/google/antigravity", tags: ["official","development"] },
-  { name: "DeepSeek Reasonix", author: "DeepSeek", cat: "ai-ml", desc: "DeepSeek native coding agent optimized for reasoning with high caching and low cost.", stars: "12K+", install: "pip", url: "https://github.com/deepseek-ai/reasonix", tags: ["ai-ml","development"], hot: true },
-];
 
-function renderCards(list) {
-  const grid = document.getElementById('grid');
-  grid.innerHTML = '';
-  list.forEach(s => {
-    const tag = s.hot ? '<span class="card-tag tag-hot">🔥 Hot</span>' : 
-               s.cat === 'official' ? '<span class="card-tag tag-official">Official</span>' :
-               '<span class="card-tag tag-community">Community</span>';
-    grid.innerHTML += '<div class="card" data-category="' + s.tags.join(' ') + '">' + tag +
-      '<h3>' + s.name + '</h3>' +
-      '<div class="author">' + s.author + '</div>' +
-      '<p>' + s.desc + '</p>' +
-      '<div class="card-meta"><span>⭐ ' + s.stars + '</span><span>📦 ' + s.install + '</span></div>' +
-      '<a href="' + s.url + '" class="card-link" target="_blank">View →</a></div>';
-  });
+<script>
+let allServers = [];
+let activeCategory = 'all';
+let currentGrade = 'all';
+
+async function loadData() {
+  try {
+    const [serversRes, statsRes] = await Promise.all([
+      fetch('/api/servers?limit=2000'),
+      fetch('/api/stats')
+    ]);
+    const serversData = await serversRes.json();
+    const statsData = await statsRes.json();
+    
+    if (serversData.success) allServers = serversData.servers;
+    if (statsData.success) renderStats(statsData.stats);
+    
+    document.getElementById('loading').style.display = 'none';
+    renderSections();
+  } catch(e) {
+    document.getElementById('loading').innerHTML = '<p style="color:var(--red)">Failed to load servers. Please refresh.</p>';
+  }
 }
 
-function filterCards() {
-  const search = document.getElementById('search').value.toLowerCase();
-  const active = document.querySelector('.cat-btn.active');
-  const cat = active ? active.textContent.toLowerCase().replace(/[^a-z0-9]/g,'') : 'all';
+function renderStats(stats) {
+  document.getElementById('stat-total').textContent = stats.total_servers || 0;
+  document.getElementById('stat-avg').textContent = (stats.average_score || 0) + '/100';
+  document.getElementById('stat-subscribers').textContent = (stats.total_subscribers || 0);
+}
+
+function renderSections(list) {
+  const servers = list || allServers;
+  const container = document.getElementById('grade-sections');
+  const noResults = document.getElementById('no-results');
+  
+  // Filter by category
   let filtered = servers;
-  if (cat !== 'all') {
-    filtered = filtered.filter(s => s.cat === cat || s.tags.includes(cat));
+  if (activeCategory !== 'all') {
+    filtered = filtered.filter(s => {
+      const cat = (s.category || '').toLowerCase();
+      return cat === activeCategory || (s.tags && s.tags.includes(activeCategory));
+    });
   }
-  if (search) {
-    filtered = filtered.filter(s => 
-      s.name.toLowerCase().includes(search) ||
-      s.desc.toLowerCase().includes(search) ||
-      s.author.toLowerCase().includes(search));
+  
+  // Search filter
+  const q = document.getElementById('search').value.toLowerCase().trim();
+  if (q) {
+    filtered = filtered.filter(s =>
+      (s.name || '').toLowerCase().includes(q) ||
+      (s.description || '').toLowerCase().includes(q) ||
+      (s.category || '').toLowerCase().includes(q)
+    );
   }
-  renderCards(filtered);
+  
+  // Sort
+  const sortBy = document.getElementById('sort').value;
+  filtered.sort((a, b) => {
+    if (sortBy === 'stars') return (b.stars || 0) - (a.stars || 0);
+    if (sortBy === 'name') return (a.name || '').localeCompare(b.name || '');
+    if (sortBy === 'newest') return (b.created || '').localeCompare(a.created || '');
+    return (b.score || 0) - (a.score || 0); // default: by score
+  });
+  
+  if (filtered.length === 0) {
+    container.innerHTML = '';
+    noResults.style.display = 'block';
+    return;
+  }
+  noResults.style.display = 'none';
+  
+  const gradeA = filtered.filter(s => s.grade === 'A');
+  const gradeB = filtered.filter(s => s.grade === 'B');
+  
+  let html = '';
+  
+  if (gradeA.length > 0) {
+    html += renderGradeSection('A', gradeA);
+  }
+  if (gradeB.length > 0) {
+    html += renderGradeSection('B', gradeB);
+  }
+  
+  container.innerHTML = html;
+}
+
+function renderGradeSection(grade, servers) {
+  const color = grade === 'A' ? 'a' : 'b';
+  const label = grade === 'A' ? 'A Grade — Top Quality' : 'B Grade — Good Quality';
+  
+  return `<div class="grade-section">
+    <div class="grade-header grade-header-${color}">
+      <div class="grade-badge grade-badge-${color}">${grade}</div>
+      <div class="grade-title">${label}</div>
+      <div class="grade-count">${servers.length} server${servers.length !== 1 ? 's' : ''}</div>
+    </div>
+    <div class="grid">
+      ${servers.map(s => renderCard(s)).join('')}
+    </div>
+  </div>`;
+}
+
+function renderCard(s) {
+  const score = s.score || 0;
+  const grade = s.grade || 'F';
+  const stars = s.stars || 0;
+  const lang = s.language || '';
+  const starsStr = stars >= 1000 ? (stars/1000).toFixed(1) + 'K' : stars;
+  const barColor = grade === 'A' ? 'var(--grade-a)' : 'var(--grade-b)';
+  const desc = (s.description || '').substring(0, 120);
+  
+  return `<div class="card" onclick="openServer(${allServers.indexOf(s)})">
+    <div class="card-grade grade-${grade}">${grade}</div>
+    <h3>${escapeHtml(s.name || 'Unknown')}</h3>
+    ${s.author ? `<div class="author">${escapeHtml(s.author)}</div>` : ''}
+    <p>${escapeHtml(desc)}${desc.length >= 120 ? '...' : ''}</p>
+    <div class="card-meta">
+      <span class="card-score">${score}/100</span>
+      ${stars > 0 ? `<span>⭐ ${starsStr}</span>` : ''}
+      ${lang ? `<span class="lang-tag">${escapeHtml(lang)}</span>` : ''}
+      <span>${escapeHtml(s.category || 'Uncategorized')}</span>
+    </div>
+    <div class="score-bar"><div class="score-bar-fill" style="width:${score}%;background:${barColor}"></div></div>
+  </div>`;
+}
+
+function openServer(index) {
+  const s = allServers[index];
+  if (!s) return;
+  
+  const modal = document.getElementById('modal');
+  const content = document.getElementById('modal-content');
+  
+  const grade = s.grade || 'F';
+  const score = s.score || 0;
+  const stars = s.stars || 0;
+  const forks = s.forks || 0;
+  const issues = s.open_issues || 0;
+  const starsStr = stars >= 1000 ? (stars/1000).toFixed(1) + 'K' : stars;
+  const forksStr = forks >= 1000 ? (forks/1000).toFixed(1) + 'K' : forks;
+  const details = s.score_details || {};
+  const desc = s.description || 'No description available.';
+  const lang = s.language || 'Unknown';
+  const lastPush = s.last_push ? new Date(s.last_push).toLocaleDateString() : 'Unknown';
+  
+  // Score breakdown items
+  const scoreItems = [
+    { label: 'Recency', key: 'recency', max: 20 },
+    { label: 'Documentation', key: 'documentation', max: 15 },
+    { label: 'Tests', key: 'tests', max: 10 },
+    { label: 'Auth/Security', key: 'auth', max: 10 },
+    { label: 'Star Velocity', key: 'star_velocity', max: 15 },
+    { label: 'Security Audit', key: 'security', max: 15 },
+    { label: 'Install Docs', key: 'install_instructions', max: 15 },
+  ];
+  
+  let scoreHtml = scoreItems.map(item => {
+    const val = details[item.key] || 0;
+    const pct = (val / item.max) * 100;
+    const barColor = pct >= 80 ? 'var(--grade-a)' : pct >= 50 ? 'var(--grade-b)' : 'var(--grade-c)';
+    return `<div class="score-item">
+      <span class="score-item-label">${item.label}</span>
+      <span class="score-item-value" style="color:${barColor}">${val}/${item.max}</span>
+      <div class="score-item-bar"><div class="score-item-bar-fill" style="width:${pct}%;background:${barColor}"></div></div>
+    </div>`;
+  }).join('');
+  
+  const githubUrl = s.url || '#';
+  const slug = (s.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  
+  content.innerHTML = `
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+      <div class="card-grade grade-${grade}" style="position:static;width:48px;height:48px;font-size:1.4em">${grade}</div>
+      <div>
+        <h2 style="margin:0">${escapeHtml(s.name || 'Unknown')}</h2>
+        <span style="font-size:1.1em;color:var(--accent);font-weight:600">${score}/100</span>
+        ${stars > 0 ? `<span style="color:var(--muted);margin-left:12px">⭐ ${starsStr} stars</span>` : ''}
+        ${forks > 0 ? `<span style="color:var(--muted);margin-left:8px">⑂ ${forksStr} forks</span>` : ''}
+      </div>
+    </div>
+    ${s.author ? `<div class="author">${escapeHtml(s.author)}</div>` : ''}
+    <div class="desc">${escapeHtml(desc)}</div>
+    
+    <div class="modal-section">
+      <h3>📊 Score Breakdown</h3>
+      <div class="score-breakdown">${scoreHtml}</div>
+      <div style="margin-top:8px;display:flex;gap:16px;font-size:0.85em;color:var(--muted)">
+        <span>Language: ${escapeHtml(lang)}</span>
+        <span>Last push: ${lastPush}</span>
+        ${issues > 0 ? `<span>Open issues: ${issues}</span>` : ''}
+      </div>
+    </div>
+    
+    <div class="modal-section">
+      <h3>⚡ Install</h3>
+      <pre style="background:var(--card2);padding:12px;border-radius:8px;overflow-x:auto;font-size:0.85em;color:var(--muted)">${getInstallCommand(s)}</pre>
+    </div>
+    
+    <div class="modal-links">
+      <a href="${githubUrl}" target="_blank" class="modal-link btn-primary">View on GitHub →</a>
+      <a href="${githubUrl}#readme" target="_blank" class="modal-link btn-outline">📖 README</a>
+      <a href="${githubUrl}/issues" target="_blank" class="modal-link btn-outline">🐛 Issues</a>
+    </div>
+    
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);text-align:center">
+      <p style="font-size:0.85em;color:var(--muted)">📬 Get weekly MCP server picks → <a href="#" onclick="document.getElementById('sub-email').focus();closeModal();return false" style="color:var(--accent)">Subscribe</a></p>
+    </div>
+  `;
+  
+  modal.classList.add('open');
+}
+
+function getInstallCommand(s) {
+  const url = s.url || '';
+  if (url.includes('npm') || url.includes('github')) {
+    const name = s.name || '';
+    if (s.install === 'pip') return `pip install ${name.toLowerCase().replace(/\s+/g, '-')}`;
+    if (s.install === 'npx') return `npx ${name.toLowerCase().replace(/\s+/g, '-')}`;
+    if (s.install === 'docker') return `docker pull ${name.toLowerCase().replace(/\s+/g, '-')}`;
+  }
+  return `# Clone and install\ngit clone ${url}\ncd ${(s.name || '').toLowerCase().replace(/\s+/g, '-')}\nnpm install  # or: pip install -r requirements.txt`;
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function filterServers() {
+  renderSections();
 }
 
 function filterCategory(cat, btn) {
-  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  filterCards();
+  activeCategory = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderSections();
 }
-renderCards(servers);
 
+// Subscribe
 function subscribe(event) {
   event.preventDefault();
   const email = document.getElementById('sub-email').value;
@@ -337,19 +572,24 @@ function subscribe(event) {
   fetch('/api/subscribe', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({email: email, source: 'website'})
+    body: JSON.stringify({email, source: 'website'})
   })
   .then(r => r.json())
   .then(d => {
-    msg.textContent = d.success ? '✅ Subscribed! Check your inbox.' : '❌ ' + (d.error || 'Failed');
+    if (d.success) {
+      msg.textContent = '✅ Check your inbox for confirmation!';
+      msg.style.color = '#22c55e';
+      document.getElementById('sub-email').value = '';
+    } else {
+      msg.textContent = '❌ ' + (d.error || 'Failed');
+      msg.style.color = '#ef4444';
+    }
     msg.style.display = 'block';
-    msg.style.color = d.success ? '#22c55e' : '#ef4444';
     btn.textContent = 'Subscribe';
     btn.disabled = false;
-    if (d.success) document.getElementById('sub-email').value = '';
   })
   .catch(e => {
-    msg.textContent = '❌ Failed to subscribe. Try again.';
+    msg.textContent = '❌ Failed. Try again.';
     msg.style.display = 'block';
     msg.style.color = '#ef4444';
     btn.textContent = 'Subscribe';
@@ -358,46 +598,17 @@ function subscribe(event) {
   return false;
 }
 
-function submitServer(event) {
-  event.preventDefault();
-  const name = document.getElementById('sub-name').value;
-  const url = document.getElementById('sub-url').value;
-  const desc = document.getElementById('sub-desc').value;
-  const cat = document.getElementById('sub-cat').value;
-  const btn = document.getElementById('sub-srv-btn');
-  const msg = document.getElementById('sub-srv-msg');
-  
-  btn.disabled = true;
-  btn.textContent = 'Submitting...';
-  
-  fetch('/api/submit-server', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({name, url, description: desc, category: cat})
-  })
-  .then(r => r.json())
-  .then(d => {
-    msg.textContent = d.success ? '✅ Submitted! We\'ll review and add it shortly.' : '❌ ' + (d.error || 'Failed');
-    msg.style.display = 'block';
-    msg.style.color = d.success ? '#22c55e' : '#ef4444';
-    btn.textContent = 'Submit Server';
-    btn.disabled = false;
-    if (d.success) {
-      document.getElementById('sub-name').value = '';
-      document.getElementById('sub-url').value = '';
-      document.getElementById('sub-desc').value = '';
-      document.getElementById('sub-cat').value = '';
-    }
-  })
-  .catch(e => {
-    msg.textContent = '❌ Failed to submit. Try again.';
-    msg.style.display = 'block';
-    msg.style.color = '#ef4444';
-    btn.textContent = 'Submit Server';
-    btn.disabled = false;
-  });
-  return false;
-}
+// Close modal on overlay click
+document.getElementById('modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// Escape key to close modal
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+loadData();
 </script>
 </body>
 </html>
