@@ -203,6 +203,16 @@ a:hover { color: var(--accent2); }
       <select class="filter-select" id="category-filter" onchange="loadServers()">
         <option value="">All Categories</option>
       </select>
+      <select class="filter-select" id="language-filter" onchange="loadServers()">
+        <option value="">All Languages</option>
+      </select>
+      <select class="filter-select" id="sort-filter" onchange="loadServers()">
+        <option value="relevance">Sort: Relevance</option>
+        <option value="stars">⭐ Most Stars</option>
+        <option value="updated">🕐 Recently Updated</option>
+        <option value="downloads">📥 Most Downloads</option>
+        <option value="name">🔤 Name A-Z</option>
+      </select>
     </div>
     <div id="servers-loading" class="loading">
       <div class="spinner"></div>
@@ -310,15 +320,27 @@ async function loadServers() {
     
     // Populate category filter
     const cats = [...new Set(allServers.map(s => s.category))].sort();
-    const sel = document.getElementById('category-filter');
-    const currentVal = sel.value;
-    sel.innerHTML = '<option value="">All Categories</option>';
+    const catSel = document.getElementById('category-filter');
+    const currentCat = catSel.value;
+    catSel.innerHTML = '<option value="">All Categories</option>';
     cats.forEach(c => {
       const opt = document.createElement('option');
       opt.value = c; opt.textContent = c;
-      sel.appendChild(opt);
+      catSel.appendChild(opt);
     });
-    sel.value = currentVal;
+    catSel.value = currentCat;
+    
+    // Populate language filter
+    const langs = [...new Set(allServers.map(s => s.language).filter(l => l && l !== 'Unknown'))].sort();
+    const langSel = document.getElementById('language-filter');
+    const currentLang = langSel.value;
+    langSel.innerHTML = '<option value="">All Languages</option>';
+    langs.forEach(l => {
+      const opt = document.createElement('option');
+      opt.value = l; opt.textContent = l;
+      langSel.appendChild(opt);
+    });
+    langSel.value = currentLang;
     
     applyServersFilter();
   } catch(e) {
@@ -329,15 +351,34 @@ async function loadServers() {
 function applyServersFilter() {
   const q = document.getElementById('search').value.toLowerCase();
   const cat = document.getElementById('category-filter').value;
+  const langF = document.getElementById('language-filter').value;
+  const sort = document.getElementById('sort-filter').value;
   
   filteredServers = allServers.filter(s => {
     const name = (s.name || '').toLowerCase();
     const desc = (s.description || '').toLowerCase();
     const category = (s.category || '').toLowerCase();
+    const language = (s.language || '').toLowerCase();
     const matchesSearch = !q || name.includes(q) || desc.includes(q) || category.includes(q);
     const matchesCat = !cat || s.category === cat;
-    return matchesSearch && matchesCat;
+    const matchesLang = !langF || language === langF.toLowerCase();
+    return matchesSearch && matchesCat && matchesLang;
   });
+  
+  // Sort
+  if (sort === 'stars') {
+    filteredServers.sort((a, b) => (b.stars || 0) - (a.stars || 0));
+  } else if (sort === 'updated') {
+    filteredServers.sort((a, b) => {
+      const da = a.last_updated || '';
+      const db = b.last_updated || '';
+      return db.localeCompare(da);
+    });
+  } else if (sort === 'downloads') {
+    filteredServers.sort((a, b) => (b.downloads_weekly || 0) - (a.downloads_weekly || 0));
+  } else if (sort === 'name') {
+    filteredServers.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+  }
   
   currentPage = 1;
   renderServers();
@@ -377,6 +418,10 @@ function renderServers() {
     const cat = s.category || 'Other';
     const lang = s.language || '';
     const stars = s.stars || 0;
+    const downloads = s.downloads_weekly || 0;
+    const lastUpdated = s.last_updated ? new Date(s.last_updated).toLocaleDateString() : '';
+    const license = s.license || '';
+    const forks = s.forks || 0;
     return `<div class="card">
       <div class="card-header">
         <h3><a href="${url}" target="_blank" rel="noopener">${name}</a></h3>
@@ -384,9 +429,13 @@ function renderServers() {
       </div>
       <div class="description">${desc}</div>
       <div class="card-footer">
-        <div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
           ${lang ? `<span class="lang">${lang}</span>` : ''}
           ${stars > 0 ? `<span class="stars">⭐ ${stars.toLocaleString()}</span>` : ''}
+          ${downloads > 0 ? `<span class="stars">📥 ${downloads.toLocaleString()}/wk</span>` : ''}
+          ${forks > 0 ? `<span style="font-size:12px;color:var(--muted)">⑂ ${forks}</span>` : ''}
+          ${license ? `<span style="font-size:11px;color:var(--muted);padding:1px 6px;border:1px solid var(--border);border-radius:4px;">${license}</span>` : ''}
+          ${lastUpdated ? `<span style="font-size:11px;color:var(--muted)">🕐 ${lastUpdated}</span>` : ''}
         </div>
         <a href="${url}" target="_blank" rel="noopener" class="btn-sm">View →</a>
       </div>
