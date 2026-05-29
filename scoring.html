@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scoring Methodology — MCP App Directory</title>
+<meta name="description" content="Detailed MCP server scoring methodology. How we compute 0-100 quality scores across 8 parameters using real GitHub data.">
+<link rel="canonical" href="https://mcpappdirectory.com/scoring">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a0f;color:#e8e8f0;line-height:1.7}
+.container{max-width:700px;margin:0 auto;padding:0 24px}
+header{padding:24px 0;border-bottom:1px solid #2a2a3f;margin-bottom:32px}
+header a{color:#6366f1;text-decoration:none;font-size:0.9em}
+h1{font-size:1.8em;margin-bottom:8px}
+h2{font-size:1.3em;margin:28px 0 12px;color:#c0c0d0}
+h3{font-size:1.1em;margin:16px 0 8px;color:#6366f1}
+p{color:#b0b0c0;margin:12px 0}
+.section{background:#14141f;border:1px solid #2a2a3f;border-radius:12px;padding:24px;margin:20px 0}
+.param{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #2a2a3f}
+.param:last-child{border-bottom:none}
+.param-label{font-weight:600}
+.param-max{color:#8888a0}
+.param-desc{color:#8888a0;font-size:0.85em;margin-top:2px}
+pre{background:#1a1a2e;padding:12px;border-radius:8px;overflow-x:auto;font-size:0.85em;color:#b0b0c0;margin:12px 0}
+footer{text-align:center;padding:32px 0;border-top:1px solid #2a2a3f;margin-top:40px;color:#8888a0;font-size:0.85em}
+</style>
+</head>
+<body>
+<header><div class="container"><a href="/">← Back to Directory</a></div></header>
+<main class="container">
+<h1>Scoring Methodology</h1>
+<p>Every MCP server gets a <strong>0-100 quality score</strong> computed from 8 weighted parameters. Here's exactly how each parameter works:</p>
+
+<div class="section">
+<h2>Parameter Breakdown</h2>
+
+<div class="param"><div><div class="param-label">Recency</div><div class="param-desc">When was the last commit? Active projects are more reliable.</div></div><div class="param-max">20 points</div></div>
+<div class="param"><div><div class="param-label">Documentation</div><div class="param-desc">README length and quality. Longer, well-structured READMEs score higher.</div></div><div class="param-max">15 points</div></div>
+<div class="param"><div><div class="param-label">Tests</div><div class="param-desc">Does the repo have test infrastructure? Jest, pytest, Mocha, or test files.</div></div><div class="param-max">10 points</div></div>
+<div class="param"><div><div class="param-label">Auth/Security</div><div class="param-desc">README mentions auth patterns, API keys, tokens, OAuth, or credentials.</div></div><div class="param-max">10 points</div></div>
+<div class="param"><div><div class="param-label">Star Velocity</div><div class="param-desc">Stars gained per month since creation. Growth signals community adoption.</div></div><div class="param-max">15 points</div></div>
+<div class="param"><div><div class="param-label">Security Audit</div><div class="param-desc">README mentions security, validation, permissions. Penalized for high issue/star ratio.</div></div><div class="param-max">15 points</div></div>
+<div class="param"><div><div class="param-label">Install Docs</div><div class="param-desc">Setup instructions count. Install, setup, usage, config, Docker, npx, pip keywords.</div></div><div class="param-max">15 points</div></div>
+<div class="param"><div><div class="param-label">Activity Bonus</div><div class="param-desc">Recent commits in the last 30 days. Up to 5 bonus points.</div></div><div class="param-max">5 bonus</div></div>
+</div>
+
+<h2>Grade Mapping</h2>
+<div class="section">
+<pre>Score 90-100 → A (Top Quality)
+Score 70-89  → B (Good Quality)
+Score 50-69  → C (Average)
+Score 30-49  → D (Below Average)
+Score 0-29   → F (Low Quality)</pre>
+</div>
+
+<h2>Data Sources</h2>
+<div class="section">
+<p>Scores are computed from the <strong>GitHub API</strong>. For each server we fetch:</p>
+<ul style="color:#b0b0c0;margin:12px 0 0 20px">
+<li>Repository metadata (stars, forks, creation/push dates, language, license)</li>
+<li>README content (length, keywords, install instructions)</li>
+<li>File listing (test directories, package configs)</li>
+<li>Recent commits (activity in last 30 days)</li>
+</ul>
+<p>Servers without verifiable GitHub data are marked with a <strong>"⚠ no GitHub data"</strong> badge.</p>
+</div>
+</main>
+<footer><div class="container"><p>MCP App Directory — AI-graded quality scoring for every MCP server.</p></div></footer>
+</body>
+</html>

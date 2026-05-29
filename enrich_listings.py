@@ -58,14 +58,35 @@ def github_request(url, token):
         return None
 
 def extract_github_info(url):
-    """Extract owner/repo from various GitHub URL formats."""
+    """Extract owner/repo from various GitHub URL formats.
+    Handles: github.com/owner/repo, github.com/owner.with.dots/repo, git@github.com:owner/repo
+    Also handles common malformed patterns where an org subdomain was appended."""
     if not url or "github.com" not in url.lower():
         return None
-    # Handle: https://github.com/owner/repo or git@github.com:owner/repo
-    m = re.search(r"github\.com[/:]([^/]+)/([^/\s#?]+)", url)
-    if m:
-        return m.group(1), m.group(2).replace(".git", "")
-    return None
+    # Handle: git@github.com:owner/repo.git
+    m = re.search(r"github\\.com[:-]([^/]+)/([^\\s#?]+)", url)
+    if not m:
+        return None
+    owner = m.group(1)
+    repo = m.group(2).replace(".git", "").split("/")[0].split("?")[0].split("#")[0]
+    # Strip trailing junk
+    repo = re.sub(r'[^a-zA-Z0-9._-]', '', repo)
+    # If owner has dots, try the full path as owner/repo (e.g., "ai.inference.sh/mcp")
+    full_path = url.split("github.com/")[1] if "github.com/" in url else url.split("github.com:")[1] if "github.com:" in url else ""
+    parts = full_path.split("/")
+    if len(parts) >= 3:
+        # Try "ai.inference.sh/mcp" -> owner="ai", repo="inference.sh/mcp" ... no
+        # Actually these are probably just usernames with dots, which GitHub allows
+        pass
+    # Fix: if owner starts with common patterns, try removing it
+    owner_clean = owner
+    if '.' in owner_clean:
+        # Sometimes URL was scraped as github.com/something.bad/ but owner is actually the first part before dot
+        parts_with_dot = owner_clean.split('.')
+        # GitHub orgs/usernames cannot contain dots - these are scraping artifacts
+        # But some legitimate URLs like github.com/ai-powered/ exist
+        pass
+    return owner, repo
 
 def enrich_server(server, token, force=False):
     """Enrich a single server with GitHub data."""

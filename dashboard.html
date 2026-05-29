@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — MCP App Directory</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a0f;color:#e8e8f0;line-height:1.6}
+.container{max-width:800px;margin:0 auto;padding:0 24px}
+header{padding:24px 0;border-bottom:1px solid #2a2a3f;margin-bottom:32px;display:flex;align-items:center;justify-content:space-between}
+header .logo a{color:#e8e8f0;text-decoration:none;font-weight:700;font-size:1.2em}
+header nav a{color:#6366f1;text-decoration:none;font-size:0.9em;margin-left:16px}
+h1{font-size:1.6em;margin-bottom:8px}
+h2{font-size:1.2em;margin:24px 0 12px;color:#c0c0d0}
+.section{background:#14141f;border-radius:12px;padding:20px;margin-bottom:20px;border:1px solid #2a2a3f}
+.user-info{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.user-info img{width:64px;height:64px;border-radius:50%;border:2px solid #2a2a3f}
+.user-info .user-name{font-size:1.2em;font-weight:600}
+.user-info .user-email{font-size:0.9em;color:#8888a0}
+.btn{display:inline-block;padding:10px 24px;border-radius:8px;text-decoration:none;font-weight:600;font-size:0.9em;border:none;cursor:pointer;font-family:inherit}
+.btn-primary{background:#6366f1;color:white}
+.btn-primary:hover{background:#5457e5}
+.btn-danger{background:#ef4444;color:white}
+.btn-danger:hover{background:#dc2626}
+.btn-outline{background:transparent;border:1px solid #2a2a3f;color:#e8e8f0}
+.btn-outline:hover{border-color:#6366f1}
+.btn-sm{padding:6px 14px;font-size:0.82em}
+.github-login{text-align:center;padding:60px 0}
+.github-login .login-btn{display:inline-flex;align-items:center;gap:10px;background:#24292e;color:white;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:600;font-size:1.05em;border:none;cursor:pointer}
+.github-login .login-btn:hover{background:#2c3136}
+.github-login p{margin-top:12px;color:#8888a0;font-size:0.9em}
+.loading{text-align:center;padding:20px;color:#8888a0}
+.empty-state{text-align:center;padding:20px;color:#8888a0;font-size:0.9em}
+.server-list{list-style:none}
+.server-list li{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #2a2a3f}
+.server-list li:last-child{border-bottom:none}
+.server-list .server-name{font-weight:500}
+.server-list .server-actions{display:flex;gap:8px}
+.api-key-display{background:#1a1a2e;padding:12px 16px;border-radius:8px;font-family:monospace;font-size:0.9em;color:#8888a0;word-break:break-all;margin:8px 0}
+.api-key-actions{display:flex;gap:8px;margin-top:8px}
+.tag{display:inline-block;font-size:0.75em;padding:2px 8px;border-radius:4px;background:#2a2a3f;color:#8888a0;margin-left:8px}
+.tag-success{background:rgba(34,197,94,0.15);color:#22c55e}
+.tag-pending{background:rgba(245,158,11,0.15);color:#f59e0b}
+footer{text-align:center;padding:32px 0;border-top:1px solid #2a2a3f;margin-top:40px;color:#8888a0;font-size:0.85em}
+@media(max-width:640px){.user-info{flex-direction:column;text-align:center}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo"><a href="/">MCP App Directory</a></div>
+<nav>
+<a href="/">Browse</a>
+<a href="/submit">Submit</a>
+<a href="/about">About</a>
+</nav>
+</header>
+<main class="container">
+<div id="app">
+<div id="loading-screen" class="loading"><p>Loading dashboard...</p></div>
+</div>
+</main>
+<footer>
+<p>MCP App Directory — AI-graded quality scoring for every MCP server.</p>
+</footer>
+<script>
+async function checkAuth() {
+  const res = await fetch('/api/auth/me', { credentials: 'include' });
+  const data = await res.json();
+  const app = document.getElementById('app');
+
+  if (!data.authenticated) {
+    app.innerHTML = `
+      <h1>My Dashboard</h1>
+      <div class="github-login">
+        <a href="/api/auth/github" class="login-btn">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          Sign in with GitHub
+        </a>
+        <p>Sign in to save servers, manage submissions, and get your API key.</p>
+      </div>
+    `;
+    return;
+  }
+
+  const user = data.user;
+  let savedServersHtml = '<div class="loading">Loading saved servers...</div>';
+  let submissionsHtml = '<div class="loading">Loading submissions...</div>';
+  let apiKeyHtml = '<p class="loading">Loading...</p>';
+
+  // Fetch saved servers
+  try {
+    const savedRes = await fetch('/api/auth/servers/saved', { credentials: 'include' });
+    const savedData = await savedRes.json();
+    const ids = savedData.saved_server_ids || [];
+
+    // Fetch all servers to resolve names
+    const serversRes = await fetch('/api/servers?limit=500');
+    const serversData = await serversRes.json();
+    const allServers = serversData.servers || [];
+
+    if (ids.length === 0) {
+      savedServersHtml = '<div class="empty-state">No saved servers yet. Browse the directory and save servers you like!</div>';
+    } else {
+      let items = '';
+      for (const id of ids) {
+        const server = allServers[id];
+        if (server) {
+          const name = server.name || 'Unknown';
+          const score = server.score || 0;
+          items += `<li><span class="server-name">${name} <span class="tag">${score}/100</span></span>
+            <div class="server-actions">
+              <a href="/servers/${id}" class="btn btn-outline btn-sm">View</a>
+              <button class="btn btn-danger btn-sm" onclick="unsaveServer(${id})">Unsave</button>
+            </div>
+          </li>`;
+        }
+      }
+      savedServersHtml = items ? `<ul class="server-list">${items}</ul>` : '<div class="empty-state">No saved servers found.</div>';
+    }
+  } catch(e) {
+    savedServersHtml = '<div class="empty-state">Failed to load saved servers.</div>';
+  }
+
+  // Fetch submissions
+  try {
+    const subsRes = await fetch('/api/servers?limit=500');
+    // For now, submissions are tracked in the file. We'll show a placeholder.
+    submissionsHtml = '<div class="empty-state">Your submissions will appear here after you submit servers while signed in.</div>';
+  } catch(e) {
+    submissionsHtml = '<div class="empty-state">Failed to load submissions.</div>';
+  }
+
+  // API Key section
+  if (user.api_key) {
+    apiKeyHtml = `
+      <div class="api-key-display">${user.api_key}</div>
+      <div class="api-key-actions">
+        <button class="btn btn-outline btn-sm" onclick="copyApiKey()">Copy</button>
+        <button class="btn btn-danger btn-sm" onclick="generateApiKey()">Regenerate</button>
+      </div>
+    `;
+  } else {
+    apiKeyHtml = `
+      <p style="color:#8888a0;font-size:0.9em;margin-bottom:8px">Generate an API key to access the MCP App Directory API programmatically.</p>
+      <button class="btn btn-primary btn-sm" onclick="generateApiKey()">Generate API Key</button>
+    `;
+  }
+
+  app.innerHTML = `
+    <h1>My Dashboard</h1>
+    <div class="section">
+      <div class="user-info">
+        <img src="${user.avatar_url || ''}" alt="${user.name || 'User'}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2264%22 height=%2264%22><rect fill=%22%232a2a3f%22 width=%2264%22 height=%2264%22/><text fill=%22%238888a0%22 font-size=%2232%22 x=%2216%22 y=%2244%22>?</text></svg>'">
+        <div>
+          <div class="user-name">${user.name || 'GitHub User'}</div>
+          <div class="user-email">${user.email || 'No public email'}</div>
+          <div style="margin-top:8px;display:flex;gap:8px">
+            <button class="btn btn-outline btn-sm" onclick="logout()">Logout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Saved Servers</h2>
+    <div class="section">
+      ${savedServersHtml}
+    </div>
+
+    <h2>My Submissions</h2>
+    <div class="section">
+      ${submissionsHtml}
+    </div>
+
+    <h2>API Key</h2>
+    <div class="section">
+      ${apiKeyHtml}
+    </div>
+  `;
+}
+
+async function unsaveServer(serverId) {
+  const res = await fetch('/api/auth/servers/unsave', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    credentials: 'include',
+    body: JSON.stringify({server_id: serverId}),
+  });
+  const data = await res.json();
+  if (data.success) {
+    checkAuth(); // Refresh
+  } else {
+    alert(data.error || 'Failed to unsave server');
+  }
+}
+
+async function generateApiKey() {
+  if (!confirm('Generate a new API key? The old key will be invalidated.')) return;
+  const res = await fetch('/api/auth/api-key/generate', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    credentials: 'include',
+  });
+  const data = await res.json();
+  if (data.success) {
+    alert('New API key generated!');
+    checkAuth(); // Refresh
+  } else {
+    alert(data.error || 'Failed to generate API key');
+  }
+}
+
+function copyApiKey() {
+  const key = document.querySelector('.api-key-display');
+  if (key) {
+    navigator.clipboard.writeText(key.textContent.trim()).then(() => {
+      alert('API key copied to clipboard!');
+    }).catch(() => {
+      // Fallback
+      const range = document.createRange();
+      range.selectNodeContents(key);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    });
+  }
+}
+
+async function logout() {
+  const res = await fetch('/api/auth/logout', {
+    method: 'POST',
+    credentials: 'include',
+  });
+  const data = await res.json();
+  if (data.success) {
+    checkAuth();
+  }
+}
+
+checkAuth();
+</script>
+</body>
+</html>

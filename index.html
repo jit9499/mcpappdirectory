@@ -4,12 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MCP App Directory — AI-Graded MCP Servers & Claude Code Plugins</title>
-<meta name="description" content="Curated directory of AI-graded MCP (Model Context Protocol) servers. Every server scored 0-100 on 8 quality parameters. Only A & B grade servers shown.">
+<meta name="description" content="World's first verified MCP (Model Context Protocol) server directory with AI-graded quality scores. 891 servers scored 0-100 across 8 parameters. Find verified, working MCP servers for Claude, Cursor, and AI agents.">
 <meta property="og:title" content="MCP App Directory — AI-Graded Quality Scores">
 <meta property="og:description" content="Every MCP server scored 0-100 on quality. Filter by grade, category, search.">
 <meta property="og:url" content="https://mcpappdirectory.com">
+<meta property="og:image" content="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI2MzAiIHZpZXdCb3g9IjAgMCAxMjAwIDYzMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI2MzAiIGZpbGw9IiMwYTBhMGYiLz4KICA8dGV4dCB4PSI2MDAiIHk9IjI4MCIgZm9udC1mYW1pbHk9InN5c3RlbS11aSxzYW5zLXNlcmlmIiBmb250LXNpemU9Ijc2IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZThlOGYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7inIwgTUNQIEFwcCBEaXJlY3Rvcnk8L3RleHQ+CiAgPHJlY3QgeD0iNDUwIiB5PSIzMjAiIHdpZHRoPSIzMDAiIGhlaWdodD0iMTAwIiByeD0iNTAiIGZpbGw9IiM2MzY2ZjEiIG9wYWNpdHk9IjAuMTUiLz4KICA8dGV4dCB4PSI2MDAiIHk9IjM5MCIgZm9udC1mYW1pbHk9InN5c3RlbS11aSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjQ4IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjNjM2NmYxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5BSS1HcmFkZWQgU2NvcmVzPC90ZXh0PgogIDxyZWN0IHg9IjYwIiB5PSI0ODAiIHdpZHRoPSIxMDgwIiBoZWlnaHQ9IjIiIGZpbGw9IiMyYTJhM2YiLz4KICA8dGV4dCB4PSI2MDAiIHk9IjUzMCIgZm9udC1mYW1pbHk9InN5c3RlbS11aSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI4IiBmaWxsPSIjODg4OGEwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4xLDkxNyBNQ1AgU2VydmVycyDigKIgNjMuMiBBdmVyYWdlIFNjb3JlPC90ZXh0Pgo8L3N2Zz4=">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔌</text></svg>">
+<link rel="canonical" href="https://mcpappdirectory.com">
+<link rel="alternate" hreflang="en" href="https://mcpappdirectory.com">
+<link rel="alternate" hreflang="x-default" href="https://mcpappdirectory.com">
 <style>
 :root {
   --bg: #0a0a0f;
@@ -46,9 +50,20 @@ body {
 
 /* Header */
 header {
-  padding: 40px 0 24px;
+  padding: 32px 0 24px;
   text-align: center;
   border-bottom: 1px solid var(--border);
+}
+header .verified-banner {
+  display:inline-block;
+  background:linear-gradient(135deg,rgba(99,102,241,0.12),rgba(139,92,246,0.08));
+  border:1px solid rgba(99,102,241,0.2);
+  border-radius:20px;
+  padding:4px 16px;
+  font-size:0.75em;
+  color:var(--accent);
+  margin-bottom:10px;
+  font-weight:500;
 }
 header h1 {
   font-size: 2.8em;
@@ -113,12 +128,21 @@ header p { color: var(--muted); font-size: 1.15em; margin-top: 8px; max-width: 6
 /* Card */
 .card {
   background: var(--card); border: 1px solid var(--border);
-  border-radius: 12px; padding: 20px;
-  transition: all 0.2s; position: relative; cursor: pointer;
+  border-radius: 14px; padding: 20px;
+  cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; pointer-events: auto;
 }
 .card:hover {
-  border-color: var(--accent); transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(99,102,241,0.1);
+  border-color: var(--accent); transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(99,102,241,0.12);
+}
+.card-no-data {
+  opacity: 0.7;
+  border-color: rgba(136,136,160,0.15);
+}
+.card-no-data:hover {
+  border-color: rgba(136,136,160,0.3);
+  transform: translateY(-1px);
+  box-shadow: none;
 }
 .card-grade {
   position: absolute; top: 12px; right: 12px;
@@ -201,6 +225,7 @@ header p { color: var(--muted); font-size: 1.15em; margin-top: 8px; max-width: 6
 .btn-primary:hover { opacity: 0.9; }
 .btn-outline { border: 1px solid var(--border); color: var(--text); }
 .btn-outline:hover { border-color: var(--accent); }
+.btn-disabled { border: 1px solid var(--border); color: var(--grade-c); background: transparent; cursor: default; opacity: 0.7; }
 
 /* Newsletter */
 .submit-section {
@@ -222,7 +247,7 @@ header p { color: var(--muted); font-size: 1.15em; margin-top: 8px; max-width: 6
 }
 .newsletter-form button:hover { opacity: 0.9; }
 
-/* Loading */
+/* Loading - Skeleton */
 .loading { text-align: center; padding: 60px; color: var(--muted); }
 .loading-spinner {
   display: inline-block; width: 40px; height: 40px; border: 3px solid var(--border);
@@ -230,6 +255,53 @@ header p { color: var(--muted); font-size: 1.15em; margin-top: 8px; max-width: 6
   animation: spin 0.8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+/* Skeleton cards */
+.skeleton-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 14px; }
+.skeleton-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px;
+  position: relative; overflow: hidden;
+}
+.skeleton-card::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+  animation: shimmer 1.5s infinite;
+  background-size: 200px 100%;
+  background-repeat: no-repeat;
+}
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+.skel-badge { width: 36px; height: 36px; border-radius: 8px; background: var(--card2); position: absolute; top: 12px; right: 12px; }
+.skel-line { height: 14px; border-radius: 4px; background: var(--card2); margin-bottom: 8px; }
+.skel-line-sm { height: 10px; border-radius: 3px; background: var(--card2); margin-bottom: 6px; width: 60%; }
+.skel-line-xs { height: 8px; border-radius: 2px; background: var(--card2); width: 40%; }
+.skel-bar { height: 3px; border-radius: 2px; background: var(--card2); margin-top: 10px; width: 100%; }
+/* Pagination */
+.pagination {
+  display: flex; justify-content: center; align-items: center; gap: 12px;
+  padding: 24px 0; flex-wrap: wrap;
+}
+.pagination .page-btn {
+  padding: 8px 16px; border: 1px solid var(--border); border-radius: 6px;
+  background: transparent; color: var(--text); cursor: pointer;
+  font-size: 0.85em; transition: all 0.15s;
+}
+.pagination .page-btn:hover:not(:disabled) { border-color: var(--accent); background: rgba(99,102,241,0.1); }
+.pagination .page-btn:disabled { opacity: 0.4; cursor: default; }
+.pagination .page-info { color: var(--muted); font-size: 0.85em; }
+.pagination .page-total { color: var(--muted); font-size: 0.82em; }
+/* Auth button in nav */
+.auth-btn {
+  display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px;
+  border: 1px solid var(--border); border-radius: 6px; text-decoration: none;
+  font-size: 0.82em; transition: all 0.15s; cursor: pointer;
+}
+.auth-btn:hover { border-color: var(--accent); }
+.auth-avatar { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; }
+/* Search indicator */
+.search-indicator { font-size: 0.75em; color: var(--muted); padding: 0 4px; visibility: hidden; }
+.search-indicator.active { visibility: visible; }
 
 /* No results */
 .no-results { text-align: center; padding: 40px; color: var(--muted); font-size: 1.1em; }
@@ -237,6 +309,135 @@ footer {
   text-align: center; padding: 32px 0; border-top: 1px solid var(--border);
   color: var(--muted); font-size: 0.85em;
 }
+.lang-tag + span:before { content: ''; }
+.no-gh { font-size:0.72em; color:var(--grade-c); margin-left:4px; }
+.verified-badge { font-size: 0.8em; margin-left: 4px; cursor: help; vertical-align: middle; }
+.verified-tag { font-size:0.68em; color:var(--grade-a); margin-left:4px; font-weight: 500; }
+.card-click-hint { font-size:0.7em; color:var(--muted); margin-top:4px; opacity:0.5; text-align:center; }
+.card:hover .card-click-hint { opacity:0.8; }
+.card.compare-selected { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(99,102,241,0.3); }
+.compare-checkbox {
+  position: absolute; bottom: 8px; right: 10px;
+  display: flex; align-items: center; gap: 2px;
+}
+.compare-checkbox input[type="checkbox"] { display: none; }
+.compare-checkbox label {
+  cursor: pointer; font-size: 1em; padding: 2px 6px;
+  border-radius: 4px; color: var(--muted); user-select: none;
+  transition: all 0.15s; line-height: 1;
+}
+.compare-checkbox label:hover { color: var(--accent); background: rgba(99,102,241,0.1); }
+.compare-checkbox input:checked + label {
+  background: var(--accent) !important;
+  color: #fff !important;
+}
+.card-install {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 5;
+}
+.install-btn {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  font-size: 0.75em;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid rgba(99,102,241,0.3);
+  transition: all 0.2s;
+}
+.install-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+.config-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.config-tab {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.82em;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  transition: all 0.15s;
+}
+.config-tab:hover, .config-tab.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.config-block {
+  background: var(--card2);
+  border-radius: 8px;
+  padding: 16px;
+  overflow-x: auto;
+  font-family: 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 0.82em;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  color: var(--text);
+  position: relative;
+}
+.config-copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: rgba(99,102,241,0.2);
+  color: var(--accent);
+  border: none;
+  font-size: 0.78em;
+  cursor: pointer;
+}
+.config-copy-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+.security-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.72em;
+  font-weight: 600;
+  margin: 0 3px;
+}
+.security-badge.a { background: rgba(34,197,94,0.15); color: #22c55e; }
+.security-badge.b { background: rgba(234,179,8,0.15); color: #eab308; }
+.security-badge.c { background: rgba(249,115,22,0.15); color: #f97316; }
+.security-badge.f { background: rgba(239,68,68,0.15); color: #ef4444; }
+/* Floating compare button */
+.compare-float-btn {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: var(--accent); color: white; border: none;
+  padding: 12px 28px; border-radius: 30px; font-size: 1em; font-weight: 600;
+  cursor: pointer; box-shadow: 0 4px 20px rgba(99,102,241,0.4);
+  z-index: 999; transition: all 0.2s; display: none;
+  white-space: nowrap;
+}
+.compare-float-btn:hover { transform: translateX(-50%) translateY(-2px); box-shadow: 0 6px 24px rgba(99,102,241,0.5); }
+.compare-float-btn:active { transform: translateX(-50%) translateY(0); }
+.card-body { flex:1; min-width:0; }
+.card-body h3 { font-size:1em; margin:0 0 4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.card-meta-line { display:flex; flex-wrap:wrap; gap:4px 8px; font-size:0.78em; color:var(--muted); margin-bottom:4px; align-items:center; }
+.card-meta-line .card-score { font-weight:700; font-size:1.1em; }
+.card-meta-line .lang-tag, .lic-tag, .updated-tag { font-size:0.9em; padding:1px 5px; border-radius:3px; background:var(--card2); }
+.cat-tag { font-size:0.75em; padding:1px 6px; border-radius:3px; background:rgba(99,102,241,0.12); color:var(--accent); white-space:nowrap; }
+.topic-tag { font-size:0.7em; padding:1px 5px; border-radius:3px; background:var(--border); color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100px; }
+.card-meta { display:flex; flex-wrap:wrap; gap:3px; align-items:center; }
+.card-meta .no-gh { font-size:0.7em; }
+.card p { font-size:0.82em; color:var(--muted); margin:4px 0; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.nav { display:flex; gap:16px; justify-content:center; margin-top:12px; flex-wrap:wrap; }
+.nav a { color:#8888a0; text-decoration:none; font-size:0.85em; padding:4px 10px; border-radius:6px; border:1px solid transparent; }
+.nav a:hover { color:#e8e8f0; border-color:#2a2a3f; }
 @media (max-width: 640px) {
   header h1 { font-size: 1.8em; }
   .grid { grid-template-columns: 1fr; }
@@ -246,31 +447,55 @@ footer {
   .modal { padding: 20px; }
   .controls { flex-direction: column; }
   .search-bar { min-width: 100%; }
+  .nav { gap:8px; }
+  .nav a { font-size:0.8em; padding:3px 8px; }
 }
 </style>
 </head>
 <body>
 <header>
   <div class="container">
+    <div class="verified-banner">🌍 World's First Verified MCP Server Directory</div>
     <h1>🔌 MCP App Directory</h1>
-    <p>AI-graded MCP server quality scores. Every server analyzed on <strong>8 quality parameters</strong> — recency, documentation, tests, auth, security, star velocity, install instructions, and more.</p>
+    <p>AI-graded MCP server quality scores — <strong>verified</strong> from real GitHub data. No AI hallucination, no broken links, no guesswork.</p>
     <div class="stats" id="stats">
       <div class="stat"><div class="stat-num" id="stat-total">—</div><div class="stat-label">MCP Servers</div></div>
       <div class="stat"><div class="stat-num" id="stat-avg">—</div><div class="stat-label">Avg Score</div></div>
       <div class="stat"><div class="stat-num" id="stat-subscribers">—</div><div class="stat-label">Subscribers</div></div>
     </div>
   </div>
+  <div class="nav">
+    <a href="/scoring">📊 Scoring</a>
+    <a href="/how-it-works">ℹ️ How It Works</a>
+    <a href="/about">About</a>
+    <a href="/leaderboard">🏆 Leaderboard</a>
+    <a href="/submit">+ Submit Server</a>
+    <a href="/dashboard" class="auth-btn" id="auth-btn">🔑 Sign in</a>
+  </div>
 </header>
 
 <main class="container">
   <div class="controls">
-    <input type="text" class="search-bar" id="search" placeholder="Search MCP servers..." oninput="filterServers()">
-    <select class="sort-select" id="sort" onchange="filterServers()">
+    <input type="text" class="search-bar" id="search" placeholder="Search MCP servers..." oninput="onSearchInput()">
+    <span class="search-indicator" id="search-indicator">Searching...</span>
+    <select class="sort-select" id="sort" onchange="onFilterChange()">
       <option value="score">Sort by Score</option>
       <option value="stars">Sort by Stars</option>
+      <option value="trending">🔥 Trending</option>
+      <option value="downloads">📥 Downloads</option>
       <option value="name">Sort by Name</option>
       <option value="newest">Sort by Newest</option>
     </select>
+  </div>
+
+  <!-- Grade filter pills -->
+  <div class="controls" style="padding-top:0" id="grade-filters">
+    <button class="filter-btn active" onclick="filterGrade('all',this)" data-grade="all">All</button>
+    <button class="filter-btn" onclick="filterGrade('A',this)" data-grade="A" style="color:#22c55e;border-color:rgba(34,197,94,0.3)">A</button>
+    <button class="filter-btn" onclick="filterGrade('B',this)" data-grade="B" style="color:#3b82f6;border-color:rgba(59,130,246,0.3)">B</button>
+    <button class="filter-btn" onclick="filterGrade('C',this)" data-grade="C" style="color:#f59e0b;border-color:rgba(245,158,11,0.3)">C</button>
+    <button class="filter-btn" onclick="filterGrade('D',this)" data-grade="D" style="color:#f97316;border-color:rgba(249,115,22,0.3)">D</button>
+    <button class="filter-btn" onclick="filterGrade('F',this)" data-grade="F" style="color:#ef4444;border-color:rgba(239,68,68,0.3)">F</button>
   </div>
 
   <div id="categories" class="controls" style="padding-top:0">
@@ -285,15 +510,47 @@ footer {
     <button class="filter-btn" onclick="filterCategory('security',this)">🔒 Security</button>
   </div>
 
-  <div id="loading" class="loading">
-    <div class="loading-spinner"></div>
-    <p style="margin-top:12px">Loading 1917 MCP servers & scoring...</p>
+  <!-- Inline subscribe bar (above the fold) -->
+  <div class="inline-subscribe" style="background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(139,92,246,0.04));border:1px solid rgba(99,102,241,0.2);border-radius:10px;padding:12px 16px;margin:12px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <span style="font-size:0.85em;color:var(--muted);flex:1;min-width:160px">📬 Get weekly MCP server picks + new A-grade alerts</span>
+    <form class="newsletter-form" id="newsletter-form-inline" onsubmit="return subscribeInline(event)" style="display:flex;gap:6px;flex:2;min-width:200px;margin:0">
+      <input type="email" id="sub-email-inline" placeholder="your@email.com" required style="flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:6px;background:var(--card);color:var(--text);font-size:0.82em;min-width:140px">
+      <button type="submit" id="sub-btn-inline" style="padding:8px 16px;background:var(--accent);color:white;border:none;border-radius:6px;font-weight:600;font-size:0.82em;cursor:pointer;white-space:nowrap">Subscribe</button>
+    </form>
+    <span id="sub-msg-inline" style="font-size:0.78em;color:var(--green);display:none;width:100%"></span>
   </div>
+
+  <!-- Skeleton loading -->
+  <div id="loading">
+    <div class="skeleton-grid" id="skeleton-grid">
+      ${Array(6).fill('').map(() => `
+        <div class="skeleton-card">
+          <div class="skel-badge"></div>
+          <div class="skel-line" style="width:70%"></div>
+          <div class="skel-line-sm"></div>
+          <div class="skel-line" style="width:90%"></div>
+          <div class="skel-line" style="width:45%"></div>
+          <div class="skel-bar"></div>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+
+  <p class="page-total" id="result-info" style="text-align:center;color:var(--muted);font-size:0.82em;margin:8px 0"></p>
 
   <div id="grade-sections"></div>
   <div id="no-results" class="no-results" style="display:none">No servers match your search. Try different keywords or filters.</div>
 
-  <div class="submit-section">
+  <!-- Pagination -->
+  <div class="pagination" id="pagination" style="display:none">
+    <button class="page-btn" id="page-prev" onclick="goPage(currentPage - 1)" disabled>← Previous</button>
+    <span class="page-info" id="page-info">Page 1 of 1</span>
+    <button class="page-btn" id="page-next" onclick="goPage(currentPage + 1)">Next →</button>
+  </div>
+
+  <button class="compare-float-btn" id="compare-btn" onclick="goCompare()">Compare (<span id="compare-count">0</span>)</button>
+
+<div class="submit-section">
     <h2>📬 Get the Best MCP Servers Weekly</h2>
     <p>Subscribe to our newsletter — curated picks, new listings, and AI quality scores delivered to your inbox.</p>
     <form class="newsletter-form" id="newsletter-form" onsubmit="return subscribe(event)">
@@ -318,34 +575,175 @@ footer {
 </footer>
 
 <script>
-let allServers = [];
+const ITEMS_PER_PAGE = 24;
+let currentPage = 1;
+let totalServers = 0;
+let searchTimeout = null;
+let currentSearch = '';
+let activeGrade = 'all';
 let activeCategory = 'all';
-let currentGrade = 'all';
+let currentSort = 'score';
+let userData = null;
+
+// Generate same slug as the Python server (name + url hash)
+function makeSlug(name, url) {
+  const s = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').substring(0, 50);
+  let hash = 0;
+  for (let i = 0; i < url.length; i++) {
+    const chr = url.charCodeAt(i);
+    hash = ((hash << 5) - hash) + chr;
+    hash |= 0;
+  }
+  return (s || 'server') + '-' + Math.abs(hash).toString(16).substring(0, 6);
+}
+
+// Debounced search
+function onSearchInput() {
+  const indicator = document.getElementById('search-indicator');
+  if (indicator) indicator.classList.add('active');
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(() => {
+    currentPage = 1;
+    currentSearch = document.getElementById('search').value;
+    if (indicator) indicator.classList.remove('active');
+    loadPage();
+  }, 300);
+}
+
+// Filter change (sort, grade, category)
+function onFilterChange() {
+  currentPage = 1;
+  currentSort = document.getElementById('sort').value;
+  loadPage();
+}
+
+function filterGrade(grade, btn) {
+  activeGrade = grade;
+  currentPage = 1;
+  document.querySelectorAll('#grade-filters .filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  loadPage();
+}
+
+function filterCategory(cat, btn) {
+  activeCategory = cat;
+  currentPage = 1;
+  document.querySelectorAll('#categories .filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  loadPage();
+}
+
+async function loadPage() {
+  const container = document.getElementById('grade-sections');
+  const loading = document.getElementById('loading');
+  const noResults = document.getElementById('no-results');
+  const pagination = document.getElementById('pagination');
+  const resultInfo = document.getElementById('result-info');
+  
+  // Show skeleton
+  loading.style.display = 'block';
+  container.innerHTML = '';
+  noResults.style.display = 'none';
+  pagination.style.display = 'none';
+  
+  // Build API URL
+  let url = `/api/servers?limit=${ITEMS_PER_PAGE}&offset=${(currentPage - 1) * ITEMS_PER_PAGE}&sort=${currentSort}`;
+  if (activeGrade !== 'all') url += `&grade=${activeGrade}`;
+  if (activeCategory !== 'all') url += `&category=${activeCategory}`;
+  if (currentSearch) url += `&search=${encodeURIComponent(currentSearch)}`;
+  
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    
+    loading.style.display = 'none';
+    
+    if (!data.success || !data.servers || data.servers.length === 0) {
+      noResults.style.display = 'block';
+      return;
+    }
+    
+    totalServers = data.total;
+    const totalPages = Math.ceil(totalServers / ITEMS_PER_PAGE);
+    
+    // Update result info
+    const start = (currentPage - 1) * ITEMS_PER_PAGE + 1;
+    const end = Math.min(start + data.servers.length - 1, totalServers);
+    resultInfo.textContent = 'Showing ' + start + ' &ndash; ' + end + ' of ' + totalServers.toLocaleString() + ' servers';
+    
+    // Render cards as a flat grid
+    let html = '<div class="grid">';
+    data.servers.forEach((s, i) => {
+      const idx = data.offset + i;
+      html += renderCard(s, null, idx);
+    });
+    html += '</div>';
+    container.innerHTML = html;
+    
+    // Update pagination
+    document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages}`;
+    document.getElementById('page-prev').disabled = currentPage <= 1;
+    document.getElementById('page-next').disabled = currentPage >= totalPages;
+    pagination.style.display = totalPages > 1 ? 'flex' : 'none';
+    
+    // Re-sync compare checkboxes
+    setTimeout(updateCompareUI, 50);
+    
+  } catch(e) {
+    loading.innerHTML = '<p style="color:var(--red)">Failed to load servers. Please refresh.</p>';
+  }
+}
+
+function goPage(page) {
+  if (page < 1) return;
+  currentPage = page;
+  loadPage();
+  // Scroll to top of results
+  document.querySelector('main').scrollIntoView({ behavior: 'smooth' });
+}
 
 async function loadData() {
+  // Load stats
   try {
-    const [serversRes, statsRes] = await Promise.all([
-      fetch('/api/servers?limit=2000'),
-      fetch('/api/stats')
-    ]);
-    const serversData = await serversRes.json();
+    const statsRes = await fetch('/api/stats');
     const statsData = await statsRes.json();
-    
-    if (serversData.success) allServers = serversData.servers;
     if (statsData.success) renderStats(statsData.stats);
-    
-    document.getElementById('loading').style.display = 'none';
-    renderSections();
-  } catch(e) {
-    document.getElementById('loading').innerHTML = '<p style="color:var(--red)">Failed to load servers. Please refresh.</p>';
-  }
+  } catch(e) {}
+  
+  // Check auth
+  try {
+    const authRes = await fetch('/api/auth/me', { credentials: 'include' });
+    const authData = await authRes.json();
+    if (authData.authenticated) {
+      userData = authData.user;
+      const btn = document.getElementById('auth-btn');
+      if (btn && userData.avatar_url) {
+        btn.innerHTML = `<img src="${userData.avatar_url}" class="auth-avatar" alt=""> Dashboard`;
+        btn.href = '/dashboard';
+      }
+    }
+  } catch(e) {}
+  
+  // Load first page of servers
+  loadPage();
 }
 
 function renderStats(stats) {
   document.getElementById('stat-total').textContent = stats.total_servers || 0;
   document.getElementById('stat-avg').textContent = (stats.average_score || 0) + '/100';
-  document.getElementById('stat-subscribers').textContent = (stats.total_subscribers || 0);
+  const subCount = stats.total_subscribers || 0;
+  document.getElementById('stat-subscribers').textContent = subCount >= 10 ? subCount : '—';
+  document.getElementById('stat-subscribers').parentElement.style.display = subCount >= 10 ? '' : 'none';
 }
+
+// Grade config for all grades
+const GRADE_CONFIG = {
+  A: { color: 'a', label: 'A Grade — Top Quality', headerBg: 'var(--green-bg)', headerBorder: 'rgba(34,197,94,0.2)', badgeBg: 'var(--green-bg)', badgeColor: 'var(--grade-a)', barColor: 'var(--grade-a)' },
+  B: { color: 'b', label: 'B Grade — Good Quality', headerBg: 'rgba(59,130,246,0.1)', headerBorder: 'rgba(59,130,246,0.2)', badgeBg: 'rgba(59,130,246,0.12)', badgeColor: 'var(--grade-b)', barColor: 'var(--grade-b)' },
+  C: { color: 'c', label: 'C Grade — Average', headerBg: 'rgba(245,158,11,0.1)', headerBorder: 'rgba(245,158,11,0.2)', badgeBg: 'rgba(245,158,11,0.12)', badgeColor: 'var(--grade-c)', barColor: 'var(--grade-c)' },
+  D: { color: 'd', label: 'D Grade — Below Average', headerBg: 'rgba(249,115,22,0.1)', headerBorder: 'rgba(249,115,22,0.2)', badgeBg: 'rgba(249,115,22,0.12)', badgeColor: 'var(--grade-d)', barColor: 'var(--grade-d)' },
+  F: { color: 'f', label: 'F Grade — Low Quality', headerBg: 'rgba(239,68,68,0.1)', headerBorder: 'rgba(239,68,68,0.2)', badgeBg: 'rgba(239,68,68,0.12)', badgeColor: 'var(--grade-f)', barColor: 'var(--grade-f)' },
+};
 
 function renderSections(list) {
   const servers = list || allServers;
@@ -367,7 +765,9 @@ function renderSections(list) {
     filtered = filtered.filter(s =>
       (s.name || '').toLowerCase().includes(q) ||
       (s.description || '').toLowerCase().includes(q) ||
-      (s.category || '').toLowerCase().includes(q)
+      (s.category || '').toLowerCase().includes(q) ||
+      (s.language || '').toLowerCase().includes(q) ||
+      (s.topics || []).some(t => t.toLowerCase().includes(q))
     );
   }
   
@@ -376,8 +776,12 @@ function renderSections(list) {
   filtered.sort((a, b) => {
     if (sortBy === 'stars') return (b.stars || 0) - (a.stars || 0);
     if (sortBy === 'name') return (a.name || '').localeCompare(b.name || '');
-    if (sortBy === 'newest') return (b.created || '').localeCompare(a.created || '');
-    return (b.score || 0) - (a.score || 0); // default: by score
+    if (sortBy === 'newest') {
+      const aDate = a.last_updated || a.created || '';
+      const bDate = b.last_updated || b.created || '';
+      return bDate.localeCompare(aDate);
+    }
+    return (b.score || 0) - (a.score || 0);
   });
   
   if (filtered.length === 0) {
@@ -387,63 +791,106 @@ function renderSections(list) {
   }
   noResults.style.display = 'none';
   
-  const gradeA = filtered.filter(s => s.grade === 'A');
-  const gradeB = filtered.filter(s => s.grade === 'B');
-  
+  // Group by grade
+  const grades = ['A','B','C','D','F'];
   let html = '';
-  
-  if (gradeA.length > 0) {
-    html += renderGradeSection('A', gradeA);
-  }
-  if (gradeB.length > 0) {
-    html += renderGradeSection('B', gradeB);
+  for (const g of grades) {
+    const group = filtered.filter(s => s.grade === g);
+    if (group.length > 0) {
+      html += renderGradeSection(g, group);
+    }
   }
   
   container.innerHTML = html;
 }
 
 function renderGradeSection(grade, servers) {
-  const color = grade === 'A' ? 'a' : 'b';
-  const label = grade === 'A' ? 'A Grade — Top Quality' : 'B Grade — Good Quality';
-  
+  const cfg = GRADE_CONFIG[grade] || GRADE_CONFIG.F;
   return `<div class="grade-section">
-    <div class="grade-header grade-header-${color}">
-      <div class="grade-badge grade-badge-${color}">${grade}</div>
-      <div class="grade-title">${label}</div>
+    <div class="grade-header" style="background:${cfg.headerBg};border-color:${cfg.headerBorder}">
+      <div class="grade-badge" style="background:${cfg.badgeBg};color:${cfg.badgeColor}">${grade}</div>
+      <div class="grade-title" style="color:${cfg.badgeColor}">${cfg.label}</div>
       <div class="grade-count">${servers.length} server${servers.length !== 1 ? 's' : ''}</div>
     </div>
     <div class="grid">
-      ${servers.map(s => renderCard(s)).join('')}
+      ${servers.map(s => renderCard(s, cfg)).join('')}
     </div>
   </div>`;
 }
 
-function renderCard(s) {
+function renderCard(s, cfg, sIndex) {
   const score = s.score || 0;
   const grade = s.grade || 'F';
   const stars = s.stars || 0;
+  const forks = s.forks || 0;
   const lang = s.language || '';
   const starsStr = stars >= 1000 ? (stars/1000).toFixed(1) + 'K' : stars;
-  const barColor = grade === 'A' ? 'var(--grade-a)' : 'var(--grade-b)';
-  const desc = (s.description || '').substring(0, 120);
+  const forksStr = forks >= 1000 ? (forks/1000).toFixed(1) + 'K' : forks;
+  const barColor = cfg ? cfg.barColor : 'var(--grade-a)';
+  const desc = (s.description || '').substring(0, 100);
+  const verified = s.verified === true && s.has_github_stats === true;
   
-  return `<div class="card" onclick="openServer(${allServers.indexOf(s)})">
+  // Last updated relative time
+  let lastUpdated = '';
+  if (s.last_updated) {
+    const days = Math.floor((Date.now() - new Date(s.last_updated).getTime()) / 86400000);
+    lastUpdated = days === 0 ? 'today' : days === 1 ? '1d ago' : days < 30 ? days + 'd ago' : Math.floor(days/30) + 'mo ago';
+  }
+  
+  // License short form
+  let lic = s.license || '';
+  if (lic === 'NOASSERTION' || lic === 'NONE') lic = '';
+  if (lic === 'MIT License' || lic === 'MIT') lic = 'MIT';
+  if (lic === 'Apache License 2.0' || lic === 'Apache-2.0') lic = 'Apache-2.0';
+  
+  const topics = (s.topics || []).slice(0, 4);
+  const noData = s.has_github_stats === false;
+  
+  return `<div class="card ${noData ? 'card-no-data' : ''}" onclick="openServer(${sIndex})">
     <div class="card-grade grade-${grade}">${grade}</div>
-    <h3>${escapeHtml(s.name || 'Unknown')}</h3>
-    ${s.author ? `<div class="author">${escapeHtml(s.author)}</div>` : ''}
-    <p>${escapeHtml(desc)}${desc.length >= 120 ? '...' : ''}</p>
-    <div class="card-meta">
-      <span class="card-score">${score}/100</span>
-      ${stars > 0 ? `<span>⭐ ${starsStr}</span>` : ''}
-      ${lang ? `<span class="lang-tag">${escapeHtml(lang)}</span>` : ''}
-      <span>${escapeHtml(s.category || 'Uncategorized')}</span>
+    <div class="card-body">
+      <h3>${escapeHtml(s.name || 'Unknown')}${verified ? '<span class="verified-badge" title="GitHub repo verified">🛡️</span>' : ''}</h3>
+      <div class="card-meta-line">
+        <span class="card-score" style="color:${barColor}">${score}/100</span>
+        ${verified ? `<span>⭐ ${starsStr}</span>` : ''}
+        ${verified && forks > 0 ? `<span>🔀 ${forksStr}</span>` : ''}
+        ${verified && lang ? `<span class="lang-tag">${escapeHtml(lang)}</span>` : ''}
+        ${verified && lic ? `<span class="lic-tag">${escapeHtml(lic)}</span>` : ''}
+        ${verified && lastUpdated ? `<span class="updated-tag">🕐 ${lastUpdated}</span>` : ''}
+      </div>
+      <p>${escapeHtml(desc)}${desc.length >= 100 ? '…' : ''}</p>
+      <div class="card-meta">
+        <span class="cat-tag">${escapeHtml(s.category || 'Uncategorized')}</span>
+        ${topics.map(t => `<span class="topic-tag">${escapeHtml(t)}</span>`).join('')}
+        ${noData ? '<span class="no-gh">⏳ Pending verification</span>' : verified ? '<span class="verified-tag">✅ Repo verified</span>' : ''}
+      </div>
+      <div class="score-bar"><div class="score-bar-fill" style="width:${score}%;background:${barColor}"></div></div>
+      <div class="card-click-hint">👆 Click for score breakdown + details</div>
+      <div class="compare-checkbox" onclick="event.stopPropagation()">
+        <input type="checkbox" class="compare-cb" data-index="${sIndex}" onchange="toggleCompare(this)" id="cb-${sIndex}">
+        <label for="cb-${sIndex}" title="Compare" onclick="event.stopPropagation()">⇄</label>
+      </div>
+      <div class="card-install" onclick="event.stopPropagation();copyInstall('${escapeHtml(s.name || '')}', '${(s.install || s.url || '')}')" title="Copy install command">
+        <span class="install-btn">⚡ Install</span>
+      </div>
     </div>
-    <div class="score-bar"><div class="score-bar-fill" style="width:${score}%;background:${barColor}"></div></div>
   </div>`;
 }
 
-function openServer(index) {
-  const s = allServers[index];
+async function openServer(index) {
+  // Fetch server by index from the paginated/filtered API
+  // We need the CURRENT sort, category, grade, and search to get the right server
+  let s = null;
+  try {
+    // Build the same URL as the current page state
+    let url = `/api/servers?limit=1&offset=${index}&sort=${currentSort}`;
+    if (activeGrade !== 'all') url += `&grade=${activeGrade}`;
+    if (activeCategory !== 'all') url += `&category=${activeCategory}`;
+    if (currentSearch) url += `&search=${encodeURIComponent(currentSearch)}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.success && data.servers && data.servers.length > 0) s = data.servers[0];
+  } catch(e) {}
   if (!s) return;
   
   const modal = document.getElementById('modal');
@@ -472,28 +919,36 @@ function openServer(index) {
     { label: 'Install Docs', key: 'install_instructions', max: 15 },
   ];
   
-  let scoreHtml = scoreItems.map(item => {
-    const val = details[item.key] || 0;
-    const pct = (val / item.max) * 100;
-    const barColor = pct >= 80 ? 'var(--grade-a)' : pct >= 50 ? 'var(--grade-b)' : 'var(--grade-c)';
-    return `<div class="score-item">
-      <span class="score-item-label">${item.label}</span>
-      <span class="score-item-value" style="color:${barColor}">${val}/${item.max}</span>
-      <div class="score-item-bar"><div class="score-item-bar-fill" style="width:${pct}%;background:${barColor}"></div></div>
-    </div>`;
-  }).join('');
+  let scoreHtml = '';
+  const hasDetails = Object.keys(details).length > 0 && Object.values(details).some(v => v > 0);
+  
+  if (hasDetails) {
+    scoreHtml = scoreItems.map(item => {
+      const val = details[item.key] || 0;
+      const pct = Math.min((val / item.max) * 100, 100);
+      const barColor = pct >= 80 ? 'var(--grade-a)' : pct >= 50 ? 'var(--grade-b)' : 'var(--grade-c)';
+      return `<div class="score-item">
+        <span class="score-item-label">${item.label}</span>
+        <span class="score-item-value" style="color:${barColor}">${val}/${item.max}</span>
+        <div class="score-item-bar"><div class="score-item-bar-fill" style="width:${pct}%;background:${barColor}"></div></div>
+      </div>`;
+    }).join('');
+  } else {
+    scoreHtml = `<div style="text-align:center;padding:16px;color:var(--muted);font-size:0.9em">Score breakdown not available for this server</div>`;
+  }
   
   const githubUrl = s.url || '#';
-  const slug = (s.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const githubValid = s.verified === true && s.has_github_stats === true;
+  const slug = makeSlug(s.name || '', s.url || '');
   
   content.innerHTML = `
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
       <div class="card-grade grade-${grade}" style="position:static;width:48px;height:48px;font-size:1.4em">${grade}</div>
       <div>
-        <h2 style="margin:0">${escapeHtml(s.name || 'Unknown')}</h2>
+        <h2 style="margin:0">${escapeHtml(s.name || 'Unknown')}${githubValid ? '<span class="verified-badge" style="font-size:1em" title="GitHub repo verified">🛡️</span>' : ''}</h2>
         <span style="font-size:1.1em;color:var(--accent);font-weight:600">${score}/100</span>
-        ${stars > 0 ? `<span style="color:var(--muted);margin-left:12px">⭐ ${starsStr} stars</span>` : ''}
-        ${forks > 0 ? `<span style="color:var(--muted);margin-left:8px">⑂ ${forksStr} forks</span>` : ''}
+        ${githubValid && stars > 0 ? `<span style="color:var(--muted);margin-left:12px">⭐ ${starsStr} stars</span>` : ''}
+        ${githubValid && forks > 0 ? `<span style="color:var(--muted);margin-left:8px">⑂ ${forksStr} forks</span>` : ''}
       </div>
     </div>
     ${s.author ? `<div class="author">${escapeHtml(s.author)}</div>` : ''}
@@ -502,22 +957,34 @@ function openServer(index) {
     <div class="modal-section">
       <h3>📊 Score Breakdown</h3>
       <div class="score-breakdown">${scoreHtml}</div>
-      <div style="margin-top:8px;display:flex;gap:16px;font-size:0.85em;color:var(--muted)">
-        <span>Language: ${escapeHtml(lang)}</span>
-        <span>Last push: ${lastPush}</span>
-        ${issues > 0 ? `<span>Open issues: ${issues}</span>` : ''}
+      <div style="margin-top:8px;display:flex;gap:16px;font-size:0.85em;color:var(--muted);flex-wrap:wrap">
+        ${lang !== 'Unknown' ? `<span>Language: ${escapeHtml(lang)}</span>` : ''}
+        ${githubValid ? `<span>Last push: ${lastPush}</span>` : ''}
+        ${githubValid && issues > 0 ? `<span>Open issues: ${issues}</span>` : ''}
+        ${!githubValid ? '<span style="color:var(--grade-c)">⏳ This server is pending GitHub verification. Score is estimated.</span>' : ''}
       </div>
     </div>
     
+    ${githubValid ? `
     <div class="modal-section">
       <h3>⚡ Install</h3>
       <pre style="background:var(--card2);padding:12px;border-radius:8px;overflow-x:auto;font-size:0.85em;color:var(--muted)">${getInstallCommand(s)}</pre>
+      <button class="install-btn" onclick="event.stopPropagation();copyInstall('${escapeHtml(s.name || '')}', '${(s.install || s.url || '')}')" style="margin-top:8px;font-size:0.85em">📋 Copy Install Command</button>
+      <button class="install-btn" onclick="event.stopPropagation();showClientConfig(${index})" style="margin-top:8px;margin-left:4px;font-size:0.85em">⚙️ Client Config</button>
     </div>
+    ` : ''}
     
     <div class="modal-links">
+      ${githubValid ? `
       <a href="${githubUrl}" target="_blank" class="modal-link btn-primary">View on GitHub →</a>
       <a href="${githubUrl}#readme" target="_blank" class="modal-link btn-outline">📖 README</a>
       <a href="${githubUrl}/issues" target="_blank" class="modal-link btn-outline">🐛 Issues</a>
+      ` : `
+      <div style="text-align:center;padding:8px 0;color:var(--muted);font-size:0.85em">
+        🔍 GitHub data not yet available for this server. Scores shown are estimated.
+      </div>
+      `}
+      <a href="/servers/${slug}" target="_blank" class="modal-link btn-outline">🔗 Open detail page</a>
     </div>
     
     <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);text-align:center">
@@ -548,17 +1015,6 @@ function escapeHtml(str) {
   const div = document.createElement('div');
   div.textContent = str;
   return div.innerHTML;
-}
-
-function filterServers() {
-  renderSections();
-}
-
-function filterCategory(cat, btn) {
-  activeCategory = cat;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  renderSections();
 }
 
 // Subscribe
@@ -598,6 +1054,46 @@ function subscribe(event) {
   return false;
 }
 
+function subscribeInline(event) {
+  event.preventDefault();
+  const email = document.getElementById('sub-email-inline').value;
+  const btn = document.getElementById('sub-btn-inline');
+  const msg = document.getElementById('sub-msg-inline');
+  btn.disabled = true;
+  btn.textContent = '...';
+  fetch('/api/subscribe', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({email, source: 'website-inline'})
+  })
+  .then(r => r.json())
+  .then(d => {
+    if (d.success) {
+      msg.textContent = '✅ Check your inbox! Confirmation sent.';
+      msg.style.color = '#22c55e';
+      document.getElementById('sub-email-inline').value = '';
+    } else if (d.error === 'Already subscribed') {
+      msg.textContent = '✅ Already subscribed!';
+      msg.style.color = '#22c55e';
+    } else {
+      msg.textContent = '❌ ' + (d.error || 'Failed');
+      msg.style.color = '#ef4444';
+    }
+    msg.style.display = 'block';
+    btn.textContent = 'Subscribe';
+    btn.disabled = false;
+    setTimeout(() => { msg.style.display = 'none'; }, 5000);
+  })
+  .catch(e => {
+    msg.textContent = '❌ Failed. Try again.';
+    msg.style.display = 'block';
+    msg.style.color = '#ef4444';
+    btn.textContent = 'Subscribe';
+    btn.disabled = false;
+  });
+  return false;
+}
+
 // Close modal on overlay click
 document.getElementById('modal').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
@@ -608,7 +1104,151 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeModal();
 });
 
+// Compare selection
+let compareSelections = new Set();
+const COMPARE_KEY = 'mcp_compare_ids';
+
+function loadCompareState() {
+  try {
+    const stored = localStorage.getItem(COMPARE_KEY);
+    if (stored) {
+      compareSelections = new Set(JSON.parse(stored));
+      updateCompareUI();
+    }
+  } catch(e) {}
+}
+
+// ── Copy install command ─────────────────────────────────────────────
+function copyInstall(name, installOrUrl) {
+  let cmd = '';
+  if (installOrUrl && installOrUrl.startsWith('http')) {
+    const safeName = name.toLowerCase().replace(/\\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    cmd = `npx -y @${safeName}/mcp-server`;
+  } else if (installOrUrl) {
+    cmd = installOrUrl;
+  } else {
+    cmd = `npx -y ${name.toLowerCase().replace(/\\s+/g, '-')}/mcp-server`;
+  }
+  navigator.clipboard.writeText(cmd).then(() => {
+    const btn = event && event.target ? event.target.closest('.install-btn') : null;
+    if (btn) { btn.textContent = '✅ Copied!'; setTimeout(() => { btn.textContent = '⚡ Install'; }, 2000); }
+  }).catch(() => {
+    prompt('Copy this command:', cmd);
+  });
+}
+
+// ── Show client config in modal ──────────────────────────────────────
+async function showClientConfig(index) {
+  try {
+    const res = await fetch(`/api/client-config?index=${index}`);
+    const data = await res.json();
+    if (!data.success) return;
+    const configs = data.configs;
+    const modal = document.getElementById('modal');
+    let html = '<h3 style="margin-bottom:12px">📋 Ready-to-Paste Config for ' + escapeHtml(data.server) + '</h3>';
+    html += '<div class="config-tabs" id="config-tabs">';
+    const names = Object.keys(configs);
+    names.forEach((key, i) => {
+      html += '<button class="config-tab' + (i === 0 ? ' active' : '') + '" onclick="switchConfigTab(this, \'' + key + '\')">' + escapeHtml(configs[key].label) + '</button>';
+    });
+    html += '</div>';
+    names.forEach((key, i) => {
+      const c = configs[key];
+      html += '<div class="config-block" id="config-panel-' + key + '"' + (i === 0 ? '' : ' style="display:none"') + '>';
+      html += '<button class="config-copy-btn" onclick="copyConfigBlock(\'' + key + '\')">📋 Copy</button>';
+      html += '<pre style="margin:0;white-space:pre-wrap">' + escapeHtml(c.config) + '</pre>';
+      html += '</div>';
+    });
+    modal.querySelector('.modal-body').innerHTML = html;
+    modal.classList.add('open');
+  } catch(e) {}
+}
+
+function switchConfigTab(btn, key) {
+  document.querySelectorAll('.config-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('[id^="config-panel-"]').forEach(p => p.style.display = 'none');
+  const panel = document.getElementById('config-panel-' + key);
+  if (panel) panel.style.display = 'block';
+}
+
+function copyConfigBlock(key) {
+  const panel = document.getElementById('config-panel-' + key);
+  if (!panel) return;
+  const text = panel.querySelector('pre').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = panel.querySelector('.config-copy-btn');
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => { btn.textContent = '📋 Copy'; }, 2000);
+  }).catch(() => {});
+}
+
+function toggleCompare(cb) {
+  const idx = parseInt(cb.dataset.index);
+  const card = cb.closest('.card');
+  if (cb.checked) {
+    compareSelections.add(idx);
+    if (card) card.classList.add('compare-selected');
+  } else {
+    compareSelections.delete(idx);
+    if (card) card.classList.remove('compare-selected');
+  }
+  localStorage.setItem(COMPARE_KEY, JSON.stringify([...compareSelections]));
+  updateCompareUI();
+}
+
+function updateCompareUI() {
+  const count = compareSelections.size;
+  const btn = document.getElementById('compare-btn');
+  const counter = document.getElementById('compare-count');
+  if (counter) counter.textContent = count;
+  if (btn) {
+    btn.style.display = count >= 2 ? 'block' : 'none';
+  }
+  // Update checkboxes to match state
+  document.querySelectorAll('.compare-cb').forEach(cb => {
+    const idx = parseInt(cb.dataset.index);
+    const shouldCheck = compareSelections.has(idx);
+    if (cb.checked !== shouldCheck) {
+      cb.checked = shouldCheck;
+      const card = cb.closest('.card');
+      if (card) {
+        if (shouldCheck) card.classList.add('compare-selected');
+        else card.classList.remove('compare-selected');
+      }
+    }
+  });
+}
+
+function goCompare() {
+  if (compareSelections.size < 2) return;
+  const ids = [...compareSelections].join(',');
+  window.location.href = '/compare?ids=' + ids;
+}
+
+loadCompareState();
 loadData();
+
+// Make functions globally accessible for onclick handlers
+window.goPage = goPage;
+window.filterGrade = filterGrade;
+window.filterCategory = filterCategory;
+window.closeModal = closeModal;
+window.subscribe = subscribe;
+window.subscribeInline = subscribeInline;
+window.goCompare = goCompare;
+window.openServer = openServer;
+window.onSearchInput = onSearchInput;
+window.copyInstall = copyInstall;
+window.showClientConfig = showClientConfig;
+window.switchConfigTab = switchConfigTab;
+window.copyConfigBlock = copyConfigBlock;
+window.closeModal = closeModal;
+window.goPage = goPage;
+window.filterGrade = filterGrade;
+window.filterCategory = filterCategory;
+window.onFilterChange = onFilterChange;
+
 </script>
 </body>
 </html>

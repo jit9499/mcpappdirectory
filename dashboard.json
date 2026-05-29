@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-05-28T17:33:37.047311",
+  "site": {
+    "online": true,
+    "status_code": "200",
+    "https": "OK",
+    "listings": 0
+  },
+  "traffic": {
+    "visits_24h": 0,
+    "visits_total": 125,
+    "log_entries_total": 125
+  },
+  "audience": {
+    "subscribers": 1
+  },
+  "github": {
+    "stars": 0,
+    "forks": 0,
+    "open_issues": 0
+  },
+  "revenue": {
+    "monthly": 0,
+    "total": 0,
+    "note": "Monetization not yet active"
+  }
+}

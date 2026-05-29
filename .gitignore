@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+.DS_Store
+*.backup.*.json
+check_aggregator.py
+field_check.py
+health_check.py
+normalize_fields.py
+top_servers_report.py
+listings.backup.*.json

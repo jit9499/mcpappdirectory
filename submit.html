@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Submit a Server — MCP App Directory</title>
+<meta name="description" content="Submit your MCP server to the MCP App Directory. Get an AI-graded quality score and listed alongside 1,900+ MCP servers.">
+<link rel="canonical" href="https://mcpappdirectory.com/submit">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a0f;color:#e8e8f0;line-height:1.7}
+.container{max-width:600px;margin:0 auto;padding:0 24px}
+header{padding:24px 0;border-bottom:1px solid #2a2a3f;margin-bottom:32px}
+header a{color:#6366f1;text-decoration:none;font-size:0.9em}
+h1{font-size:1.8em;margin-bottom:8px}
+p{color:#b0b0c0;margin:12px 0}
+.section{background:#14141f;border:1px solid #2a2a3f;border-radius:12px;padding:24px;margin:20px 0}
+label{display:block;font-size:0.9em;color:#b0b0c0;margin:16px 0 4px}
+input,select,textarea{width:100%;padding:10px 14px;background:#1a1a2e;border:1px solid #2a2a3f;border-radius:6px;color:#e8e8f0;font-size:1em;outline:none}
+input:focus,select:focus,textarea:focus{border-color:#6366f1}
+textarea{min-height:80px;resize:vertical}
+button{padding:12px 32px;background:#6366f1;color:white;border:none;border-radius:8px;font-size:1em;font-weight:600;cursor:pointer;margin-top:16px}
+button:hover{opacity:0.9}
+button:disabled{opacity:0.5;cursor:not-allowed}
+.msg{padding:12px;border-radius:6px;margin:12px 0;display:none}
+.msg-success{background:rgba(34,197,94,0.12);color:#22c55e;border:1px solid rgba(34,197,94,0.2);display:block}
+.msg-error{background:rgba(239,68,68,0.12);color:#ef4444;border:1px solid rgba(239,68,68,0.2);display:block}
+footer{text-align:center;padding:32px 0;border-top:1px solid #2a2a3f;margin-top:40px;color:#8888a0;font-size:0.85em}
+</style>
+</head>
+<body>
+<header><div class="container"><a href="/">← Back to Directory</a></div></header>
+<main class="container">
+<h1>Submit a Server</h1>
+<p>Have an MCP server? Submit it for AI-graded scoring and listing in the directory. We'll review and add it within 24 hours.</p>
+<div class="section">
+<div id="msg" class="msg"></div>
+<form id="submit-form" onsubmit="return submitServer(event)">
+<label>Server Name</label>
+<input type="text" id="s-name" placeholder="e.g., My-MCP-Server" required>
+<label>GitHub URL</label>
+<input type="url" id="s-url" placeholder="https://github.com/username/repo" required>
+<label>Description</label>
+<textarea id="s-desc" placeholder="What does your server do?" required></textarea>
+<label>Category</label>
+<select id="s-cat" required>
+<option value="">Select a category...</option>
+<option>AI & Machine Learning</option>
+<option>Browser Automation</option>
+<option>Cloud & DevOps</option>
+<option>Communication</option>
+<option>Data</option>
+<option>Database</option>
+<option>Developer Tools</option>
+<option>Documentation Access</option>
+<option>Finance</option>
+<option>Knowledge & Memory</option>
+<option>Monitoring</option>
+<option>Productivity</option>
+<option>Search</option>
+<option>Security</option>
+</select>
+<button type="submit" id="sub-btn">Submit Server →</button>
+</form>
+</div>
+</main>
+<footer><div class="container"><p>MCP App Directory — AI-graded quality scoring for every MCP server.</p></div></footer>
+<script>
+function submitServer(e) {
+  e.preventDefault();
+  const btn = document.getElementById('sub-btn');
+  const msg = document.getElementById('msg');
+  btn.disabled = true; btn.textContent = 'Submitting...';
+  fetch('/api/submit-server', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      name: document.getElementById('s-name').value,
+      url: document.getElementById('s-url').value,
+      description: document.getElementById('s-desc').value,
+      category: document.getElementById('s-cat').value,
+    })
+  }).then(r => r.json()).then(d => {
+    msg.className = 'msg ' + (d.success ? 'msg-success' : 'msg-error');
+    if (d.success) {
+      msg.textContent = '✅ Submitted! We\'ll review and add it shortly.';
+      document.getElementById('submit-form').reset();
+    } else {
+      msg.textContent = '❌ ' + (d.error || 'Failed to submit');
+    }
+    btn.disabled = false; btn.textContent = 'Submit Server →';
+  }).catch(() => {
+    msg.className = 'msg msg-error';
+    msg.textContent = '❌ Network error. Try again.';
+    btn.disabled = false; btn.textContent = 'Submit Server →';
+  });
+  return false;
+}
+</script>
+</body>
+</html>

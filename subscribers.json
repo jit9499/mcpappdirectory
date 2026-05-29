@@ -1,0 +1,38 @@
+[
+  {
+    "email": "jit9499@gmail.com",
+    "name": "JR",
+    "source": "owner",
+    "subscribed_at": "2026-05-28T10:00:00.000000+00:00",
+    "confirmed": true,
+    "confirmed_at": "2026-05-28T10:00:00.000000+00:00"
+  },
+  {
+    "email": "test-audit-hermes@test.com",
+    "source": "website",
+    "subscribed_at": "2026-05-28T12:27:32.545742+00:00",
+    "confirmed": false,
+    "confirm_token": "8ec59fe0bd7f5d959811d161e63279ff"
+  },
+  {
+    "email": "test-hermes-audit@proton.me",
+    "source": "website",
+    "subscribed_at": "2026-05-28T12:32:48.829602+00:00",
+    "confirmed": false,
+    "confirm_token": "2b1d9d2931ca8148deef2fa5dc788878"
+  },
+  {
+    "email": "test-hermes-confirm@protonmail.com",
+    "source": "website",
+    "subscribed_at": "2026-05-28T14:22:12.485491+00:00",
+    "confirmed": false,
+    "confirm_token": "fbc8221c43959888cda0bc14417631e4"
+  },
+  {
+    "email": "test-mcp-newsletter-2@protonmail.com",
+    "source": "website",
+    "subscribed_at": "2026-05-28T14:32:47.204451+00:00",
+    "confirmed": false,
+    "confirm_token": "1c214f92fd147dfe748926a8cea817ea"
+  }
+]

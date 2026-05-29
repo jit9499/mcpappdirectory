@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compare MCP Servers — MCP App Directory</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔌</text></svg>">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --card: #14141f;
+  --card2: #1a1a2e;
+  --border: #2a2a3f;
+  --accent: #6366f1;
+  --accent2: #8b5cf6;
+  --text: #e8e8f0;
+  --muted: #8888a0;
+  --green: #22c55e;
+  --green-bg: rgba(34,197,94,0.12);
+  --orange: #f59e0b;
+  --orange-bg: rgba(245,158,11,0.12);
+  --red: #ef4444;
+  --red-bg: rgba(239,68,68,0.12);
+  --grade-a: #22c55e;
+  --grade-b: #3b82f6;
+  --grade-c: #f59e0b;
+  --grade-d: #f97316;
+  --grade-f: #ef4444;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+
+/* Header */
+header {
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+.header-inner { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+header h1 { font-size: 1.4em; }
+header h1 a { color: var(--accent); text-decoration: none; }
+.header-links { display: flex; gap: 12px; margin-left: auto; align-items: center; }
+.header-links a { color: var(--muted); text-decoration: none; font-size: 0.85em; }
+.header-links a:hover { color: var(--text); }
+
+/* Search */
+.search-section { margin-bottom: 24px; position: relative; }
+.search-wrapper { position: relative; max-width: 600px; }
+.search-wrapper input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 1em;
+  outline: none;
+}
+.search-wrapper input:focus { border-color: var(--accent); }
+.search-wrapper input::placeholder { color: var(--muted); }
+
+/* Search dropdown */
+.search-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 0 0 8px 8px;
+  max-height: 320px;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.search-dropdown.open { display: block; }
+.search-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.search-dropdown-item:last-child { border-bottom: none; }
+.search-dropdown-item:hover { background: var(--card2); }
+.search-dropdown-item .sdi-grade {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8em; font-weight: 800;
+  flex-shrink: 0;
+}
+.search-dropdown-item .sdi-name { font-size: 0.9em; flex: 1; }
+.search-dropdown-item .sdi-score { font-size: 0.8em; color: var(--muted); }
+.search-dropdown-item .sdi-added {
+  font-size: 0.75em;
+  color: var(--muted);
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--green-bg);
+  color: var(--green);
+  white-space: nowrap;
+}
+.search-dropdown-item .sdi-disabled {
+  font-size: 0.75em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* Selected servers bar */
+.selected-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  min-height: 0;
+}
+.selected-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--card2);
+  border: 1px solid var(--accent);
+  border-radius: 20px;
+  font-size: 0.85em;
+}
+.selected-chip-remove {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 1.1em;
+  line-height: 1;
+  margin-left: 2px;
+}
+.selected-chip-remove:hover { color: var(--red); }
+.selected-chip .chip-grade {
+  width: 20px; height: 20px;
+  border-radius: 4px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 0.7em; font-weight: 800;
+}
+.action-buttons { display: flex; gap: 8px; align-items: center; }
+.action-buttons .hint { font-size: 0.8em; color: var(--muted); }
+.btn-clear {
+  padding: 6px 16px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.85em;
+  transition: all 0.2s;
+}
+.btn-clear:hover { border-color: var(--red); color: var(--red); }
+
+/* Compare grid */
+.compare-grid {
+  display: grid;
+  grid-template-columns: 200px repeat(4, 1fr);
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+.compare-grid.cols-2 { grid-template-columns: 200px 1fr 1fr; }
+.compare-grid.cols-3 { grid-template-columns: 200px 1fr 1fr 1fr; }
+.compare-grid.cols-4 { grid-template-columns: 200px 1fr 1fr 1fr 1fr; }
+
+/* Row labels */
+.compare-label {
+  padding: 12px 16px;
+  background: var(--card);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.82em;
+  color: var(--muted);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+.compare-label.label-header {
+  background: var(--card2);
+  border-bottom: 2px solid var(--accent);
+  color: var(--accent);
+  font-size: 0.9em;
+  justify-content: center;
+}
+
+/* Compare cells */
+.compare-cell {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  font-size: 0.85em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.compare-cell.cell-header {
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: var(--card);
+  border-bottom: 2px solid var(--accent);
+  padding: 20px 14px;
+  position: relative;
+}
+.compare-cell:last-child, .compare-label:last-child { border-bottom: none; }
+.compare-cell.cell-header:last-child { border-bottom: 2px solid var(--accent); }
+
+/* Header content */
+.server-grade-badge {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3em; font-weight: 800;
+}
+.server-name { font-size: 1em; font-weight: 700; text-align: center; word-break: break-word; }
+.server-score { font-size: 1.4em; font-weight: 700; }
+.server-detail-link { font-size: 0.78em; color: var(--accent); text-decoration: none; }
+.server-detail-link:hover { text-decoration: underline; }
+.server-remove-btn {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.8em;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.server-remove-btn:hover { background: var(--red-bg); color: var(--red); }
+
+/* Score details */
+.score-detail-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+.score-detail-label {
+  font-size: 0.75em;
+  color: var(--muted);
+}
+.score-detail-bar {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+  width: 100%;
+}
+.score-detail-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s;
+}
+.score-detail-value {
+  font-size: 0.82em;
+  font-weight: 600;
+}
+
+/* Score details in cell - compact grid */
+.score-details-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+.sd-item { display: flex; flex-direction: column; gap: 2px; }
+.sd-item-header { display: flex; justify-content: space-between; align-items: center; }
+.sd-item-label { font-size: 0.72em; color: var(--muted); }
+.sd-item-value { font-size: 0.78em; font-weight: 600; }
+.sd-item-bar { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.sd-item-bar-fill { height: 100%; border-radius: 2px; transition: width 0.5s; }
+.sd-item.highlight .sd-item-value { font-weight: 700; }
+.sd-item.highlight .sd-item-label { color: var(--text); font-weight: 600; }
+
+/* GitHub stats */
+.gh-stats { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+.gh-stat { display: flex; justify-content: space-between; font-size: 0.82em; }
+.gh-stat-label { color: var(--muted); }
+.gh-stat-value { font-weight: 600; }
+.gh-no-data { color: var(--muted); font-style: italic; font-size: 0.82em; }
+
+/* Description */
+.compare-desc { font-size: 0.82em; color: var(--muted); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* Install command */
+.install-cmd {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.75em;
+  color: var(--muted);
+  background: var(--card2);
+  padding: 8px;
+  border-radius: 6px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-width: 100%;
+}
+.install-copy-btn {
+  margin-top: 6px;
+  padding: 4px 12px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.75em;
+  transition: all 0.15s;
+}
+.install-copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 80px 24px;
+  color: var(--muted);
+}
+.empty-state h2 { font-size: 1.6em; margin-bottom: 12px; color: var(--text); }
+.empty-state p { font-size: 1em; margin-bottom: 24px; }
+.empty-state .browse-link {
+  display: inline-block;
+  padding: 12px 28px;
+  background: var(--accent);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+}
+.empty-state .browse-link:hover { opacity: 0.9; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .compare-grid.cols-4 { grid-template-columns: 160px 1fr 1fr; }
+  .compare-grid.cols-3 { grid-template-columns: 160px 1fr 1fr; }
+  .compare-grid.cols-2 { grid-template-columns: 160px 1fr; }
+  .compare-label { padding: 10px 12px; font-size: 0.78em; }
+  .compare-cell { padding: 10px 12px; }
+}
+@media (max-width: 768px) {
+  .compare-grid { grid-template-columns: 1fr !important; }
+  .compare-label { display: none; }
+  .compare-cell.cell-header { border-bottom: 2px solid var(--accent); }
+  .compare-cell { border-right: none; }
+}
+
+/* Loading */
+.loading { text-align: center; padding: 60px; color: var(--muted); }
+.loading-spinner {
+  display: inline-block; width: 40px; height: 40px; border: 3px solid var(--border);
+  border-top-color: var(--accent); border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Error */
+.error-msg { text-align: center; padding: 40px; color: var(--red); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container header-inner">
+    <h1><a href="/">🔌 MCP App Directory</a></h1>
+    <div class="header-links">
+      <a href="/">Back to Directory</a>
+      <a href="/compare">Compare</a>
+      <a href="/scoring">Scoring</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div id="loading" class="loading">
+    <div class="loading-spinner"></div>
+    <p style="margin-top:12px">Loading compare data...</p>
+  </div>
+
+  <div id="compare-app" style="display:none">
+    <!-- Search -->
+    <div class="search-section">
+      <div class="search-wrapper">
+        <input type="text" id="search-input" placeholder="Search servers to compare (max 4)..." autocomplete="off">
+        <div class="search-dropdown" id="search-dropdown"></div>
+      </div>
+    </div>
+
+    <!-- Selected chips -->
+    <div class="selected-bar" id="selected-bar"></div>
+
+    <!-- Action buttons -->
+    <div class="action-buttons" style="margin-bottom:16px">
+      <span class="hint" id="compare-hint">Select 2-4 servers to compare</span>
+      <button class="btn-clear" id="clear-btn" onclick="clearAll()" style="display:none">✕ Clear all</button>
+    </div>
+
+    <!-- Compare grid -->
+    <div id="compare-grid-container"></div>
+
+    <!-- Empty state -->
+    <div id="empty-state" class="empty-state">
+      <h2>📊 Compare MCP Servers</h2>
+      <p>Search for servers above to add them to the comparison table. Compare up to 4 servers side-by-side.</p>
+      <a href="/" class="browse-link">Browse All Servers →</a>
+    </div>
+  </div>
+</main>
+
+<script>
+let allServers = [];
+let compareIds = [];
+
+// Load servers and parse URL params
+async function init() {
+  try {
+    const res = await fetch('/api/servers?limit=2000');
+    const data = await res.json();
+    if (!data.success) throw new Error('Failed to load');
+    allServers = data.servers;
+
+    // Parse URL params
+    const params = new URLSearchParams(window.location.search);
+    const idsParam = params.get('ids');
+    if (idsParam) {
+      compareIds = idsParam.split(',').map(s => parseInt(s.trim())).filter(n => !isNaN(n) && n >= 0 && n < allServers.length);
+    }
+
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('compare-app').style.display = 'block';
+    render();
+  } catch(e) {
+    document.getElementById('loading').innerHTML = '<p class="error-msg">Failed to load servers. <a href="/compare" style="color:var(--accent)">Retry</a></p>';
+  }
+}
+
+// Search with dropdown
+let searchTimeout = null;
+document.getElementById('search-input').addEventListener('input', function() {
+  clearTimeout(searchTimeout);
+  const q = this.value.toLowerCase().trim();
+  if (!q) {
+    document.getElementById('search-dropdown').classList.remove('open');
+    return;
+  }
+  searchTimeout = setTimeout(() => {
+    const filtered = allServers
+      .map((s, i) => ({ server: s, index: i }))
+      .filter(item => {
+        const s = item.server;
+        return (s.name || '').toLowerCase().includes(q) ||
+               (s.description || '').toLowerCase().includes(q) ||
+               (s.category || '').toLowerCase().includes(q);
+      })
+      .slice(0, 15);
+
+    renderDropdown(filtered);
+  }, 150);
+});
+
+document.addEventListener('click', function(e) {
+  const wrapper = document.querySelector('.search-wrapper');
+  if (wrapper && !wrapper.contains(e.target)) {
+    document.getElementById('search-dropdown').classList.remove('open');
+  }
+});
+
+function renderDropdown(items) {
+  const dd = document.getElementById('search-dropdown');
+  if (items.length === 0) {
+    dd.classList.remove('open');
+    return;
+  }
+  dd.innerHTML = items.map(item => {
+    const s = item.server;
+    const grade = s.grade || 'F';
+    const isAdded = compareIds.includes(item.index);
+    const gradeColors = {A:'#22c55e',B:'#3b82f6',C:'#f59e0b',D:'#f97316',F:'#ef4444'};
+    const gradeBgs = {A:'rgba(34,197,94,0.12)',B:'rgba(59,130,246,0.12)',C:'rgba(245,158,11,0.12)',D:'rgba(249,115,22,0.12)',F:'rgba(239,68,68,0.12)'};
+    const gc = gradeColors[grade] || '#ef4444';
+    const gb = gradeBgs[grade] || gradeBgs.F;
+    const score = s.score || 0;
+    const maxReached = compareIds.length >= 4 && !isAdded;
+    return `<div class="search-dropdown-item" onclick="${!isAdded && !maxReached ? `addServer(${item.index});return false` : ''}" style="${maxReached ? 'opacity:0.5;cursor:default' : ''}">
+      <div class="sdi-grade" style="background:${gb};color:${gc}">${grade}</div>
+      <span class="sdi-name">${escapeHtml(s.name || 'Unknown')}</span>
+      <span class="sdi-score">${score}/100</span>
+      ${isAdded ? '<span class="sdi-added">✓ Added</span>' : maxReached ? '<span class="sdi-disabled">Max 4</span>' : ''}
+    </div>`;
+  }).join('');
+  dd.classList.add('open');
+}
+
+function addServer(index) {
+  if (compareIds.includes(index)) return;
+  if (compareIds.length >= 4) return;
+  compareIds.push(index);
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-dropdown').classList.remove('open');
+  render();
+  updateUrl();
+}
+
+function removeServer(index) {
+  compareIds = compareIds.filter(id => id !== index);
+  render();
+  updateUrl();
+}
+
+function clearAll() {
+  compareIds = [];
+  render();
+  updateUrl();
+}
+
+function updateUrl() {
+  if (compareIds.length > 0) {
+    const params = new URLSearchParams();
+    params.set('ids', compareIds.join(','));
+    window.history.replaceState({}, '', '/compare?' + params.toString());
+  } else {
+    window.history.replaceState({}, '', '/compare');
+  }
+}
+
+// Render everything
+function render() {
+  const selectedContainer = document.getElementById('selected-bar');
+  const gridContainer = document.getElementById('compare-grid-container');
+  const emptyState = document.getElementById('empty-state');
+  const hint = document.getElementById('compare-hint');
+  const clearBtn = document.getElementById('clear-btn');
+
+  // Selected chips
+  if (compareIds.length > 0) {
+    selectedContainer.innerHTML = compareIds.map(id => {
+      const s = allServers[id];
+      if (!s) return '';
+      const grade = s.grade || 'F';
+      const gradeColors = {A:'#22c55e',B:'#3b82f6',C:'#f59e0b',D:'#f97316',F:'#ef4444'};
+      const gradeBgs = {A:'rgba(34,197,94,0.12)',B:'rgba(59,130,246,0.12)',C:'rgba(245,158,11,0.12)',D:'rgba(249,115,22,0.12)',F:'rgba(239,68,68,0.12)'};
+      const gc = gradeColors[grade] || '#ef4444';
+      const gb = gradeBgs[grade] || gradeBgs.F;
+      return `<span class="selected-chip">
+        <span class="chip-grade" style="background:${gb};color:${gc}">${grade}</span>
+        ${escapeHtml(s.name || 'Unknown')} (${s.score || 0})
+        <span class="selected-chip-remove" onclick="removeServer(${id})">✕</span>
+      </span>`;
+    }).join('');
+    clearBtn.style.display = 'inline-block';
+  } else {
+    selectedContainer.innerHTML = '';
+    clearBtn.style.display = 'none';
+  }
+
+  // Hint
+  if (compareIds.length < 2) {
+    hint.textContent = 'Select 2-4 servers to compare';
+  } else if (compareIds.length === 4) {
+    hint.textContent = 'Max 4 servers selected';
+  } else {
+    hint.textContent = `${compareIds.length} servers selected`;
+  }
+
+  // Empty state
+  if (compareIds.length < 2) {
+    emptyState.style.display = 'block';
+    gridContainer.innerHTML = '';
+    return;
+  }
+  emptyState.style.display = 'none';
+
+  const servers = compareIds.map(id => ({ index: id, server: allServers[id] })).filter(item => item.server);
+
+  // Build the grid
+  const ncols = Math.min(servers.length, 4);
+  const colsClass = 'cols-' + ncols;
+
+  // Row definitions
+  const rows = buildRows(servers);
+
+  // Render
+  let html = `<div class="compare-grid ${colsClass}">`;
+
+  // Header row
+  html += `<div class="compare-label label-header">Parameter</div>`;
+  for (const item of servers) {
+    const s = item.server;
+    const grade = s.grade || 'F';
+    const score = s.score || 0;
+    const gradeColors = {A:'#22c55e',B:'#3b82f6',C:'#f59e0b',D:'#f97316',F:'#ef4444'};
+    const gradeBgs = {A:'rgba(34,197,94,0.12)',B:'rgba(59,130,246,0.12)',C:'rgba(245,158,11,0.12)',D:'rgba(249,115,22,0.12)',F:'rgba(239,68,68,0.12)'};
+    const gc = gradeColors[grade] || '#ef4444';
+    const gb = gradeBgs[grade] || gradeBgs.F;
+    const slug = makeSlug(s.name || '', s.url || '');
+    html += `<div class="compare-cell cell-header">
+      <button class="server-remove-btn" onclick="removeServer(${item.index})">✕</button>
+      <div class="server-grade-badge" style="background:${gb};color:${gc}">${grade}</div>
+      <div class="server-name">${escapeHtml(s.name || 'Unknown')}</div>
+      <div class="server-score" style="color:${gc}">${score}/100</div>
+      <a href="/servers/${slug}" target="_blank" class="server-detail-link">View details →</a>
+    </div>`;
+  }
+
+  // Data rows
+  for (const row of rows) {
+    html += `<div class="compare-label">${row.label}</div>`;
+    for (let ci = 0; ci < servers.length; ci++) {
+      const cell = row.cells[ci] || '';
+      const highlight = row.highlight !== undefined ? (ci === row.highlight) : false;
+      html += `<div class="compare-cell" style="${highlight ? 'background:rgba(99,102,241,0.05)' : ''}">${cell}</div>`;
+    }
+  }
+
+  html += `</div>`;
+  gridContainer.innerHTML = html;
+}
+
+function buildRows(servers) {
+  const rows = [];
+
+  // GitHub stats
+  rows.push({
+    label: 'GitHub Stats',
+    cells: servers.map(item => {
+      const s = item.server;
+      if (s.has_github_stats === false) {
+        return '<span class="gh-no-data">No GitHub data available</span>';
+      }
+      const stars = s.stars || 0;
+      const forks = s.forks || 0;
+      const lang = s.language || 'Unknown';
+      let lic = s.license || '';
+      const starsStr = stars >= 1000 ? (stars/1000).toFixed(1) + 'K' : stars;
+      const forksStr = forks >= 1000 ? (forks/1000).toFixed(1) + 'K' : forks;
+      if (lic === 'NOASSERTION' || lic === 'NONE') lic = '';
+      if (lic === 'MIT License') lic = 'MIT';
+      if (lic === 'Apache License 2.0') lic = 'Apache-2.0';
+      let lastUpd = '';
+      if (s.last_updated) {
+        const days = Math.floor((Date.now() - new Date(s.last_updated).getTime()) / 86400000);
+        lastUpd = days === 0 ? 'today' : days === 1 ? '1d ago' : days < 30 ? days + 'd ago' : Math.floor(days/30) + 'mo ago';
+      }
+      return `<div class="gh-stats">
+        <div class="gh-stat"><span class="gh-stat-label">Stars</span><span class="gh-stat-value">⭐ ${starsStr}</span></div>
+        <div class="gh-stat"><span class="gh-stat-label">Forks</span><span class="gh-stat-value">⑂ ${forksStr}</span></div>
+        ${lang ? `<div class="gh-stat"><span class="gh-stat-label">Language</span><span class="gh-stat-value">${escapeHtml(lang)}</span></div>` : ''}
+        ${lic ? `<div class="gh-stat"><span class="gh-stat-label">License</span><span class="gh-stat-value">${escapeHtml(lic)}</span></div>` : ''}
+        ${lastUpd ? `<div class="gh-stat"><span class="gh-stat-label">Updated</span><span class="gh-stat-value">${lastUpd}</span></div>` : ''}
+      </div>`;
+    })
+  });
+
+  // Score breakdown
+  const scoreParams = [
+    { label: 'Recency', key: 'recency', max: 20 },
+    { label: 'Documentation', key: 'documentation', max: 15 },
+    { label: 'Tests', key: 'tests', max: 10 },
+    { label: 'Auth/Security', key: 'auth', max: 10 },
+    { label: 'Star Velocity', key: 'star_velocity', max: 15 },
+    { label: 'Security Audit', key: 'security', max: 15 },
+    { label: 'Install Docs', key: 'install_instructions', max: 15 },
+  ];
+
+  for (const param of scoreParams) {
+    const values = servers.map(item => (item.server.score_details || {})[param.key] || 0);
+
+    // Find which server has the highest value for this param
+    const maxVal = Math.max(...values);
+    const highlightIdx = maxVal > 0 ? values.indexOf(maxVal) : undefined;
+
+    rows.push({
+      label: param.label,
+      highlight: highlightIdx,
+      cells: servers.map(item => {
+        const details = item.server.score_details || {};
+        const val = details[param.key] || 0;
+        const pct = (val / param.max) * 100;
+        const barColor = pct >= 80 ? '#22c55e' : pct >= 50 ? '#3b82f6' : '#f59e0b';
+        return `<div class="sd-item" style="width:100%">
+          <div class="sd-item-header">
+            <span class="sd-item-value" style="color:${barColor}">${val}/${param.max}</span>
+          </div>
+          <div class="sd-item-bar"><div class="sd-item-bar-fill" style="width:${pct}%;background:${barColor}"></div></div>
+        </div>`;
+      })
+    });
+  }
+
+  // Category
+  rows.push({
+    label: 'Category',
+    cells: servers.map(item => {
+      const cat = item.server.category || 'Uncategorized';
+      return `<span style="font-size:0.82em;padding:3px 10px;border-radius:4px;background:rgba(99,102,241,0.12);color:var(--accent)">${escapeHtml(cat)}</span>`;
+    })
+  });
+
+  // Description
+  rows.push({
+    label: 'Description',
+    cells: servers.map(item => {
+      const desc = item.server.description || 'No description';
+      return `<div class="compare-desc">${escapeHtml(desc)}</div>`;
+    })
+  });
+
+  // Install
+  rows.push({
+    label: 'Install',
+    cells: servers.map(item => {
+      const cmd = getInstallCommand(item.server);
+      const cmdId = 'install-' + item.index;
+      return `<div>
+        <pre class="install-cmd" id="${cmdId}">${escapeHtml(cmd)}</pre>
+        <button class="install-copy-btn" onclick="copyInstall('${cmdId}')">Copy</button>
+      </div>`;
+    })
+  });
+
+  return rows;
+}
+
+function getInstallCommand(s) {
+  const url = s.url || '';
+  if (url.includes('npm') || url.includes('github')) {
+    const name = s.name || '';
+    if (s.install === 'pip') return 'pip install ' + name.toLowerCase().replace(/\s+/g, '-');
+    if (s.install === 'npx') return 'npx ' + name.toLowerCase().replace(/\s+/g, '-');
+    if (s.install === 'docker') return 'docker pull ' + name.toLowerCase().replace(/\s+/g, '-');
+  }
+  return '# Clone and install\ngit clone ' + url + '\ncd ' + (s.name || '').toLowerCase().replace(/\s+/g, '-') + '\nnpm install  # or: pip install -r requirements.txt';
+}
+
+function copyInstall(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const text = el.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = el.parentElement.querySelector('.install-copy-btn');
+    if (btn) {
+      btn.textContent = '✓ Copied';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    }
+  });
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function makeSlug(name, url) {
+  const s = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').substring(0, 50);
+  let hash = 0;
+  for (let i = 0; i < url.length; i++) {
+    const chr = url.charCodeAt(i);
+    hash = ((hash << 5) - hash) + chr;
+    hash |= 0;
+  }
+  return (s || 'server') + '-' + Math.abs(hash).toString(16).substring(0, 6);
+}
+
+init();
+</script>
+</body>
+</html>

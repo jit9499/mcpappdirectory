@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mcpappdirectory.com/sitemap.xml

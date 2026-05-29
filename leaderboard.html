@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏆 MCP Server Leaderboard — Top 100 MCP Servers</title>
+<meta name="description" content="Top 100 MCP servers ranked by AI-graded quality score. See the best MCP servers with detailed quality metrics.">
+<meta property="og:title" content="🏆 MCP Server Leaderboard — Top 100">
+<meta property="og:description" content="Top 100 MCP servers ranked by AI-graded quality score.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --card: #14141f;
+  --card2: #1a1a2e;
+  --border: #2a2a3f;
+  --accent: #6366f1;
+  --accent2: #8b5cf6;
+  --text: #e8e8f0;
+  --muted: #8888a0;
+  --green: #22c55e;
+  --green-bg: rgba(34,197,94,0.12);
+  --orange: #f59e0b;
+  --orange-bg: rgba(245,158,11,0.12);
+  --red: #ef4444;
+  --red-bg: rgba(239,68,68,0.12);
+  --gold: #fbbf24;
+  --silver: #94a3b8;
+  --bronze: #cd7f32;
+  --grade-a: #22c55e;
+  --grade-b: #3b82f6;
+  --grade-c: #f59e0b;
+  --grade-d: #f97316;
+  --grade-f: #ef4444;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Header */
+header {
+  padding: 40px 0 24px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+header h1 {
+  font-size: 2.8em;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+header p { color: var(--muted); font-size: 1.15em; margin-top: 8px; }
+.stats-bar {
+  display: flex; justify-content: center; gap: 40px;
+  margin-top: 24px; flex-wrap: wrap;
+}
+.stat-item { text-align: center; }
+.stat-num { font-size: 1.8em; font-weight: 700; color: var(--accent); }
+.stat-label { font-size: 0.85em; color: var(--muted); }
+
+/* Nav */
+.nav {
+  display: flex; gap: 16px; justify-content: center;
+  margin-top: 16px; flex-wrap: wrap;
+}
+.nav a {
+  color: #8888a0; text-decoration: none;
+  font-size: 0.85em; padding: 4px 10px;
+  border-radius: 6px; border: 1px solid transparent;
+}
+.nav a:hover { color: #e8e8f0; border-color: #2a2a3f; }
+
+/* Controls */
+.controls {
+  display: flex; gap: 12px; align-items: center;
+  padding: 20px 0; flex-wrap: wrap; justify-content: center;
+}
+.search-bar {
+  flex: 1; min-width: 200px; max-width: 400px;
+  padding: 10px 14px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text); font-size: 0.9em; outline: none;
+}
+.search-bar:focus { border-color: var(--accent); }
+
+/* Leaderboard Table */
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 40px;
+}
+.leaderboard-table th {
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 0.78em;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.leaderboard-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(42,42,63,0.5);
+  font-size: 0.88em;
+  vertical-align: middle;
+}
+.leaderboard-table tr {
+  transition: background 0.15s;
+}
+.leaderboard-table tbody tr:hover {
+  background: rgba(99,102,241,0.04);
+}
+
+/* Rank column */
+.rank-cell {
+  font-weight: 700;
+  font-size: 1em;
+  width: 48px;
+  text-align: center;
+}
+.rank-1 { color: var(--gold); }
+.rank-2 { color: var(--silver); }
+.rank-3 { color: var(--bronze); }
+
+/* Podium rows */
+.podium-row td:first-child {
+  position: relative;
+}
+.podium-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 0.85em;
+}
+.podium-1 { background: var(--gold); color: #000; }
+.podium-2 { background: var(--silver); color: #000; }
+.podium-3 { background: var(--bronze); color: #fff; }
+
+.podium-bg-1 { background: linear-gradient(90deg, rgba(251,191,36,0.08), transparent); }
+.podium-bg-2 { background: linear-gradient(90deg, rgba(148,163,184,0.08), transparent); }
+.podium-bg-3 { background: linear-gradient(90deg, rgba(205,127,50,0.08), transparent); }
+
+/* Grade badge */
+.grade-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 0.9em;
+}
+.grade-A { background: var(--green-bg); color: var(--grade-a); }
+.grade-B { background: rgba(59,130,246,0.12); color: var(--grade-b); }
+.grade-C { background: var(--orange-bg); color: var(--grade-c); }
+.grade-D { background: var(--red-bg); color: var(--grade-d); }
+.grade-F { background: var(--red-bg); color: var(--grade-f); }
+
+/* Server name */
+.server-name {
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.server-name:hover {
+  color: var(--accent);
+}
+
+/* Score */
+.score-cell {
+  font-weight: 700;
+  font-size: 1em;
+}
+.score-high { color: var(--grade-a); }
+.score-good { color: var(--grade-b); }
+.score-avg { color: var(--grade-c); }
+.score-low { color: var(--grade-d); }
+.score-poor { color: var(--grade-f); }
+
+/* Score trend indicator */
+.trend-indicator {
+  font-size: 0.85em;
+  margin-left: 4px;
+}
+.trend-up { color: var(--green); }
+.trend-mid { color: var(--orange); }
+.trend-down { color: var(--red); }
+
+/* Stars */
+.stars-cell {
+  white-space: nowrap;
+  color: var(--muted);
+  font-size: 0.85em;
+}
+
+/* Tags */
+.lang-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75em;
+  background: rgba(99,102,241,0.1);
+  color: var(--accent);
+}
+.cat-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75em;
+  background: rgba(42,42,63,0.6);
+  color: var(--muted);
+  max-width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 32px 0;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85em;
+}
+
+/* Loading / Error */
+.loading {
+  text-align: center;
+  padding: 60px;
+  color: var(--muted);
+}
+.loading-spinner {
+  display: inline-block;
+  width: 40px; height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.error-msg {
+  text-align: center;
+  padding: 40px;
+  color: var(--red);
+  font-size: 1.1em;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: var(--muted);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  header h1 { font-size: 1.8em; }
+  .stats-bar { gap: 20px; }
+  .stat-num { font-size: 1.4em; }
+  
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding: 8px 6px;
+    font-size: 0.78em;
+  }
+  .leaderboard-table .hide-mobile {
+    display: none;
+  }
+  .grade-badge {
+    width: 26px; height: 26px;
+    font-size: 0.75em;
+  }
+  .rank-cell { width: 32px; font-size: 0.85em; }
+  .podium-badge { width: 22px; height: 22px; font-size: 0.7em; }
+  .lang-tag, .cat-tag { font-size: 0.65em; padding: 1px 5px; }
+  .nav { gap: 8px; }
+  .nav a { font-size: 0.78em; padding: 3px 6px; }
+}
+
+@media (max-width: 480px) {
+  .leaderboard-table .hide-mobile-lg {
+    display: none;
+  }
+  .controls { flex-direction: column; }
+  .search-bar { min-width: 100%; max-width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>🏆 MCP Server Leaderboard</h1>
+    <p>Top 100 servers ranked by AI-graded quality score</p>
+    <div class="stats-bar" id="stats-bar">
+      <div class="stat-item"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Total Servers</div></div>
+      <div class="stat-item"><div class="stat-num" id="stat-avg">—</div><div class="stat-label">Avg Score</div></div>
+      <div class="stat-item"><div class="stat-num" id="stat-a-grade">—</div><div class="stat-label">A-Grade Servers</div></div>
+    </div>
+  </div>
+  <div class="nav">
+    <a href="/">🔌 Directory</a>
+    <a href="/scoring">📊 Scoring</a>
+    <a href="/how-it-works">ℹ️ How It Works</a>
+    <a href="/submit">+ Submit Server</a>
+  </div>
+</header>
+
+<main class="container">
+  <div class="controls">
+    <input type="text" class="search-bar" id="search" placeholder="Search leaderboard..." oninput="filterLeaderboard()">
+  </div>
+
+  <div id="loading" class="loading">
+    <div class="loading-spinner"></div>
+    <p style="margin-top:12px">Loading leaderboard data...</p>
+  </div>
+
+  <div id="leaderboard-container"></div>
+
+  <div id="empty-state" class="empty-state" style="display:none">
+    No servers match your search. Try different keywords.
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>MCP App Directory — AI-graded quality scoring for every MCP server.</p>
+  </div>
+</footer>
+
+<script>
+// ── Helpers ────────────────────────────────────────────────────────────
+
+function makeSlug(name, url) {
+  const s = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').substring(0, 50);
+  let hash = 0;
+  for (let i = 0; i < url.length; i++) {
+    const chr = url.charCodeAt(i);
+    hash = ((hash << 5) - hash) + chr;
+    hash |= 0;
+  }
+  return (s || 'server') + '-' + Math.abs(hash).toString(16).substring(0, 6);
+}
+
+function formatStars(stars) {
+  if (!stars || stars === 0) return '—';
+  if (stars >= 1000) return (stars / 1000).toFixed(1) + 'K';
+  return String(stars);
+}
+
+function getGradeColor(grade) {
+  const colors = { A: 'grade-A', B: 'grade-B', C: 'grade-C', D: 'grade-D', F: 'grade-F' };
+  return colors[grade] || 'grade-F';
+}
+
+function getScoreColor(score) {
+  if (score >= 85) return 'score-high';
+  if (score >= 70) return 'score-good';
+  if (score >= 50) return 'score-avg';
+  if (score >= 30) return 'score-low';
+  return 'score-poor';
+}
+
+function getTrend(score) {
+  if (score >= 80) {
+    return { icon: '▲', cls: 'trend-up', label: 'High' };
+  } else if (score >= 50) {
+    return { icon: '●', cls: 'trend-mid', label: 'Average' };
+  } else {
+    return { icon: '▼', cls: 'trend-down', label: 'Low' };
+  }
+}
+
+function getRankClass(rank) {
+  if (rank === 1) return 'rank-1';
+  if (rank === 2) return 'rank-2';
+  if (rank === 3) return 'rank-3';
+  return '';
+}
+
+function getPodiumClass(rank) {
+  if (rank === 1) return 'podium-1';
+  if (rank === 2) return 'podium-2';
+  if (rank === 3) return 'podium-3';
+  return '';
+}
+
+function getPodiumBg(rank) {
+  if (rank === 1) return 'podium-bg-1';
+  if (rank === 2) return 'podium-bg-2';
+  if (rank === 3) return 'podium-bg-3';
+  return '';
+}
+
+function getPodiumIcon(rank) {
+  if (rank === 1) return '🥇';
+  if (rank === 2) return '🥈';
+  if (rank === 3) return '🥉';
+  return '';
+}
+
+// ── Main App ───────────────────────────────────────────────────────────
+
+let allServers = [];
+let top100 = [];
+
+async function loadLeaderboard() {
+  try {
+    const [serversRes, statsRes] = await Promise.all([
+      fetch('/api/servers?limit=100&sort=score'),
+      fetch('/api/stats')
+    ]);
+    
+    const serversData = await serversRes.json();
+    const statsData = await statsRes.json();
+    
+    if (serversData.success && serversData.servers) {
+      allServers = serversData.servers;
+      top100 = JSON.parse(JSON.stringify(allServers));
+    }
+    
+    if (statsData.success && statsData.stats) {
+      renderStatsBar(statsData.stats);
+    }
+    
+    document.getElementById('loading').style.display = 'none';
+    renderTable(top100);
+  } catch (e) {
+    document.getElementById('loading').innerHTML = '<div class="error-msg">Failed to load leaderboard. Please refresh the page.</div>';
+  }
+}
+
+function renderStatsBar(stats) {
+  document.getElementById('stat-total').textContent = stats.total_servers || 0;
+  document.getElementById('stat-avg').textContent = (stats.average_score || 0) + '/100';
+  const aGrade = stats.grade_distribution ? (stats.grade_distribution.A || 0) : 0;
+  document.getElementById('stat-a-grade').textContent = aGrade;
+}
+
+function renderTable(servers) {
+  const container = document.getElementById('leaderboard-container');
+  const emptyState = document.getElementById('empty-state');
+  
+  if (servers.length === 0) {
+    container.innerHTML = '';
+    emptyState.style.display = 'block';
+    return;
+  }
+  emptyState.style.display = 'none';
+  
+  let html = `
+    <table class="leaderboard-table">
+      <thead>
+        <tr>
+          <th style="width:48px;text-align:center">#</th>
+          <th style="width:48px;text-align:center">Grade</th>
+          <th>Server</th>
+          <th style="width:80px">Score</th>
+          <th class="hide-mobile" style="width:80px">Stars</th>
+          <th class="hide-mobile hide-mobile-lg" style="width:90px">Language</th>
+          <th class="hide-mobile" style="width:120px">Category</th>
+          <th class="hide-mobile" style="width:70px">Trend</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+  
+  servers.forEach((s, idx) => {
+    const rank = idx + 1;
+    const score = s.score || 0;
+    const grade = s.grade || 'F';
+    const stars = s.stars || 0;
+    const name = s.name || 'Unknown';
+    const url = s.url || '';
+    const slug = makeSlug(name, url);
+    const language = s.language || '—';
+    const category = s.category || 'Uncategorized';
+    const trend = getTrend(score);
+    
+    const rankClass = getRankClass(rank);
+    const podiumBadge = rank <= 3 ? getPodiumClass(rank) : '';
+    const podiumIcon = rank <= 3 ? getPodiumIcon(rank) : '';
+    const podiumBg = getPodiumBg(rank);
+    
+    html += `<tr class="${podiumBg}">
+      <td class="rank-cell ${rankClass}">
+        ${rank <= 3
+          ? `<span class="podium-badge ${podiumBadge}">${podiumIcon}</span>`
+          : rank
+        }
+      </td>
+      <td style="text-align:center">
+        <span class="grade-badge ${getGradeColor(grade)}">${grade}</span>
+      </td>
+      <td>
+        <a href="/servers/${slug}" class="server-name">${escapeHtml(name)}</a>
+      </td>
+      <td>
+        <span class="score-cell ${getScoreColor(score)}">${score}</span>
+      </td>
+      <td class="hide-mobile stars-cell">${formatStars(stars)}</td>
+      <td class="hide-mobile hide-mobile-lg"><span class="lang-tag">${escapeHtml(language)}</span></td>
+      <td class="hide-mobile"><span class="cat-tag" title="${escapeHtml(category)}">${escapeHtml(category)}</span></td>
+      <td class="hide-mobile">
+        <span class="trend-indicator ${trend.cls}" title="${trend.label} score">${trend.icon}</span>
+      </td>
+    </tr>`;
+  });
+  
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
+function escapeHtml(text) {
+  if (!text) return '';
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function filterLeaderboard() {
+  const q = document.getElementById('search').value.toLowerCase().trim();
+  
+  if (!q) {
+    renderTable(top100);
+    return;
+  }
+  
+  const filtered = top100.filter(s =>
+    (s.name || '').toLowerCase().includes(q) ||
+    (s.description || '').toLowerCase().includes(q) ||
+    (s.category || '').toLowerCase().includes(q) ||
+    (s.language || '').toLowerCase().includes(q) ||
+    (s.grade || '').toLowerCase().includes(q) ||
+    (s.topics || []).some(t => t.toLowerCase().includes(q))
+  );
+  
+  renderTable(filtered);
+}
+
+// ── Init ───────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', loadLeaderboard);
+</script>
+</body>
+</html>

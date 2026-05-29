@@ -1,0 +1,62 @@
+[2026-05-28T09:52:59.231039] Scoring 1917 servers with Grok...
+[2026-05-28T09:53:15.948742]   Progress: 50/1917 — {'F': 50}
+[2026-05-28T09:53:19.031324]   ✗ Attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T09:53:22.575200]   ✗ Attempt 2 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T09:53:26.348962]   ✗ Attempt 3 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T09:53:36.340488]   Progress: 100/1917 — {'F': 99, '': 1}
+[2026-05-28T09:53:52.038154]   ✗ Attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T09:53:52.962516]   Progress: 150/1917 — {'F': 149, '': 1}
+[2026-05-28T09:54:12.659342]   Progress: 200/1917 — {'F': 199, '': 1}
+[2026-05-28T09:54:31.301140]   ✗ Attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T09:54:36.282630]   Progress: 250/1917 — {'F': 249, '': 1}
+[2026-05-28T09:54:56.313710]   Progress: 300/1917 — {'F': 300}
+[2026-05-28T09:55:12.679233]   ✗ Attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T09:55:16.249344]   Progress: 350/1917 — {'F': 349, '': 1}
+[2026-05-28T09:55:34.867946]   Progress: 400/1917 — {'F': 399, '': 1}
+[2026-05-28T09:55:52.070395]   Progress: 450/1917 — {'F': 449, '': 1}
+[2026-05-28T09:56:01.279370]   ✗ Attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T09:56:09.626535]   Progress: 500/1917 — {'F': 500}
+[2026-05-28T09:56:26.057457]   Progress: 550/1917 — {'F': 549, '': 1}
+[2026-05-28T09:56:42.600098]   Progress: 600/1917 — {'F': 599, '': 1}
+[2026-05-28T09:56:44.577307]   ✗ Attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T09:56:48.083157]   ✗ Attempt 2 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T09:57:02.131648]   Progress: 650/1917 — {'F': 650}
+[2026-05-28T09:57:20.814212]   Progress: 700/1917 — {'F': 699, '': 1}
+[2026-05-28T09:57:40.927172]   Progress: 750/1917 — {'F': 750}
+[2026-05-28T09:57:52.812057]   ✗ Attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T09:57:56.017901]   ✗ Attempt 2 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T09:57:58.815950]   Progress: 800/1917 — {'F': 799, '': 1}
+[2026-05-28T09:58:00.526746]   ✗ Attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T09:58:15.079554]   Progress: 850/1917 — {'F': 850}
+[2026-05-28T09:58:30.864532]   Progress: 900/1917 — {'F': 899, '': 1}
+[2026-05-28T09:58:38.696783]   ✗ Attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T09:58:47.727765]   Progress: 950/1917 — {'F': 949, '': 1}
+[2026-05-28T09:58:50.207299]   ✗ Attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T09:59:03.891732]   Progress: 1000/1917 — {'F': 999, '': 1}
+[2026-05-28T09:59:18.304697]   ✗ Attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T09:59:19.257688]   ✗ Attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T09:59:20.263500]   Progress: 1050/1917 — {'F': 1049, '': 1}
+[2026-05-28T09:59:27.249780]   ✗ Attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T09:59:30.924115]   ✗ Attempt 2 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T09:59:36.965155]   Progress: 1100/1917 — {'F': 1098, '': 2}
+[2026-05-28T09:59:38.982748]   ✗ Attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T09:59:52.503478]   Progress: 1150/1917 — {'F': 1150}
+[2026-05-28T10:00:06.246021]   Progress: 1200/1917 — {'F': 1199, '': 1}
+[2026-05-28T10:00:20.353502]   Progress: 1250/1917 — {'F': 1249, '': 1}
+[2026-05-28T10:00:27.431869]   ✗ Attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T10:00:36.790162]   Progress: 1300/1917 — {'F': 1299, '': 1}
+[2026-05-28T10:00:50.467105]   Progress: 1350/1917 — {'F': 1350}
+[2026-05-28T10:00:51.308492]   ✗ Attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T10:01:05.334577]   Progress: 1400/1917 — {'F': 1398, '': 2}
+[2026-05-28T10:01:18.696042]   Progress: 1450/1917 — {'F': 1450}
+[2026-05-28T10:01:31.450585]   Progress: 1500/1917 — {'F': 1499, '': 1}
+[2026-05-28T10:01:39.686529]   ✗ Attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T10:01:42.751953]   ✗ Attempt 2 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T10:01:45.882765]   ✗ Attempt 3 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T10:01:47.544284]   Progress: 1550/1917 — {'F': 1549, '': 1}
+[2026-05-28T10:01:59.016074]   ✗ Attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+[2026-05-28T10:02:00.860536]   Progress: 1600/1917 — {'F': 1598, '': 2}
+[2026-05-28T10:02:14.825199]   Progress: 1650/1917 — {'F': 1649, '': 1}
+[2026-05-28T10:02:29.091626]   Progress: 1700/1917 — {'F': 1700}
+[2026-05-28T10:02:42.500374]   Progress: 1750/1917 — {'F': 1749, '': 1}
+[2026-05-28T10:02:57.426220]   Progress: 1800/1917 — {'F': 1799, '': 1}
