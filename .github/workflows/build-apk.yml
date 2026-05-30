@@ -1,0 +1,48 @@
+name: 🔨 Build Name Boards APK
+
+on:
+  push:
+    branches: [ "claude/android-todo-app-F3hmZ" ]
+  workflow_dispatch:   # allows clicking "Run" manually on GitHub
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Download the code
+        uses: actions/checkout@v4
+
+      - name: ☕ Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: 🔧 Download Gradle build tool
+        run: |
+          curl -sL "https://services.gradle.org/distributions/gradle-8.4-bin.zip" -o gradle.zip
+          unzip -q gradle.zip -d /opt/gradle
+          echo "/opt/gradle/gradle-8.4/bin" >> $GITHUB_PATH
+
+      - name: 📦 Download Gradle Wrapper jar
+        run: |
+          curl -sL \
+            "https://raw.githubusercontent.com/gradle/gradle/v8.4.0/gradle/wrapper/gradle-wrapper.jar" \
+            -o TodoApp/gradle/wrapper/gradle-wrapper.jar
+
+      - name: 🔑 Make gradlew executable
+        run: chmod +x TodoApp/gradlew
+
+      - name: 🏗️ Build the APK
+        run: ./gradlew assembleDebug --no-daemon
+        working-directory: TodoApp
+        env:
+          ANDROID_HOME: ${{ env.ANDROID_SDK_ROOT }}
+
+      - name: 📤 Upload APK for download
+        uses: actions/upload-artifact@v4
+        with:
+          name: NameBoards-App
+          path: TodoApp/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 30
