@@ -3,7 +3,7 @@ name: 🔨 Build Name Boards APK
 on:
   push:
     branches: [ "claude/android-todo-app-F3hmZ" ]
-  workflow_dispatch:   # allows clicking "Run" manually on GitHub
+  workflow_dispatch:
 
 jobs:
   build:
@@ -24,14 +24,26 @@ jobs:
         with:
           gradle-version: '8.4'
 
+      - name: 🔍 Find Android SDK location
+        run: |
+          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          ls /usr/local/lib/android/sdk/build-tools/ || echo "No build-tools at default path"
+
       - name: 📋 Tell Gradle where the Android SDK is
-        run: echo "sdk.dir=$ANDROID_SDK_ROOT" > TodoApp/local.properties
+        run: |
+          SDK="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          echo "sdk.dir=$SDK" > TodoApp/local.properties
+          echo "Written: $(cat TodoApp/local.properties)"
 
       - name: 🏗️ Build the APK
-        run: gradle :app:assembleDebug --no-daemon
+        run: gradle :app:assembleDebug --no-daemon --stacktrace
         working-directory: TodoApp
+        env:
+          ANDROID_HOME: ${{ env.ANDROID_SDK_ROOT }}
 
       - name: 📤 Upload APK for download
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: NameBoards-App
