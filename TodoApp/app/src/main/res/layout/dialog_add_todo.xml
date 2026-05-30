@@ -45,27 +45,27 @@
         <ImageView android:id="@+id/dialogStar1"
             android:layout_width="36dp" android:layout_height="36dp"
             android:padding="2dp"
-            android:src="@android:drawable/btn_star_big_off"
+            android:src="@drawable/ic_star_outline"
             android:contentDescription="Star 1" />
         <ImageView android:id="@+id/dialogStar2"
             android:layout_width="36dp" android:layout_height="36dp"
             android:padding="2dp"
-            android:src="@android:drawable/btn_star_big_off"
+            android:src="@drawable/ic_star_outline"
             android:contentDescription="Star 2" />
         <ImageView android:id="@+id/dialogStar3"
             android:layout_width="36dp" android:layout_height="36dp"
             android:padding="2dp"
-            android:src="@android:drawable/btn_star_big_off"
+            android:src="@drawable/ic_star_outline"
             android:contentDescription="Star 3" />
         <ImageView android:id="@+id/dialogStar4"
             android:layout_width="36dp" android:layout_height="36dp"
             android:padding="2dp"
-            android:src="@android:drawable/btn_star_big_off"
+            android:src="@drawable/ic_star_outline"
             android:contentDescription="Star 4" />
         <ImageView android:id="@+id/dialogStar5"
             android:layout_width="36dp" android:layout_height="36dp"
             android:padding="2dp"
-            android:src="@android:drawable/btn_star_big_off"
+            android:src="@drawable/ic_star_outline"
             android:contentDescription="Star 5" />
 
     </LinearLayout>

@@ -1,9 +1,9 @@
 package com.example.todoapp.ui
 
-import android.app.Dialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.widget.NumberPicker
+import com.example.todoapp.R
 import com.example.todoapp.databinding.DialogAddTodoBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -33,8 +33,8 @@ object AddTodoDialog {
         fun refreshStars() {
             starViews.forEachIndexed { idx, view ->
                 view.setImageResource(
-                    if (idx < selectedStars) android.R.drawable.btn_star_big_on
-                    else android.R.drawable.btn_star_big_off
+                    if (idx < selectedStars) R.drawable.ic_star_filled
+                    else R.drawable.ic_star_outline
                 )
             }
         }
