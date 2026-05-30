@@ -7,6 +7,7 @@ plugins {
 android {
     namespace 'com.example.todoapp'
     compileSdk 34
+    buildToolsVersion "34.0.0"
 
     defaultConfig {
         applicationId "com.example.todoapp"
