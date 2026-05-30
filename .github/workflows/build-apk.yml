@@ -13,32 +13,23 @@ jobs:
       - name: 📥 Download the code
         uses: actions/checkout@v4
 
-      - name: ☕ Set up Java
+      - name: ☕ Set up Java 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: 🔧 Download Gradle build tool
-        run: |
-          curl -sL "https://services.gradle.org/distributions/gradle-8.4-bin.zip" -o gradle.zip
-          unzip -q gradle.zip -d /opt/gradle
-          echo "/opt/gradle/gradle-8.4/bin" >> $GITHUB_PATH
+      - name: 🔧 Set up Gradle 8.4
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.4'
 
-      - name: 📦 Download Gradle Wrapper jar
-        run: |
-          curl -sL \
-            "https://raw.githubusercontent.com/gradle/gradle/v8.4.0/gradle/wrapper/gradle-wrapper.jar" \
-            -o TodoApp/gradle/wrapper/gradle-wrapper.jar
-
-      - name: 🔑 Make gradlew executable
-        run: chmod +x TodoApp/gradlew
+      - name: 📋 Tell Gradle where the Android SDK is
+        run: echo "sdk.dir=$ANDROID_SDK_ROOT" > TodoApp/local.properties
 
       - name: 🏗️ Build the APK
-        run: ./gradlew assembleDebug --no-daemon
+        run: gradle :app:assembleDebug --no-daemon
         working-directory: TodoApp
-        env:
-          ANDROID_HOME: ${{ env.ANDROID_SDK_ROOT }}
 
       - name: 📤 Upload APK for download
         uses: actions/upload-artifact@v4
