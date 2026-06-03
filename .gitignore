@@ -1,12 +1,63 @@
+# Python
 __pycache__/
-*.pyc
-*.pyo
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
 .env
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 .DS_Store
-*.backup.*.json
-check_aggregator.py
-field_check.py
-health_check.py
-normalize_fields.py
-top_servers_report.py
+
+# Logs
+*.log
+grok_scoring.log
+rescore.log
+
+# Database
+*.db
+mcpapp.db
+
+# Backup files
+*.backup.*
 listings.backup.*.json
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# OS files
+Thumbs.db
+.DS_Store
+*.DS_Store
+
+# Temporary files
+tmp/
+temp/
+*.tmp
