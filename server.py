@@ -645,7 +645,7 @@ class MCPAppHandler(BaseHTTPRequestHandler):
             self._handle_about_page()
         elif path == "/how-it-works":
             self._handle_how_it_works_page()
-        elif path in ("/submit", "/scoring", "/compare", "/leaderboard"):
+        elif path in ("/submit", "/scoring", "/compare", "/leaderboard", "/best-mcp-servers", "/free-mcp-servers", "/mcp-servers-for-coding"):
             self._serve_static(path + ".html")
         else:
             self._serve_static(path)
