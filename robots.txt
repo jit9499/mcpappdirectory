@@ -1,3 +1,21 @@
 User-agent: *
 Allow: /
+Allow: /best-mcp-servers
+Allow: /free-mcp-servers
+Allow: /mcp-servers-for-coding
+Allow: /leaderboard
+Allow: /about
+Allow: /how-it-works
+Allow: /scoring
+Allow: /compare
+Allow: /servers/
+
+Disallow: /*.backup.*
+Disallow: /*.log
+Disallow: /*.db
+Disallow: /dashboard.json
+Disallow: /subscribers.json
+
+Crawl-delay: 1
+
 Sitemap: https://mcpappdirectory.com/sitemap.xml
