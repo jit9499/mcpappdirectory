@@ -1487,6 +1487,10 @@ Every server graded A-F. Real GitHub data. Continuous monitoring. No broken MCP 
             f"  <url><loc>{base}/leaderboard</loc><priority>0.7</priority><lastmod>{now_iso}</lastmod></url>",
             f"  <url><loc>{base}/trending</loc><priority>0.8</priority><lastmod>{now_iso}</lastmod></url>",
             f"  <url><loc>{base}/new</loc><priority>0.8</priority><lastmod>{now_iso}</lastmod></url>",
+            # SEO landing pages
+            f"  <url><loc>{base}/best-mcp-servers</loc><priority>0.9</priority><lastmod>{now_iso}</lastmod></url>",
+            f"  <url><loc>{base}/free-mcp-servers</loc><priority>0.9</priority><lastmod>{now_iso}</lastmod></url>",
+            f"  <url><loc>{base}/mcp-servers-for-coding</loc><priority>0.9</priority><lastmod>{now_iso}</lastmod></url>",
         ]
         
         # Grade pages
