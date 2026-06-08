@@ -18,6 +18,16 @@ import urllib.parse
 
 LISTINGS_FILE = "/root/mcpappdirectory/listings.json"
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN","") or os.environ.get("GITHUB_API_KEY","") or os.environ.get("GITHUB_PERSONAL_ACCESS_TOKEN","")
+# Fallback: read from ~/.hermes/.env
+if not GITHUB_TOKEN:
+    env_path = os.path.expanduser("~/.hermes/.env")
+    if os.path.exists(env_path):
+        with open(env_path) as f:
+            for line in f:
+                line = line.strip()
+                if line.startswith("GITHUB_API_KEY="):
+                    GITHUB_TOKEN = line.split("=",1)[1].strip().strip('"').strip("'")
+                    break
 
 def log(msg):
     print(f"[{datetime.utcnow().isoformat()}] {msg}", flush=True)

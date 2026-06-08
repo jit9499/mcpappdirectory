@@ -1651,8 +1651,8 @@ Every server graded A-F. Real GitHub data. Continuous monitoring. No broken MCP 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{_e(name)} — {score}/100 MCP Server">
 <meta name="twitter:description" content="{_e(desc[:200])}">
-<meta property="og:image" content="{_url_to_data_uri(_og_image_svg(name, score, grade))}">
-<meta name="twitter:image" content="{_url_to_data_uri(_og_image_svg(name, score, grade))}">
+<meta property="og:image" content="{_url_to_data_uri(_og_image_svg(name, score, grade, stars))}">
+<meta name="twitter:image" content="{_url_to_data_uri(_og_image_svg(name, score, grade, stars))}">
 <link rel="canonical" href="https://mcpappdirectory.com/servers/{slug}">
 <link rel="alternate" hreflang="en" href="https://mcpappdirectory.com/servers/{slug}">
 <link rel="alternate" hreflang="x-default" href="https://mcpappdirectory.com/servers/{slug}">
@@ -2582,11 +2582,11 @@ def _e(text):
     return str(text).translate(table)
 
 
-def _og_image_svg(name, score, grade):
+def _og_image_svg(name, score, grade, stars=0):
     """Generate an SVG social preview image for a server listing."""
     grade_colors = {"A": "#22c55e", "B": "#3b82f6", "C": "#f59e0b", "D": "#f97316", "F": "#ef4444"}
     gc = grade_colors.get(grade, "#888")
-    stars_input = score
+    stars_str = f"⭐ {stars:,}" if stars else ""
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -2600,10 +2600,11 @@ def _og_image_svg(name, score, grade):
   </defs>
   <rect width="1200" height="630" fill="url(#bg)" rx="16"/>
   <rect x="60" y="60" width="1080" height="510" rx="24" fill="#14141f" stroke="#2a2a3f" stroke-width="2"/>
-  <text x="600" y="220" font-family="system-ui,-apple-system,sans-serif" font-size="64" font-weight="700" fill="#e8e8f0" text-anchor="middle">{_e(name[:40])}</text>
-  <rect x="420" y="280" width="360" height="120" rx="60" fill="{gc}" opacity="0.15"/>
-  <text x="600" y="370" font-family="system-ui,-apple-system,sans-serif" font-size="72" font-weight="800" fill="{gc}" text-anchor="middle">{score}/100</text>
-  <text x="600" y="410" font-family="system-ui,-apple-system,sans-serif" font-size="32" font-weight="600" fill="{gc}" text-anchor="middle">Grade {grade}</text>
+  <text x="600" y="200" font-family="system-ui,-apple-system,sans-serif" font-size="56" font-weight="700" fill="#e8e8f0" text-anchor="middle">{_e(name[:50])}</text>
+  <rect x="420" y="260" width="360" height="120" rx="60" fill="{gc}" opacity="0.15"/>
+  <text x="600" y="350" font-family="system-ui,-apple-system,sans-serif" font-size="72" font-weight="800" fill="{gc}" text-anchor="middle">{score}/100</text>
+  <text x="600" y="390" font-family="system-ui,-apple-system,sans-serif" font-size="28" font-weight="600" fill="{gc}" text-anchor="middle">Grade {grade}</text>
+  <text x="600" y="440" font-family="system-ui,-apple-system,sans-serif" font-size="24" fill="#8888a0" text-anchor="middle">{stars_str}</text>
   <rect x="60" y="480" width="1080" height="2" fill="#2a2a3f"/>
   <text x="600" y="530" font-family="system-ui,-apple-system,sans-serif" font-size="28" fill="#8888a0" text-anchor="middle">AI-Graded MCP Server — MCP App Directory</text>
   <rect x="480" y="550" width="240" height="4" rx="2" fill="url(#accent)"/>
