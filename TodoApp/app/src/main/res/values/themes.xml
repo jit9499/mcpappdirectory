@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.TodoApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/toolbar_bg</item>
+        <item name="colorPrimaryVariant">@color/toolbar_bg</item>
+        <item name="colorOnPrimary">@color/toolbar_title</item>
+        <item name="colorSecondary">@color/board_amber</item>
+        <item name="colorSecondaryVariant">@color/board_amber</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="android:windowBackground">@color/bg_screen</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+</resources>
