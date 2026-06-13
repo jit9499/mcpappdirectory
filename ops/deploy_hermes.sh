@@ -1,12 +1,12 @@
 #!/bin/bash
-# Hermes Resilience Suite Deploy Script
-# Run: curl -sL URL | bash
+# Hermes Resilience Suite Deploy Script v2
+# No external Python dependencies - pure bash + stdlib
 set -e
-echo "=== HERMES RESILIENCE SUITE ==="
+echo "=== HERMES RESILIENCE SUITE v2 ==="
 
 # Step 1: Create directories
 mkdir -p /root/.hermes/scripts /root/.hermes/logs
-echo "[1/6] Directories created"
+echo "[1/6] Directories ready"
 
 # Step 2: Write context_guard.py
 cat > /root/.hermes/scripts/context_guard.py << 'GUARD_EOF'
@@ -92,10 +92,10 @@ echo "[2/6] context_guard.py installed"
 # Step 3: Write watchdog.py
 cat > /root/.hermes/scripts/watchdog.py << 'WATCH_EOF'
 #!/usr/bin/env python3
-"""Self-healing watchdog - monitors Hermes, auto-restarts, alerts via Telegram"""
+"""Self-healing watchdog - monitors Hermes health, auto-restarts, alerts"""
 import os, sys, time, subprocess
 from pathlib import Path
-from datetime import datetime, timedelta
+from datetime import datetime
 
 HERMES_DIR = Path(os.environ.get("HERMES_DIR", "/root/.hermes"))
 LOGS_DIR = HERMES_DIR / "logs"
@@ -124,9 +124,11 @@ def alert(key, msg):
     log(f"ALERT: {msg}")
     if TG_TOKEN:
         try:
-            import requests
-            requests.post(f"https://api.telegram.org/bot{TG_TOKEN}/sendMessage",
-                json={"chat_id": TG_CHAT, "text": f"🚨 HERMES WATCHDOG\n{msg}"}, timeout=10)
+            import urllib.request, json
+            data = json.dumps({"chat_id": TG_CHAT, "text": f"🚨 HERMES WATCHDOG\n{msg}"}).encode()
+            req = urllib.request.Request(f"https://api.telegram.org/bot{TG_TOKEN}/sendMessage",
+                data=data, headers={"Content-Type": "application/json"})
+            urllib.request.urlopen(req, timeout=10)
         except Exception as e:
             log(f"Alert failed: {e}")
 
@@ -139,22 +141,13 @@ def restart_svc(name):
     r = subprocess.run(["systemctl", "restart", name], capture_output=True, text=True)
     if r.returncode == 0:
         log(f"Restarted {name} OK")
-        alert(f"restart_{name}", f"✅ Auto-restarted {name}")
+        alert(f"restart_{name}", f"Auto-restarted {name}")
     else:
         log(f"FAIL: {r.stderr[:200]}")
-        alert(f"fail_{name}", f"❌ FAILED to restart {name}!\n{r.stderr[:200]}")
+        alert(f"fail_{name}", f"FAILED to restart {name}!\n{r.stderr[:200]}")
 
 def proc_running(name):
     return subprocess.run(["pgrep", "-f", name], capture_output=True).returncode == 0
-
-def count_errors():
-    el = LOGS_DIR / "errors.log"
-    if not el.exists():
-        return 0
-    try:
-        return sum(1 for l in open(str(el)) if any(x in l for x in ["ERROR", "413", "402", "400"]))
-    except:
-        return 0
 
 def disk_free():
     try:
@@ -164,19 +157,21 @@ def disk_free():
         return 999
 
 def check():
+    issues = []
     for svc in SERVICES:
         if not svc_active(svc):
             restart_svc(svc)
+            issues.append(f"restarted {svc}")
     for proc in PROCESSES:
         if not proc_running(proc):
-            alert(f"proc_{proc}", f"⚠️ Process {proc} not found!")
-    errs = count_errors()
-    if errs > 10:
-        alert("errors", f"⚠️ {errs} errors in log!")
+            alert(f"proc_{proc}", f"Process {proc} not found!")
+            issues.append(f"missing {proc}")
     free = disk_free()
     if free < 2:
-        alert("disk", f"⚠️ Low disk: {free}GB free!")
-    log("Health OK ✓")
+        alert("disk", f"Low disk: {free}GB free!")
+        issues.append(f"disk {free}GB")
+    if not issues:
+        log("Health OK")
 
 if __name__ == "__main__":
     log("Watchdog started")
@@ -190,7 +185,7 @@ WATCH_EOF
 chmod +x /root/.hermes/scripts/watchdog.py
 echo "[3/6] watchdog.py installed"
 
-# Step 4: Create and start watchdog systemd service
+# Step 4: Watchdog systemd service
 cat > /etc/systemd/system/hermes-watchdog.service << 'SVC_EOF'
 [Unit]
 Description=Hermes Self-Healing Watchdog
@@ -208,49 +203,50 @@ Environment=WATCHDOG_INTERVAL=60
 WantedBy=multi-user.target
 SVC_EOF
 systemctl daemon-reload
-systemctl enable hermes-watchdog.service
-systemctl start hermes-watchdog.service
-echo "[4/6] watchdog service started"
+systemctl enable hermes-watchdog.service 2>/dev/null
+systemctl restart hermes-watchdog.service
+echo "[4/6] watchdog service active"
 
-# Step 5: Update config.yaml model hierarchy
+# Step 5: Update config.yaml (no PyYAML needed)
+cp /root/.hermes/config.yaml /root/.hermes/config.yaml.bak 2>/dev/null || true
 python3 << 'PY_EOF'
-import yaml, os, shutil
+import json, os
 
 config_path = "/root/.hermes/config.yaml"
-backup_path = config_path + ".bak"
-
-# Read existing config
-config = {}
+lines = []
 if os.path.exists(config_path):
-    shutil.copy2(config_path, backup_path)
     with open(config_path) as f:
-        config = yaml.safe_load(f) or {}
+        lines = f.readlines()
 
-# Update model hierarchy
-config["primary_model"] = "anthropic/claude-opus-4"
-config["fallback_model"] = "deepseek/deepseek-v4-pro"
-config["emergency_model"] = "deepseek-chat"
-config["max_tokens"] = 8192
-config["pre_task_hook"] = "python3 /root/.hermes/scripts/context_guard.py"
-config["context_guard_enabled"] = True
+# Remove old model/token/hook lines
+clean = [l for l in lines if not any(k in l for k in [
+    "primary_model:", "fallback_model:", "emergency_model:",
+    "max_tokens:", "pre_task_hook:", "context_guard_enabled:",
+    "model:", "deepseek-v4-flash"
+])]
+
+# Add new config at the end
+additions = """
+# Model hierarchy (updated by deploy script)
+primary_model: "anthropic/claude-opus-4"
+fallback_model: "deepseek/deepseek-v4-pro"
+emergency_model: "deepseek-chat"
+max_tokens: 8192
+context_guard_enabled: true
+pre_task_hook: "python3 /root/.hermes/scripts/context_guard.py"
+"""
+clean.append(additions)
 
 with open(config_path, "w") as f:
-    yaml.dump(config, f, default_flow_style=False, sort_keys=False)
+    f.writelines(clean)
 
-print("[5/6] config.yaml updated - models: claude-opus-4 / deepseek-v4-pro / deepseek-chat")
+print("[5/6] config.yaml updated - claude-opus-4 / deepseek-v4-pro / deepseek-chat")
 PY_EOF
 
-# Step 6: Verify everything
+# Step 6: Verify
 echo "[6/6] Verification:"
-echo "  Scripts:"
-ls -la /root/.hermes/scripts/
-echo "  Watchdog service:"
-systemctl status hermes-watchdog.service --no-pager -l 2>&1 | head -5
-echo "  Config model hierarchy:"
-grep -E "model|max_tokens|hook|guard" /root/.hermes/config.yaml 2>/dev/null || echo "  (config check done)"
+ls -la /root/.hermes/scripts/ 2>/dev/null
+systemctl is-active hermes-watchdog.service
+grep -E "model|max_tokens" /root/.hermes/config.yaml 2>/dev/null | head -5
 echo ""
 echo "=== DEPLOY COMPLETE ==="
-echo "Context guard: /root/.hermes/scripts/context_guard.py"
-echo "Watchdog: /root/.hermes/scripts/watchdog.py (systemd active)"
-echo "Models: claude-opus-4 (primary) / deepseek-v4-pro (daily) / deepseek-chat (emergency)"
-echo "Max tokens: 8192"
